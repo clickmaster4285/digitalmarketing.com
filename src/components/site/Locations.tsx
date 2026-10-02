@@ -17,6 +17,7 @@ import {
 
 const locations = [
   {
+    url: "digital-marketing-agency-chicago",
     city: "Chicago",
     state: "IL",
     tagline: "Digital Marketing Services Chicago",
@@ -30,6 +31,7 @@ const locations = [
     coordinates: "41.8781° N, 87.6298° W",
   },
   {
+    url: "digital-marketing-agency-denver",
     city: "Denver",
     state: "CO",
     tagline: "Digital Marketing Services Denver",
@@ -43,6 +45,7 @@ const locations = [
     coordinates: "39.7392° N, 104.9903° W",
   },
   {
+    url: "digital-marketing-agency-atlanta",
     city: "Atlanta",
     state: "GA",
     tagline: "Digital Marketing Services Atlanta",
@@ -56,6 +59,7 @@ const locations = [
     coordinates: "33.7490° N, 84.3880° W",
   },
   {
+    url: "digital-marketing-agency-phoenix",
     city: "Phoenix",
     state: "AZ",
     tagline: "Digital Marketing Services Phoenix",
@@ -69,6 +73,7 @@ const locations = [
     coordinates: "33.4484° N, 112.0740° W",
   },
   {
+    url: "digital-marketing-agency-tampa",
     city: "Tampa",
     state: "FL",
     tagline: "Digital Marketing Services Tampa",
@@ -82,6 +87,7 @@ const locations = [
     coordinates: "27.9506° N, 82.4572° W",
   },
   {
+    url: "digital-marketing-agency-houston",
     city: "Houston",
     state: "TX",
     tagline: "Digital Marketing Services Houston",
@@ -284,7 +290,7 @@ export default function LocationsSection() {
                     </div>
                     
                     <a
-                      href={`/locations/${location.city.toLowerCase()}`}
+                      href={`/locations/${location.url}`}
                       className="inline-flex items-center gap-1 text-sm font-medium text-foreground/40 transition-all duration-300 group-hover:text-foreground/80"
                     >
                       Learn more
