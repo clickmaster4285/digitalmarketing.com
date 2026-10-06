@@ -59,7 +59,7 @@ const locations = [
     coordinates: "33.7490° N, 84.3880° W",
   },
   {
-    url: "digital-marketing-agency-phoenix",
+    url: "seo-services-phoenix",
     city: "Phoenix",
     state: "AZ",
     tagline: "Digital Marketing Services Phoenix",
@@ -73,7 +73,7 @@ const locations = [
     coordinates: "33.4484° N, 112.0740° W",
   },
   {
-    url: "digital-marketing-agency-tampa",
+    url: "seo-services-tampa",
     city: "Tampa",
     state: "FL",
     tagline: "Digital Marketing Services Tampa",

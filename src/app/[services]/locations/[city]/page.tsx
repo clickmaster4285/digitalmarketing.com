@@ -21,6 +21,29 @@ import {
 } from "@/content/locations/serviceLocations";
 
 const BASE_URL = "https://clickmastersdigitalmarketing.com";
+const SEO_CITY_URL_SLUGS: Record<string, string> = {
+  phoenix: "seo-services-phoenix",
+  seattle: "seo-services-seattle",
+  tampa: "seo-services-tampa",
+  richmond: "seo-services-richmond",
+};
+
+const getLocationCitySlug = (services: string, city: string): string => {
+  if (services !== "search-engine-optimization") return city;
+  return (
+    Object.entries(SEO_CITY_URL_SLUGS).find(
+      ([citySlug, seoSlug]) => city === citySlug || city === seoSlug
+    )?.[0] ?? city
+  );
+};
+
+const getCanonicalCitySlug = (services: string, city: string): string => {
+  if (services !== "search-engine-optimization") return city;
+  const entry = Object.entries(SEO_CITY_URL_SLUGS).find(
+    ([citySlug, seoSlug]) => city === citySlug || city === seoSlug
+  );
+  return entry?.[1] ?? city;
+};
 
 type Params = { params: Promise<{ services: string; city: string }> };
 
@@ -53,7 +76,8 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   }
 
   // Generic city page
-  const location = getLocationByCitySlug(city);
+  const location = getLocationByCitySlug(getLocationCitySlug(services, city));
+  const canonicalCity = getCanonicalCitySlug(services, city);
 
   if (!location) {
     // Prefixed slugs like "seo-services-austin" are not real pages — they
@@ -70,7 +94,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     return {};
   }
 
-  const title = `${svc.title} in ${location.name}, ${location.state} | Clickmasters`;
+  const title = ` ${location.metaTitle} `;
   const description =
     location.metaDescription ||
     `Looking for ${svc.name.toLowerCase()} in ${location.name}? Clickmasters delivers data-driven ${svc.short.toLowerCase()} for ${location.name} businesses. Book your free strategy call.`;
@@ -79,12 +103,12 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     title,
     description,
     alternates: {
-      canonical: `${BASE_URL}/${svc.slug}/locations/${city}`,
+      canonical: `${BASE_URL}/${svc.slug}/locations/${canonicalCity}`,
     },
     openGraph: {
       title,
       description,
-      url: `${BASE_URL}/${svc.slug}/locations/${city}`,
+      url: `${BASE_URL}/${svc.slug}/locations/${canonicalCity}`,
       type: "website",
     },
     twitter: {
@@ -96,6 +120,8 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 }
 
 // __ROUTE_P2__
+
+
 
 export default async function Page({ params }: Params) {
   const { services, city } = await params;
@@ -165,7 +191,12 @@ export default async function Page({ params }: Params) {
     );
   }
 
-  const location = getLocationByCitySlug(city);
+  const canonicalCity = getCanonicalCitySlug(services, city);
+  if (canonicalCity !== city) {
+    permanentRedirect(`/${services}/locations/${canonicalCity}`);
+  }
+
+  const location = getLocationByCitySlug(getLocationCitySlug(services, city));
 
   if (!location) {
     // e.g. /search-engine-optimization/locations/seo-services-austin

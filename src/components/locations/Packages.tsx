@@ -7,7 +7,7 @@ import { Check, Sparkles } from "lucide-react";
 interface PackageItem {
   name: string;
   description: string;
-  includes: string[];
+  includes?: string[];
 }
 
 interface LocationPackagesProps {
@@ -64,7 +64,7 @@ export default function LocationPackages({
                 {pkg.description}
               </p>
               <div className="space-y-2">
-                {pkg.includes.map((item, i) => (
+                {pkg.includes?.map((item, i) => (
                   <div key={i} className="flex items-start gap-2">
                     <Check className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                     <span className="text-sm text-foreground">{item}</span>
