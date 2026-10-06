@@ -29,8 +29,8 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://clickmastersdigitalmarketing.com"),
 
   title: {
-    default: "Award-Winning Digital Marketing Agency in the United States | Clickmasters",
-    template: "%s | Clickmasters Digital Marketing",
+    default: "Award-Winning Digital Marketing Agency in the United States |",
+    template: "%s ",
   },
 
   description:

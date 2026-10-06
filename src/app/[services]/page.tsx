@@ -538,7 +538,38 @@ const CTA = ({ content }: { content: any }) => {
     </section>
   );
 };
+const LocationsSection = ({ content }: { content: any }) => {
+  const locations = content.locations?.items || [];
+  if (!locations.length) return null;
 
+  return (
+    <section className="relative bg-background text-foreground py-24">
+      <div className="container max-w-6xl">
+        <SectionLabel n="09.7" t="Locations" />
+        <Reveal>
+          <h2 className="font-display text-4xl md:text-7xl font-bold leading-[0.95] tracking-tight mb-10">
+            {content.locations.title}
+          </h2>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <p className="max-w-3xl text-lg opacity-75 leading-relaxed mb-10">
+            {content.locations.description}
+          </p>
+        </Reveal>
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {locations.map((item: any, idx: number) => (
+            <Reveal key={item.id || item.title || idx} delay={idx * 0.05}>
+              <div className="group rounded-3xl border border-foreground/10 bg-foreground/[0.02] p-8 h-full transition hover:border-[#FF2E86]/40 hover:bg-foreground/[0.04]">
+                <h3 className="font-display text-2xl mb-4">{item.title}</h3>
+                <p className="text-sm opacity-70 leading-relaxed">{item.body}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
 export default function ServicesPage() {
   const params = useParams();
   const slug = params?.services as string;
@@ -562,6 +593,7 @@ export default function ServicesPage() {
         <IndustriesSection content={content} />
         <Faqs content={content} />
         <CTA content={content} />
+        <LocationsSection content={content} />
       </main>
      
     </div>

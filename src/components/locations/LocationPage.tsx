@@ -112,6 +112,7 @@ export default function LocationPage({ data }: LocationPageProps) {
           <LocationPackages
             title={data.packagesSection.title}
             items={data.packagesSection.items}
+            
           />
         )}
 

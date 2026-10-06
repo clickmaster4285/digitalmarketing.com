@@ -2,7 +2,7 @@
 
 import { getLocationBySlug, getAllLocationSlugs } from "@/content/locations/locationPagesData";
 import { LocationPage } from "@/components/locations";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import type { Metadata } from "next";
 
 interface PageProps {
@@ -52,6 +52,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 // Main page component
 export default async function Page({ params }: PageProps) {
   const { slug } = await params;
+  if (slug === "digital-marketing-agency-tampa") {
+    permanentRedirect("/locations/seo-services-tampa");
+  }
+ if (slug === "digital-marketing-agency-seattle") {
+    permanentRedirect("/locations/seo-services-seattle");
+  }
+   if (slug === "digital-marketing-agency-phoenix") {
+    permanentRedirect("/locations/seo-services-phoenix");
+  }
+  if (slug === "digital-marketing-agency-richmond") {
+    permanentRedirect("/locations/seo-services-richmond");
+  }
+  
+
   const location = getLocationBySlug(slug);
 
   if (!location) {

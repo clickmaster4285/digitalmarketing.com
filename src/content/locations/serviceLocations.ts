@@ -117,7 +117,9 @@ const CITY_SLUG_PREFIX = "digital-marketing-agency-";
 export const citySlugOf = (loc: LocationData): string =>
   loc.slug.startsWith(CITY_SLUG_PREFIX)
     ? loc.slug.slice(CITY_SLUG_PREFIX.length)
-    : loc.slug;
+    : loc.slug.startsWith("seo-services-")
+      ? loc.slug.slice("seo-services-".length)
+      : loc.slug;
 
 /** All locations deduped by city, keeping the freshest entry of each. */
 export const uniqueCityLocations = (): LocationData[] => {
@@ -426,6 +428,34 @@ export const SERVICE_SUB_LOCATIONS: Record<string, ServiceSubLocation[]> = {
       state: "NY",
       description:
         "Your customers in New York are searching Google right now — the question is whether they're finding you or a competitor across town.",
+    },
+    {
+      slug: "seo-services-phoenix",
+      city: "Phoenix",
+      state: "AZ",
+      description:
+        "SEO services in Phoenix — local SEO, technical optimization, and search strategies that help Valley businesses improve visibility and generate qualified leads.",
+    },
+    {
+      slug: "seo-services-seattle",
+      city: "Seattle",
+      state: "WA",
+      description:
+        "SEO services in Seattle — technical SEO, local search strategy, and content that helps Seattle businesses attract qualified traffic and grow.",
+    },
+    {
+      slug: "seo-services-tampa",
+      city: "Tampa",
+      state: "FL",
+      description:
+        "SEO services in Tampa — local SEO, technical optimization, and search strategies that help Tampa businesses earn more traffic and qualified leads.",
+    },
+      {
+      slug: "seo-services-richmond",
+      city: "Richmond",
+      state: "VA",
+      description:
+        "SEO services in Richmond — local SEO, technical optimization, and search strategies that help Richmond businesses earn more traffic and qualified leads.",
     },
   ],
 };
