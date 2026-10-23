@@ -697,7 +697,7 @@ const CasesSection = ({ cases }: { cases: any[] }) => {
 
 const Why = ({ content }: { content: any }) => {
   const why = content.why;
-  
+
   if (!why || why.length === 0) return null;
 
   return (
@@ -712,7 +712,7 @@ const Why = ({ content }: { content: any }) => {
         </Reveal>
         <div className="grid md:grid-cols-2 gap-6">
           {why?.map((w: any, i: number) => {
-            const Icon = getIcon(w.icon);
+            const Icon = w.icon ? getIcon(w.icon) : null;
             return (
               <motion.div
                 key={w.h}
@@ -723,7 +723,7 @@ const Why = ({ content }: { content: any }) => {
                 whileHover={{ y: -4 }}
                 className="rounded-2xl border border-foreground/10 p-8 bg-foreground/[0.02] hover:border-[#FF2E86]/40 transition-colors"
               >
-                <Icon className="w-8 h-8 mb-5 text-[#FF2E86]" />
+                {Icon && <Icon className="w-8 h-8 mb-5 text-[#FF2E86]" />}
                 <h3 className="font-display text-2xl mb-3">{w.h}</h3>
                 <p className="text-sm opacity-70 leading-relaxed">{w.p}</p>
               </motion.div>

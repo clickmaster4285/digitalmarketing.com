@@ -473,295 +473,371 @@ export const SeoServicesContent = {
   },
 };
 
+
+
+
+
 export const SocialMediaMarketingContent = {
-	slug: "social-media-marketing",
-	metadata: {
-		url: "/social-media-marketing",
-		seoTitle: "Social Media Marketing Services Build Audience, Drive Revenue | Clickmasters",
-		metaDescription:
-			"Expert social media marketing for Facebook, Instagram, LinkedIn, TikTok & X. Content strategy, community management & paid integration. Free social media audit for USA & UK businesses.",
-		schema: "Service + FAQPage + Organization + BreadcrumbList",
-		author: "Amjad Khan, CEO Clickmasters Digital Marketing",
-		primaryKeyword: "social media marketing services",
-		secondaryKeywords: [
-			"social media management company",
-			"social media marketing agency",
-			"social media management services",
-			"social media marketing 2026",
-		],
-		wordCount: "~5,150 words",
-		internalLinks: "/facebook-instagram-ads/, /content-marketing-services/, /search-engine-optimization/local-seo/locations/local-seo-services-atlanta/, /remarketing-retargeting-services/, /contact/",
-	},
-	hero: {
-		tag: "Social Media Marketing",
-		title: "Social Media Marketing Services Build Audience, Drive Revenue",
-		titleHighlight: "| Clickmasters",
-		subtitle: "",
-		description:
-			"Expert social media marketing for Facebook, Instagram, LinkedIn, TikTok & X. Content strategy, community management & paid integration. Free audit.",
-		stats: [
-			{ k: "5B+", v: "social media users globally" },
-			{ k: "27,100/mo", v: "primary keyword volume" },
-			{ k: "2015", v: "social media experience since" },
-		],
-	},
-	intro: {
-		problem:
-			"Most businesses treat social media as optional or sporadic posting. They confuse activity with strategy and measure success by likes rather than leads.",
-		solution:
-			"Effective social media marketing is platform-native strategy, consistent content, and clear conversion pathways built around audience trust, engagement, and measurable business outcomes.",
-		promise:
-			"We manage your social media for Facebook, Instagram, LinkedIn, TikTok, X, Pinterest and YouTube with content ecosystems that support organic growth and paid integration.",
-	},
-	features: {
-		title: "What Social Media Marketing Actually Achieves in 2026",
-		items: [
-			{
-				id: "brand-awareness",
-				title: "Brand awareness and recall",
-				body:
-					"Social media reaches large, targeted audiences at low CPM and builds familiarity that influences later purchase decisions.",
-			},
-			{
-				id: "community-trust",
-				title: "Community and trust building",
-				body:
-					"Authentic social presence demonstrates personality, customer service quality, and values building trust that converts and retains customers.",
-			},
-			{
-				id: "content-distribution",
-				title: "Content distribution",
-				body:
-					"Social is the most efficient distribution channel for blog posts, videos, infographics and thought leadership, extending organic reach beyond search.",
-			},
-			{
-				id: "customer-service",
-				title: "Customer service and retention",
-				body:
-					"Social platforms are primary customer service channels. Timely responses turn comments and DMs into loyalty and public proof of care.",
-			},
-			{
-				id: "organic-leads",
-				title: "Organic lead generation",
-				body:
-					"For B2B, Instagram, TikTok and other platforms, organic social directly generates leads and sales when content and offers align.",
-			},
-		],
-	},
-	process: {
-		title: "Our Social Media Marketing Framework The Clickmasters Approach",
-		timeline: [
-			{
-				month: "Content pillars",
-				title: "Strategic theme development",
-				body:
-					"We define 4–6 content pillars that align brand authority with what your audience values, creating a strategy that supports awareness, thought leadership and community growth.",
-			},
-			{
-				month: "Content calendar",
-				title: "Planned production and delivery",
-				body:
-					"We build content calendars 2–4 weeks in advance with platform-specific copy, creative and scheduling to keep posting consistent and high quality.",
-			},
-			{
-				month: "Community management",
-				title: "Conversation, not broadcast",
-				body:
-					"We respond to comments, DMs and mentions within business hours, handling engagement, complaints, and sensitive topics with genuine brand voice.",
-			},
-			{
-				month: "Reporting",
-				title: "Performance and optimization",
-				body:
-					"Monthly reports cover reach, engagement rate, traffic attribution, and content learnings to guide the next phase of strategy.",
-			},
-		],
-	},
-	cases: [
-		{
-			tag: "Dental Practice Group",
-			metric: "4,200%",
-			sub: "Instagram following growth in 18 months",
-			title:
-				"From 180 to 7,730 followers with patient transformation content and engagement strategy; social became the second-largest source of new patient leads.",
-			body:
-				"Healthcare social media that combined educational content, team storytelling and promotional patient acquisition offers generated 34 new patient leads per month.",
-		},
-		{
-			tag: "B2B Technology Company",
-			metric: "$580K",
-			sub: "inbound pipeline from LinkedIn organic",
-			title:
-				"Thought leadership and executive LinkedIn strategy generated $580,000 in inbound pipeline without direct ad spend.",
-			body:
-				"LinkedIn company page transformation, CEO personal posts and a newsletter built credibility and measurable pipeline for a cybersecurity business.",
-		},
-		{
-			tag: "E-commerce Fashion Brand",
-			metric: "$45K",
-			sub: "monthly revenue from TikTok",
-			title:
-				"TikTok strategy grew the account to 22,000 followers and drove $45,000 monthly revenue through TikTok Shop and link-in-bio traffic.",
-			body:
-				"Trend-aligned video, behind-the-scenes sustainability content and product discovery posts delivered 280,000 monthly views and meaningful sales.",
-		},
-	],
-	why: [
-		{
-			h: "Platform-native expertise, not generic posting",
-			p:
-				"Our team builds strategies for each platform instead of reusing the same content calendar across every channel.",
-		},
-		{
-			h: "Content that earns engagement, not just impressions",
-			p:
-				"We optimise content for meaningful engagement comments, shares and clicks rather than vanity follower metrics.",
-		},
-		{
-			h: "Integrated with paid for maximum performance",
-			p:
-				"Organic content and paid social work together, with organic learnings feeding paid creative and paid spend amplifying proven content.",
-		},
-		{
-			h: "Compliance expertise for regulated industries",
-			p:
-				"We deliver social media content that meets HIPAA, Bar and FINRA requirements while still building engagement and trust.",
-		},
-	],
-	pricing: {
-		title: "Social Media Marketing Pricing What to Expect",
-		tiers: [
-			{
-				name: "Growth",
-				desc: "Foundational social media strategy, content production and community management for growing brands.",
-			},
-			{
-				name: "Scale",
-				desc: "Expanded platform coverage, advanced content systems and paid social integration.",
-			},
-			{
-				name: "Enterprise",
-				desc: "Multi-location governance, compliance workflows and scaled execution across 4+ platforms.",
-			},
-		],
-	},
-	faqs: [
-		{
-			q: "How many social media platforms should my business be on?",
-			a:
-				"Prioritise two to three platforms with consistent, high-quality presence. Local businesses should focus on Facebook and Instagram; B2B should focus on LinkedIn and X; e-commerce should focus on Instagram and TikTok.",
-		},
-		{
-			q: "How long does it take to see results from social media marketing?",
-			a:
-				"Engagement and sentiment improvements appear in 4–8 weeks. Follower growth becomes visible in 3–4 months. Lead and revenue contribution becomes measurable in 6–12 months.",
-		},
-		{
-			q: "How often should we post on social media?",
-			a:
-				"LinkedIn: 3–5 weekly posts for company pages, daily for active personal profiles. Instagram: 4–7 feed/Reels per week and daily Stories. Facebook: 3–5 posts per week. TikTok: 5–7 weekly posts for audience growth. X: 3–10 daily posts for active presence.",
-		},
-		{
-			q: "What type of content performs best on social media in 2026?",
-			a:
-				"Short-form video, authentic behind-the-scenes content, educational posts and user-generated content perform best. The exact format depends on platform, industry and audience.",
-		},
-		{
-			q: "How do you measure the ROI of social media marketing?",
-			a:
-				"We measure website traffic, leads and revenue attribution for e-commerce, alongside engagement rate and qualitative performance signals for brand awareness.",
-		},
-		{
-			q: "Can you manage social media for businesses in regulated industries?",
-			a:
-				"Yes we have experience with HIPAA-safe healthcare content, Bar-compliant legal content and FINRA-aligned financial services social media.",
-		},
-		{
-			q: "Do you create the content or do we need to provide it?",
-			a:
-				"We provide full production copy, design, video editing and scheduling while also incorporating client assets where available.",
-		},
-		{
-			q: "What makes a good social media strategy?",
-			a:
-				"A good strategy is grounded in target audience, business objectives and consistent execution. We build that strategy before producing content.",
-		},
-		{
-			q: "How do I get started?",
-			a:
-				"Book a free social media audit. We assess your presence, performance and the top five improvements most likely to increase engagement and growth.",
-		},
-	],
-	cta: {
-		title: "Ready to Build a Social Media Presence That Works for Your Business?",
-		description:
-			"We build social media programs that grow audiences, earn engagement, and contribute measurably to revenue. Start with a free audit or talk to an expert.",
-		contactLink: "/contact/",
-		whatsappLink: "https://wa.me/",
-	},
-	schema: {
-  Service: {
-    serviceType: "Social Media Marketing",
-    provider: {
+  slug: "social-media-marketing",
+  metadata: {
+    url: "https://clickmastersdigitalmarketing.com/social-media-marketing/",
+    keyword: "social media marketing services",
+    volume: "N/A",
+    cpc: "N/A",
+    formula: "PAS",
+    author: "Amjad Khan",
+    seoTitle: "Social Media Marketing Services - Social Media Agency",
+    metaDescription:
+      "Clickmasters provides social media marketing services to build brand awareness, increase audience engagement, and support steady business growth online.",
+  },
+  hero: {
+    tag: "[ Service · Social Media ] Social Media Marketing",
+    title: "Social Media Marketing Company That Grows",
+    titleHighlight: "Your Brand & Business",
+    subtitle: "",
+    description:
+      "Getting noticed on social media takes more than regular posting. Clickmasters is a social media agency that brings together smart strategy, engaging content, and paid promotion in social media marketing services built for audience growth and stronger brand awareness. Our team of strategists, content creators, and ad specialists plans, publishes, and optimizes your social media campaigns across the USA, so you reach the right people and generate qualified leads.",
+    stats: [
+      { k: "68%", v: "More social media referral traffic in 3 months" },
+      { k: "52%", v: "More customer enquiries in 4 months" },
+      { k: "3.1x", v: "More qualified leads in 5 months" },
+      { k: "USA", v: "Businesses served nationwide" },
+    ],
+  },
+  intro: {
+    problem: [
+      { text: "Meet the Team Behind Your Social Media Growth", type: "normal" }
+    ],
+    solution:
+      "Clickmasters is a social media marketing agency in the USA that helps brands become the name their audience follows and trusts. As a social media marketing company with years of hands-on experience across industries, we know that growth comes from a clear strategy, content people enjoy, and constant improvement. This is how we grow your followers with real engagement and strengthen your social media presence.",
+    promise:
+      "Every brand gets a dedicated team that learns its goals, voice, and audience. As a social media marketing firm, we bring strategists, content creators, and social media experts together as one marketing team, so your social media marketing never runs on guesswork. That is why businesses choose Clickmasters and trust us with their brand.",
+  },
+   problem: {
+    title: "Social Media Expertise That",
+    titleHighlight: "Helps Your Brand Grow",
+    items: [
+      {
+        icon: "BarChart3",
+        title: "Social Media Expertise That Helps Your Brand Grow",
+        body: "Behind every brand that stands out online is a social media marketing firm that knows how to turn followers into customers. With years of experience across the USA, Clickmasters builds a social media strategy around your goals and audience insights, so every post, ad, and campaign has a clear purpose.",
+      },
+      {
+        icon: "BarChart3",
+        title: "Social Media Expertise That Helps Your Brand Grow",
+        body: "We work as a social media management company and social media advertising company under one roof, which means your content, community, and paid promotion stay connected instead of running separately.",
+      },
+      {
+        icon: "BarChart3",
+        title: "Social Media Expertise That Helps Your Brand Grow",
+        body: "Our marketing experts act like an smm marketing agency that tracks and improves every campaign, so you always know what is working and where the next opportunity lies. Whether you are launching a new brand or reviving a quiet profile, we focus on steady, measurable growth that supports your business for the long term.",
+      },
+    ],
+    afterTitle: "Our Social Media Marketing Process for",
+    afterHighlight: "Measurable Growth",
+    afterItems: [
+      {
+        icon: "Clipboard",
+        title: "Discovery & Goal Setting",
+        body: "Every successful campaign begins with understanding your business. We identify your goals, study your target audiences, and review your current social presence to build a clear direction for your social media marketing strategy.",
+      },
+      {
+        icon: "Target",
+        title: "Strategy & Content Planning",
+        body: "With your goals defined, we create a tailored plan for each platform. Our social media planning includes content themes, posting schedules, audience targeting, and the right mix of organic campaigns to strengthen your brand presence.",
+      },
+      {
+        icon: "Layout",
+        title: "Campaign Creation & Launch",
+        body: "Once the strategy is ready, we develop and launch campaigns designed to reach the right people. From creative content to social media advertising, every campaign is structured around your objectives, audience interests, and desired outcomes.",
+      },
+      {
+        icon: "TrendingUp",
+        title: "Monitoring & Optimization",
+        body: "As campaigns run, we use social media monitoring to evaluate engagement, audience responses, and campaign activity. We refine targeting, content, and delivery through social media optimization to improve performance and make better use of your budget.",
+      },
+      {
+        icon: "LineChart",
+        title: "Performance Tracking & Reporting",
+        body: "Finally, we measure results to understand what drives meaningful progress. Through performance tracking and social media analytics, we assess reach, engagement, clicks, and conversions, using these insights to improve future campaigns and guide ongoing growth.",
+      },
+    ],
+  },
+  industries: {
+    title: "Industries We Help Grow with",
+    titleHighlight: "Social Media Marketing",
+    items: [
+      { icon: "ShoppingCart", title: "E-commerce & Retail", body: "Online shoppers often discover products in their social media feeds long before visiting a store. Eye-catching product reels, shoppable posts, and engaging content turn browsers into buyers. Seasonal promotions and targeted social media campaigns keep your brand top of mind and encourage repeat purchases." },
+      { icon: "Stethoscope", title: "Healthcare & Wellness", body: "Patients often research clinics and healthcare providers online before deciding whom to trust. Helpful health tips, educational posts, and patient testimonials (shared with proper consent) build credibility and strengthen your online presence. Consistent social media activity helps potential patients discover your services and take the next step toward booking an appointment." },
+      { icon: "Home", title: "Real Estate", body: "Buyers and renters increasingly use social media to explore property listings and discover new neighborhoods. Property walkthroughs, local market updates, and agent introductions keep your business visible to potential clients. Strategic real estate social media marketing encourages inquiries, builds trust, and helps turn online interest into property viewings." },
+      { icon: "UtensilsCrossed", title: "Restaurants & Hospitality", body: "A single mouthwatering video can inspire customers to visit your restaurant or try a new menu item. Food highlights, behind-the-scenes moments, and customer reviews bring your brand to life, while social media marketing helps independent cafés and small restaurants compete in a crowded market. Local hashtags, engaging posts, and special offers encourage more visits and repeat customers." },
+      { icon: "GraduationCap", title: "Education & Coaching", body: "Students and parents often compare schools, courses, and coaching programs online before making a decision. Student success stories, educational videos, and live sessions showcase your expertise and help build trust with prospective learners. Consistent social media marketing creates an engaged community around your programs and helps generate enrollment opportunities." },
+      { icon: "Sparkles", title: "Beauty & Fitness", body: "Visual content helps salons, beauty professionals, gyms, and fitness studios showcase the results and experiences they offer. Before-and-after transformations, workout previews, beauty tips, and client testimonials create a recognizable brand that attracts attention. Consistent posting and community engagement help turn first-time visitors into loyal clients." },
+    ],
+  },
+  locations: {
+    title: "Helping Brands Grow on Social Media",
+    titleHighlight: "Across the USA",
+    items: [
+      { title: "New York, NY", body: "Standing out here takes sharp targeting and bold content, because every brand is competing for the same crowded feed." },
+      { title: "Los Angeles, CA", body: "Creators, fashion, and entertainment brands thrive on strong visuals and trend-led content in this market." },
+      { title: "Chicago, IL", body: "Retail, healthcare, and professional service brands find steady local reach in this diverse Midwest hub." },
+      { title: "Miami, FL", body: "Hospitality, real estate, and lifestyle businesses connect with a lively, multicultural audience through vibrant content." },
+      { title: "Houston, TX", body: "Energy, healthcare, and service companies earn local trust through consistent, community-focused social presence." },
+      { title: "Atlanta, GA", body: "Startups, media, and e-commerce brands reach an active, growing online audience across the South." },
+      { title: "Austin, TX", body: "Social-first customers in this startup-driven city expect fresh, creative, and authentic content from brands." },
+      { title: "San Francisco, CA", body: "Clear messaging and a strong brand voice help tech and SaaS companies win attention in a competitive market." },
+    ],
+  },
+  services: [
+    {
+      n: "01",
+      icon: "Target",
+      tag: "Strategy",
+      title: "Social Media Strategy & Planning",
+      intro:
+        "Great results start with a clear plan.",
+      blocks: [
+        {
+          h: "A Purpose for Every Platform",
+          p: "We study your goals, audience, competitors, and the platforms that best fit your business, from Facebook and Instagram to YouTube and LinkedIn. A focused strategy and content calendar give every platform, post, and campaign a clear purpose.",
+        },
+      ],
+    },
+    {
+      n: "02",
+      icon: "Settings",
+      tag: "Management",
+      title: "Social Media Management",
+      intro:
+        "Staying consistent is difficult when you are busy running a business.",
+      blocks: [
+        {
+          h: "Active, Consistent, On Brand",
+          p: "Our social media management services cover scheduling, publishing, engagement, and profile management across platforms such as Facebook, Instagram, LinkedIn, and YouTube. Regular social account management keeps your profiles active, consistent, and on brand.",
+        },
+      ],
+    },
+    {
+      n: "03",
+      icon: "PenTool",
+      tag: "Content",
+      title: "Social Media Content Creation",
+      intro:
+        "Great content gives people a reason to stop scrolling and pay attention.",
+      blocks: [
+        {
+          h: "Reels, Videos, Carousels & More",
+          p: "We create Instagram Reels, Facebook videos, carousels, short-form videos, and engaging visual content tailored to each platform. From everyday social media posts to branded posts and promotional content, every piece is created to inform, entertain, or drive action.",
+        },
+      ],
+    },
+    {
+      n: "04",
+      icon: "TrendingUp",
+      tag: "Advertising",
+      title: "Social Media Advertising",
+      intro:
+        "Social media advertising puts your brand in front of audiences with stronger potential to convert.",
+      blocks: [
+        {
+          h: "Targeted Paid Social",
+          p: "We create targeted paid social advertising campaigns across Facebook and Instagram, using platform-specific creatives, audiences, and campaign objectives. Ongoing social ad management keeps budgets, targeting, and performance moving in the right direction.",
+        },
+      ],
+    },
+    {
+      n: "05",
+      icon: "Users",
+      tag: "Community",
+      title: "Community Management & Engagement",
+      intro:
+        "People are more likely to trust brands that listen and respond.",
+      blocks: [
+        {
+          h: "Relationships That Build Trust",
+          p: "We manage comments, messages, mentions, and customer interactions across Instagram, Facebook, LinkedIn, and other relevant platforms while maintaining your brand voice. Effective community management builds relationships, strengthens trust, and keeps your audience connected.",
+        },
+      ],
+    },
+    {
+      n: "06",
+      icon: "LineChart",
+      tag: "Growth",
+      title: "Social Media Growth & Audience Building",
+      intro:
+        "Sustainable growth is about attracting the right audience, not simply increasing follower numbers.",
+      blocks: [
+        {
+          h: "Visitors Into Engaged Followers",
+          p: "We use platform-specific content, audience insights, and engagement strategies to grow your presence across Instagram, Facebook, YouTube, and other relevant channels. Social media optimization helps turn profile visitors into engaged followers.",
+        },
+      ],
+    },
+    {
+      n: "07",
+      icon: "Link2",
+      tag: "Influencers",
+      title: "Influencer & Social Media Promotion",
+      intro:
+        "The right creator can introduce your brand to an audience that already trusts their recommendations.",
+      blocks: [
+        {
+          h: "Relevance Over Follower Count",
+          p: "We develop creator partnerships, Instagram Reels, collaborative videos, giveaways, and other social media promotion opportunities to extend your reach. The focus stays on audience relevance, brand fit, and meaningful engagement rather than follower count alone.",
+        },
+      ],
+    },
+    {
+      n: "08",
+      icon: "FileSearch",
+      tag: "Analytics",
+      title: "Social Media Analytics & Reporting",
+      intro:
+        "Better performance starts with knowing what is actually working.",
+      blocks: [
+        {
+          h: "Clear Reports, Smarter Decisions",
+          p: "We track reach, engagement, clicks, leads, and conversions across Facebook, Instagram, YouTube, LinkedIn, and other active channels. Clear reports show which content and paid social campaigns perform best, helping shape smarter decisions for your next campaign.",
+        },
+      ],
+    },
+  ],
+  cases: [
+    {
+      tag: "E-commerce Fashion Brand",
+      metric: "68%",
+      sub: "more social media referral traffic in 3 months",
+      title: "E-commerce fashion brand: 68% more social media referral traffic in 3 months.",
+      body: "Instagram Reels, Facebook content, targeted social media advertising, and product-focused campaigns → 68% increase in social referral traffic within 3 months. By combining styling videos, product showcases, and seasonal promotions, we strengthened brand visibility and attracted more shoppers to the online store.",
+    },
+    {
+      tag: "Fitness & Wellness Studio",
+      metric: "52%",
+      sub: "more customer enquiries in 4 months",
+      title: "Fitness studio: 52% more customer enquiries in 4 months.",
+      body: "Content planning, audience engagement, local campaign targeting, and social media performance tracking → 52% increase in enquiries within 4 months. Through trainer-led videos, fitness tips, and community-focused content, we helped the studio connect with potential members and generate more interest in its programs.",
+    },
+    {
+      tag: "Real Estate Agency",
+      metric: "3.1x",
+      sub: "more qualified leads in 5 months",
+      title: "Real estate agency: 3.1x more qualified leads in 5 months.",
+      body: "Property showcase videos, Facebook and Instagram campaigns, audience targeting, and conversion tracking → 3.1x growth in qualified leads within 5 months. By highlighting property features and neighbourhood benefits, we improved campaign relevance and attracted more prospects interested in viewing available listings.",
+    },
+  ],
+  why: [
+    {
+      icon: "Star",
+      p: "“Before working with Clickmasters, we struggled to get our social media content noticed. Their creative approach helped us connect with more local families, improve audience engagement, and build greater brand awareness in our community.”",
+      h: "— Olivia Hartman, Brightpath Family Dental, Columbus, OH",
+    },
+    {
+      icon: "Star",
+      p: "“We wanted our social media to do more than just showcase our services. Clickmasters helped us create content that encouraged conversations, increased social media engagement, and made our business more visible to potential customers.”",
+      h: "— Daniel Ortiz, Ortiz Auto Care, Phoenix, AZ",
+    },
+    {
+      icon: "Star",
+      p: "“Consistency was something our business really needed online. Clickmasters helped us develop a recognizable brand presence across our social platforms, while their content strategy improved our social visibility and gave us a clearer way to measure our social media results.”",
+      h: "— Megan Cooper, Harbor & Pine Coffee Roasters, Portland, OR",
+    },
+  ],
+  faqs: [
+    {
+      q: "Why Should I Hire a Social Media Marketing Agency?",
+      a: "A social media marketing agency helps you create consistent content, reach the right audience, manage campaigns, and track performance while you focus on running your business.",
+    },
+    {
+      q: "How Often Should My Business Post on Social Media?",
+      a: "Posting frequency depends on your audience, platform, and goals. A consistent content calendar helps maintain engagement, strengthen brand awareness, and keep your social media accounts active.",
+    },
+    {
+      q: "Can Social Media Marketing Help Generate Leads?",
+      a: "Yes, strategic content, audience targeting, and social media advertising can help attract potential customers, drive website visits, and generate qualified business inquiries.",
+    },
+    {
+      q: "How Do You Improve Social Media Engagement?",
+      a: "We use relevant content, audience interaction, consistent posting, and social media analytics to understand what resonates with your followers and improve engagement over time.",
+    },
+    {
+      q: "Can I Track the Results of My Social Media Campaigns?",
+      a: "Yes, social media analytics help track reach, impressions, engagement, clicks, and conversions so you can evaluate campaign performance and make informed marketing decisions.",
+    },
+  ],
+  cta: {
+    title: "Ready to Build a Social Media Presence That Works for Your Business?",
+    description:
+      "We build social media programs that grow audiences, earn engagement, and contribute measurably to revenue. Start with a free audit or talk to an expert.",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    whatsappLink: "https://wa.me/",
+    googleAdsLink: "https://clickmastersdigitalmarketing.com/google-ads-management/",
+  },
+  footer: {
+    company: "Clickmasters Digital Marketing",
+    url: "https://clickmastersdigitalmarketing.com",
+    email: "marketing@clickmastersdigitalmarketing.com",
+    regions: "USA, UK, UAE, Pakistan, Canada, Australia",
+    author: "Amjad Khan CEO, Clickmasters Digital Marketing | $40M+ in managed ad spend | 10+ years PPC expertise",
+  },
+  schema: {
+    Service: {
+      serviceType: "Social Media Marketing",
+      provider: {
+        name: "Clickmasters Digital Marketing",
+        url: "https://clickmastersdigitalmarketing.com",
+        logo: "https://clickmastersdigitalmarketing.com/logo.png"
+      },
+      areaServed: ["US", "UK", "UAE", "PK"]
+    },
+
+    FAQPage: {
+      items: [
+        "Why Should I Hire a Social Media Marketing Agency?",
+        "How Often Should My Business Post on Social Media?",
+        "Can Social Media Marketing Help Generate Leads?",
+        "How Do You Improve Social Media Engagement?",
+        "Can I Track the Results of My Social Media Campaigns?"
+      ]
+    },
+
+    Organization: {
       name: "Clickmasters Digital Marketing",
       url: "https://clickmastersdigitalmarketing.com",
-      logo: "https://clickmastersdigitalmarketing.com/logo.png"
+      logo: "https://clickmastersdigitalmarketing.com/logo.png",
+      sameAs: [
+        "https://www.facebook.com/clickmasters",
+        "https://www.instagram.com/clickmasters",
+        "https://www.linkedin.com/company/clickmasters"
+      ]
     },
-    areaServed: ["US", "UK", "UAE", "PK"]
-  },
 
-  FAQPage: {
-    items: [
-      "How many social media platforms should my business be on?",
-      "How long does it take to see results from social media marketing?",
-      "How often should we post on social media?",
-      "What type of content performs best on social media in 2026?",
-      "How do you measure the ROI of social media marketing?",
-      "Can you manage social media for businesses in regulated industries?",
-      "Do you create the content or do we need to provide it?",
-      "What makes a good social media strategy?",
-      "How do I get started?"
-    ]
-  },
-
-  Organization: {
-    name: "Clickmasters Digital Marketing",
-    url: "https://clickmastersdigitalmarketing.com",
-    logo: "https://clickmastersdigitalmarketing.com/logo.png",
-    sameAs: [
-      "https://www.facebook.com/clickmasters",
-      "https://www.instagram.com/clickmasters",
-      "https://www.linkedin.com/company/clickmasters"
-    ]
-  },
-
-  BreadcrumbList: {
-    items: [
-      {
-        position: 1,
-        name: "Home",
-        url: "https://clickmastersdigitalmarketing.com"
-      },
-      {
-        position: 2,
-        name: "Social Media Marketing",
-        url: "https://clickmastersdigitalmarketing.com/social-media-marketing/"
-      },
-      {
-        position: 3,
-        name: "Social Media Marketing Services",
-        url: "https://clickmastersdigitalmarketing.com/social-media-marketing"
-      }
-    ]
+    BreadcrumbList: {
+      items: [
+        {
+          position: 1,
+          name: "Home",
+          url: "https://clickmastersdigitalmarketing.com"
+        },
+        {
+          position: 2,
+          name: "Social Media Marketing",
+          url: "https://clickmastersdigitalmarketing.com/social-media-marketing/"
+        },
+        {
+          position: 3,
+          name: "Social Media Marketing Services",
+          url: "https://clickmastersdigitalmarketing.com/social-media-marketing/"
+        }
+      ]
+    }
   }
-},
-	footer: {
-		company: "Clickmasters Digital Marketing",
-		email: "marketing@clickmastersdigitalmarketing.com",
-		regions: "USA · UK · UAE · Pakistan · Canada · Australia",
-		author: "Amjad Khan CEO, Clickmasters Digital Marketing | 10+ years social media marketing expertise",
-	},
 };
+
+
+
+
+
 
 export const MobileAppDevelopmentContent = {
 	slug: "mobile-app-development",
@@ -2990,269 +3066,295 @@ export const PayPerClickManagementContent = {
     cpc: "N/A",
     formula: "PAS",
     author: "Amjad Khan",
+    seoTitle: "Pay-Per-Click Services—Best PPC Agency",
+    metaDescription:
+      "Clickmasters delivers PPC services designed to increase qualified traffic, improve conversions, and turn paid advertising into measurable business growth.",
   },
   hero: {
     tag: "[ Service · 05 ] PPC Management",
-    title: "PPC Management",
-    titleHighlight: "Services",
-    subtitle: "— Stop Wasting Ad Spend, Start Growing Revenue.",
+    title: "PPC Services That Drive",
+    titleHighlight: "Qualified Leads & Growth",
+    subtitle: "",
     description:
-      "Expert PPC management services for Google, Meta, LinkedIn & more. Data-driven campaigns that reduce wasted spend & maximize ROAS. Free PPC audit for USA, UK & UAE.",
+      "Getting clicks is easy. Getting clicks that turn into customers is the hard part. Clickmasters delivers PPC services designed to increase qualified traffic, improve conversions, and turn paid advertising into measurable business growth. Our PPC management keeps a close eye on your budget, so spend goes where it performs best. Serving businesses across the USA.",
     stats: [
-      { k: "30-60%", v: "Average wasted ad spend" },
+      { k: "2.7x", v: "More appointment requests in 90 days" },
+      { k: "41%", v: "Lower cost per qualified lead" },
+      { k: "5.2x", v: "Return on ad spend achieved" },
       { k: "$40M+", v: "Managed ad spend" },
-      { k: "67%", v: "Cost-per-lead reduction" },
-      { k: "4.8x", v: "ROAS achieved" },
     ],
   },
   intro: {
     problem: [
-      { text: "Professional PPC management is the discipline of finding and eliminating that waste and redirecting every dollar toward the clicks, audiences, and conversion paths that actually generate revenue. When done correctly, PPC is not a cost of doing business. It is the ", type: "normal" },
-      { text: "highest-velocity revenue channel available", type: "highlight" },
-      { text: ": targeted, measurable, scalable, and immediately responsive to business goals.", type: "normal" }
+      { text: "Meet the PPC Experts Behind Your Campaigns", type: "normal" }
     ],
     solution:
-      "In a poorly managed Google Ads account, broad match keywords consume budget on searches with no commercial intent. A business targeting 'legal services' on broad match receives clicks from people searching 'legal services definition,' 'what do legal services cost,' or 'legal services Wikipedia' entirely irrelevant queries. Each click costs money. None convert. The keyword problem compounds silently month after month.",
+      "Every click costs money, but not every click earns it back. Clickmasters was built to close that gap. As a PPC agency serving businesses across the USA, we help brands turn search traffic into calls, form fills, and sales. We are a pay per click agency that begins every project with questions: who are your ideal customers, what do they search for, and what is a new customer worth to you? The answers shape your ad copy, keyword selection, and landing pages, so your campaigns attract people who are ready to take action, not just people who are browsing.",
     promise:
-      "At Clickmasters Digital Marketing, our PPC management team has managed over $40 million in paid advertising spend across Google Ads, Meta, LinkedIn, YouTube, TikTok, Amazon, and Bing for businesses across the USA, UK, UAE, and Pakistan since 2015. We do not run campaigns by gut instinct or industry benchmarks. We run campaigns by data your specific conversion data, your specific audience data, your specific revenue attribution and we optimize continuously until every dollar of your ad budget is working as hard as possible.",
+      "What sets a PPC company apart is the people running the accounts, and our team of PPC experts brings years of hands-on Google Ads experience across many industries. They watch your campaigns daily, cut keywords that drain your budget, and put more spend behind the ads that bring in leads. As a paid search agency, we share what we learn through simple, honest reports, so you can see how every dollar is performing. Our PPC management services are designed to grow with your business, from your first campaign to a larger, more profitable ad program.",
   },
   problem: {
-    title: "The Hidden Cost of",
-    titleHighlight: "Unmanaged Campaigns",
+    title: "Experience and Expertise That",
+    titleHighlight: "Drive PPC Results",
     items: [
       {
         icon: "Search",
-        title: "The Keyword Problem",
-        body: "Broad match keywords consume budget on searches with no commercial intent. A business targeting 'legal services' on broad match receives clicks from people searching 'legal services definition' or 'what do legal services cost' entirely irrelevant queries. Each click costs money. None convert. The problem compounds silently month after month.",
-      },
-      {
-        icon: "Users",
-        title: "The Audience Problem",
-        body: "On Meta and LinkedIn, ad sets without precise audience targeting reach people who will never buy what you sell. Demographic targeting without intent signals is guesswork at scale. Businesses spending $10,000 per month on Facebook Ads with broad demographic targeting and no retargeting infrastructure are generating impressions, not revenue.",
-      },
-      {
-        icon: "BarChart3",
-        title: "The Quality Score Problem",
-        body: "Quality Score directly determines how much you pay per click. A low Quality Score means you pay more for the same position than a competitor with a higher Quality Score. Improving Quality Score consistently reduces cost-per-click without reducing impression volume one of the highest-ROI optimizations in PPC management.",
-      },
-    ],
-    afterTitle: "The Complete Clickmasters",
-    afterHighlight: "Framework",
-    afterItems: [
-      {
-        icon: "Clipboard",
-        title: "PPC Account Audit and Strategy",
-        body: "Every new engagement begins with a comprehensive account audit analyzing keyword portfolio, campaign structure, audience targeting, ad creative performance, bidding strategy, and conversion tracking setup. For new accounts, we develop complete campaign architecture before spending a dollar.",
+        title: "Why Most Campaigns Underperform",
+        body: "Many businesses invest in PPC but struggle to see consistent returns because their campaigns are built around the wrong targeting, weak messaging, or strategies that focus on clicks instead of business outcomes.",
       },
       {
         icon: "Target",
-        title: "Keyword Strategy and Intent Mapping",
-        body: "We build keyword portfolios organized around commercial intent what the person searching is ready to do. We conduct weekly search term analysis, systematically building negative keyword lists that prevent budget from being consumed by non-converting queries.",
+        title: "Built Around Your Business",
+        body: "At Clickmasters, we do things differently. As a PPC company with years of hands-on experience, we start by learning your business, your customers, and what a good lead is worth to you.",
+      },
+      {
+        icon: "BarChart3",
+        title: "Managed Every Week",
+        body: "Our PPC experts and PPC specialists manage your account every week, cutting wasted spend and moving budget to the keywords and ads that perform. Regular campaign optimization keeps your results improving, and our focus on conversion rate optimization turns more visitors into calls, enquiries, and sales. Every decision is backed by data and shared in clear, honest reports. If you want a team that treats your budget with care, Clickmasters is ready to help you grow.",
+      },
+    ],
+    afterTitle: "From Strategy to Results: Our PPC",
+    afterHighlight: "Process",
+      afterItems: [
+      {
+        icon: "Clipboard",
+        title: "Account Audit",
+        body: "We begin with an in-depth account audit to uncover performance gaps, wasted spend, targeting issues, and opportunities for stronger PPC results.",
+      },
+      {
+        icon: "Hash",
+        title: "Keyword Research",
+        body: "Our team conducts detailed keyword research to identify valuable search terms, audience intent, and opportunities that can bring more qualified prospects to your campaigns.",
+      },
+      {
+        icon: "Target",
+        title: "PPC Strategy",
+        body: "We develop a tailored PPC strategy based on your goals, market, competition, budget, and customer journey to create a clear path toward better campaign performance.",
       },
       {
         icon: "Layout",
-        title: "Campaign Structure and Ad Group Architecture",
-        body: "We structure campaigns to match Google's Smart Bidding algorithm requirements: sufficient conversion volume per campaign, geographic segmentation, device segmentation, and audience layering that allows bid adjustments based on audience quality signals.",
+        title: "PPC Campaigns",
+        body: "With the strategy in place, we build targeted PPC campaigns with relevant ad groups, persuasive messaging, and focused targeting designed to generate meaningful conversions.",
+      },
+      {
+        icon: "TrendingUp",
+        title: "Campaign Optimization",
+        body: "After launch, we continuously monitor and improve campaign optimization by analyzing performance, refining targeting, and reducing inefficient spend to maximize your PPC investment.",
       },
     ],
   },
+
+
+    industries: {
+    title: "PPC Solutions Built for Your Industry",
+    titleHighlight: "",
+    items: [
+      { icon: "Home", title: "PPC for Home Services", body: "Emergency repairs and urgent jobs start with a search, and the first company to answer usually wins the booking. We use Google Ads to target service areas, peak hours, and call-ready searches. Your phone rings with real customers, not just curious visitors." },
+      { icon: "Hammer", title: "PPC for Contractors", body: "Big projects need serious buyers, not window shoppers comparing prices. Our campaigns focus on project-based searches, local areas, and the services that earn you the most. This helps you fill your calendar with quotes worth winning." },
+      { icon: "ShoppingCart", title: "E-commerce PPC", body: "Shoppers compare, scroll, and leave unless the right product appears at the right moment. We use shopping ads, product feeds, and remarketing to bring targeted traffic to your store that is ready to buy. More of your ad spend goes toward actual sales." },
+      { icon: "Briefcase", title: "B2B PPC", body: "Long sales cycles and multiple decision makers make business buyers harder to reach. We target job roles, industry terms, and high-intent searches, then guide visitors toward demos and consultations. This lifts your conversion rate and gives your sales team fewer cold leads." },
+      { icon: "Store", title: "PPC for Small Businesses", body: "Limited budgets leave no room for guesswork, so every click has to count. We build a focused PPC strategy around your most profitable services, then scale what works. You get steady leads without overspending." },
+      { icon: "Stethoscope", title: "PPC for Healthcare Practices", body: "Patients search when they need care, and they choose quickly based on trust and convenience. We run ads around specific treatments and local searches, with clear pages that make booking simple. Your practice stays visible when patients are ready to book." },
+    ],
+  },
+  locations: {
+    title: "Our Pay Per Click Services Reach",
+    titleHighlight: "Across the United States",
+    items: [
+      { title: "New York, NY", body: "Competition is fierce and clicks are expensive, so our PPC services focus on high-intent searches that bring New York businesses paying customers instead of casual traffic." },
+      { title: "Los Angeles, CA", body: "Los Angeles is a huge market where every neighborhood behaves differently, and a skilled PPC agency can target the right areas so your budget reaches the people most likely to buy." },
+      { title: "Chicago, IL", body: "From the Loop to the suburbs, Chicago customers search locally, and as a paid search agency we help businesses turn those searches into calls, bookings, and walk-ins." },
+      { title: "Houston, TX", body: "Houston's busy service economy rewards whoever shows up first for urgent searches, and a reliable PPC company helps you win those high-value jobs." },
+      { title: "Dallas, TX", body: "With fast growth across Dallas-Fort Worth, a pay per click agency can help you reach new neighborhoods and business districts before your competitors do." },
+      { title: "Miami, FL", body: "Miami blends local residents, visitors, and international buyers, so ads built around location and language bring in more qualified enquiries." },
+      { title: "Atlanta, GA", body: "As a growing business hub in the Southeast, Atlanta offers strong demand, and well-timed ads help you reach it with steady, measurable lead flow." },
+      { title: "Phoenix, AZ", body: "Phoenix's rapid growth means more customers searching every month, and focused ad campaigns help local businesses capture that demand without overspending." },
+    ],
+  },
+ 
+
+
   services: [
+	
     {
       n: "01",
       icon: "FileSearch",
-      tag: "Audit",
-      title: "PPC Account Audit and Strategy Development",
+      tag: "Management",
+      title: "PPC Campaign Management",
       intro:
-        "Every new PPC engagement begins with a comprehensive account audit whether you are starting fresh or inheriting an existing account with months or years of history.",
+        "Good campaigns don't run themselves, and the best results come from daily attention.",
       blocks: [
         {
-          h: "For Existing Accounts",
-          p: "We analyze keyword portfolio, campaign structure, audience targeting, ad creative performance, bidding strategy, conversion tracking setup, and account hygiene. The audit reveals the specific issues producing waste and the opportunities producing returns, prioritized by revenue impact.",
-        },
-        {
-          h: "For New Accounts",
-          p: "We develop complete campaign architecture before spending a dollar: keyword research organized by intent cluster, campaign structure around revenue goals, audience strategy, landing page assessment, conversion tracking plan, and a 90-day ramp plan with specific milestones.",
+          h: "Daily Attention, Clear Reports",
+          p: "Our PPC management covers bids, budgets, ad copy, and audience settings, so spend moves toward what brings in leads. You get steady improvement and clear reports instead of set-it-and-forget-it ads.",
         },
       ],
     },
     {
       n: "02",
       icon: "Hash",
-      tag: "Keywords",
-      title: "Keyword Strategy and Search Intent Architecture",
+      tag: "Search",
+      title: "PPC Search Advertising",
       intro:
-        "In Google Search campaigns, keyword selection and match type strategy is the foundation of campaign efficiency. Poor keyword strategy is the single most common cause of wasted PPC spend.",
+        "When someone types a problem into Google, your ad should be the answer they see first.",
       blocks: [
         {
-          h: "Keyword Research and Commercial Intent Mapping",
-          p: "We build keyword portfolios organized around commercial intent informational intent vs transactional intent. We identify every commercially relevant keyword for your business, organized by intent level, competition, and estimated conversion probability.",
-        },
-        {
-          h: "Match Type Strategy & Search Term Analysis",
-          p: "We design match type strategies that balance reach with precision. The single highest-ROI ongoing activity is weekly search term analysis reviewing actual queries that triggered your ads and adding irrelevant queries to negative keyword lists, reducing wasted spend by 20-40%.",
+          h: "Google PPC Management",
+          p: "We set up and refine Google Ads search campaigns around the words your buyers actually use, as part of our Google PPC management. This paid search approach puts you in front of people who are ready to call, book, or buy.",
         },
       ],
     },
     {
       n: "03",
       icon: "Layers",
-      tag: "Structure",
-      title: "Campaign Structure and Ad Group Architecture",
+      tag: "Display",
+      title: "PPC Display Advertising",
       intro:
-        "Campaign structure determines how effectively Google's algorithm can optimize your ads and how clearly you can measure and optimize performance.",
+        "Not every customer is searching today, but many are still open to meeting your brand.",
       blocks: [
         {
-          h: "Campaign Architecture Principles",
-          p: "We structure campaigns for Smart Bidding requirements: minimum 30 conversions per month per campaign, geographic segmentation reflecting performance differences, device segmentation where conversion rates differ, and audience layering for bid adjustments.",
-        },
-        {
-          h: "Ad Group Tightness & Budget Allocation",
-          p: "Each ad group contains keywords sharing the same user intent, addressed by the same ad copy and landing page producing higher Quality Scores. We allocate budgets based on performance data, concentrating spend on lowest cost-per-acquisition campaigns.",
+          h: "Awareness at Low Cost",
+          p: "Display ads place your message on websites, apps, and videos your audience already visits. With the right visuals and targeting, PPC advertising on the display network builds awareness and brings new people to your site at a low cost.",
         },
       ],
     },
     {
       n: "04",
       icon: "PenTool",
-      tag: "Creative",
-      title: "Ad Creative Development and Testing",
+      tag: "Remarketing",
+      title: "PPC Remarketing & Retargeting",
       intro:
-        "Ad creative is the bridge between your keyword targeting and your landing page. Great creative produces high click-through rates and pre-qualifies clicks.",
+        "Most visitors leave without taking action, and that is completely normal.",
       blocks: [
         {
-          h: "Responsive Search Ad Development",
-          p: "We write RSA asset sets covering primary keyword inclusion, value proposition differentiators, urgency and CTA language, social proof signals, and objection-handling language developing multiple RSA ad sets per ad group for ongoing creative testing.",
-        },
-        {
-          h: "Ad Extension Strategy & Testing Framework",
-          p: "We implement every relevant extension type sitelinks, callouts, structured snippets, call extensions which consistently improve both CTR and conversion rate. We maintain one test running in every active ad group at any time.",
+          h: "Bring Them Back",
+          p: "Remarketing brings those people back with timely ads based on the pages they viewed or the items they left behind. This part of pay per click advertising often delivers some of your best returns, because you are speaking to people who already know you.",
         },
       ],
     },
     {
       n: "05",
       icon: "TrendingUp",
-      tag: "Bidding",
-      title: "Bidding Strategy and Budget Optimization",
+      tag: "Shopping",
+      title: "PPC Shopping Campaigns",
       intro:
-        "Bid management in 2026 is a collaboration between human strategic judgment and Google's AI-powered Smart Bidding algorithms consistently outperforming both fully manual and fully automated approaches.",
+        "Shoppers decide with their eyes first, and a clear photo with the right price wins attention fast.",
       blocks: [
         {
-          h: "Smart Bidding Strategy Selection",
-          p: "We select and configure the appropriate strategy for each campaign: Target CPA, Target ROAS, Maximize Conversions, or Maximize Conversion Value based on conversion volume, business goal, and conversion tracking accuracy.",
-        },
-        {
-          h: "Target CPA/ROAS Calibration & Portfolio Strategies",
-          p: "We calibrate targets based on historical conversion data, competitive landscape, and business profitability constraints. For large accounts, we implement portfolio bid strategies that dynamically redistribute budget across campaigns.",
+          h: "Feed, Titles & Bidding",
+          p: "We optimize your product feed, titles, and bidding so your products appear when buyers are comparing options. Shopping campaigns help online stores reach high-intent customers and sell more of their best products.",
         },
       ],
     },
     {
       n: "06",
       icon: "LineChart",
-      tag: "Tracking",
-      title: "Conversion Tracking and Revenue Attribution",
+      tag: "Keywords",
+      title: "PPC Keyword Research & Strategy",
       intro:
-        "Accurate conversion tracking is the foundation of everything else in PPC management without it, Smart Bidding optimizes toward the wrong signals and you cannot measure what your campaigns are actually producing.",
+        "Strong results start before the first ad goes live.",
       blocks: [
         {
-          h: "Conversion Tracking Audit and Implementation",
-          p: "We verify all primary conversion actions are tracked accurately, micro-conversions are secondary actions, Google Ads and GA4 are aligned, and Enhanced Conversions is correctly implemented to improve match rates and attribution accuracy.",
+          h: "Intent Match + Negative Keywords",
+          p: "Our keyword research finds the terms that match buyer intent, and negative keywords block searches that only waste your budget. Together they shape a PPC strategy that is focused, realistic, and built around your goals.",
         },
+      ],
+    },
+    {
+      n: "07",
+      icon: "PenTool",
+      tag: "Landing Pages",
+      title: "PPC Landing Page Optimization",
+      intro:
+        "A great ad can still fail when it sends people to a weak page.",
+      blocks: [
         {
-          h: "Call Tracking & Multi-Touch Attribution",
-          p: "We implement call tracking connecting inbound calls to specific keywords and ads. We implement data-driven attribution modeling for accounts with sufficient conversion volume distributing credit across all touchpoints.",
+          h: "Headlines, Speed & Forms",
+          p: "We improve your landing pages with clear headlines, faster load times, simple forms, and a message that matches the ad. Small changes here often turn the same traffic into noticeably more enquiries.",
+        },
+      ],
+    },
+    {
+      n: "08",
+      icon: "FileSearch",
+      tag: "Tracking",
+      title: "PPC Conversion Tracking & Optimization",
+      intro:
+        "You can't improve what you can't measure, and guessing is expensive.",
+      blocks: [
+        {
+          h: "Trace Every Lead",
+          p: "We set up conversion tracking for calls, form fills, and purchases, so every lead can be traced back to its source. That data tells us which ads and keywords deserve more budget, and which ones to pause.",
         },
       ],
     },
   ],
   cases: [
     {
-      tag: "B2B SaaS · Lead Generation",
-      metric: "67%",
-      sub: "lower CPA · $420 → $138",
-      title: "B2B SaaS company achieves 67% reduction in cost-per-lead in 4 months.",
-      body: "A SaaS HR management company was spending $28,000/month on Google Ads with $420 cost-per-trial-signup. Our 4-month program: keyword restructure eliminating 68% of low-intent keywords, conversion tracking remediation, negative keyword build-out adding 340 terms, match type transition, and ad creative refresh. Result: Cost-per-lead dropped from $420 to $138, monthly trial signups increased from 67 to 203 on the same $28,000 budget.",
+      tag: "Dental Practice",
+      metric: "2.7x",
+      sub: "more appointment requests in 90 days",
+      title: "Dental practice: 2.7x more appointment requests in 90 days.",
+      body: "PPC campaign management, location-based targeting, ad testing, and conversion tracking → 2.7x increase in appointment requests within 90 days. By aligning paid search with patient intent and refining underperforming ad groups, the campaign generated a stronger flow of potential patients without relying on broad, low-value traffic.",
     },
     {
-      tag: "E-commerce Fashion · Google Shopping",
-      metric: "4.8x",
-      sub: "ROAS · 1.4x → 4.8x",
-      title: "E-commerce fashion brand achieves 4.8x ROAS from Google Shopping in 6 months.",
-      body: "A fashion e-commerce brand had 1.4x ROAS near-zero net profitability. Our program: product feed remediation, campaign segmentation by product margin tier, audience layering adding customer list and remarketing bid adjustments, and Performance Max campaign testing. Result: ROAS improved from 1.4x to 4.8x, monthly revenue increased from $84,000 to $240,000 on a budget that decreased from $60,000 to $50,000.",
+      tag: "B2B Software Company",
+      metric: "41%",
+      sub: "lower cost per qualified lead in 4 months",
+      title: "B2B software company: 41% lower cost per qualified lead in 4 months.",
+      body: "Keyword research, PPC strategy, audience targeting, and campaign optimization → 41% reduction in cost per qualified lead within 4 months. We shifted the focus toward high-value search intent, improved campaign segmentation, and redirected budget toward the opportunities producing the strongest lead quality.",
     },
     {
-      tag: "Local Service · Plumbing",
-      metric: "343%",
-      sub: "more leads · 14 → 62/month",
-      title: "Local service business increases qualified leads by 343% in 3 months.",
-      body: "A Houston plumbing company was spending $4,500/month generating 14 leads/month at $280 CPL. Our program: geographic bid adjustment concentrating on highest-converting zip codes, ad scheduling restricting spend to business hours, Local Services Ads optimization, and call tracking. Result: Monthly qualified leads increased from 14 to 62, cost-per-lead dropped from $280 to $104 on the same budget.",
+      tag: "Home Improvement Company",
+      metric: "5.2x",
+      sub: "return on ad spend in 5 months",
+      title: "Home improvement company: 5.2x return on ad spend in 5 months.",
+      body: "PPC campaigns, conversion-focused landing pages, remarketing, and ongoing optimization → 5.2x return on ad spend within 5 months. A more precise targeting approach combined with continuous performance adjustments helped the business capture ready-to-buy prospects and generate more revenue from paid advertising.",
     },
   ],
-  why: [
+    why: [
     {
-      icon: "BarChart4",
-      h: "Data-driven optimization, not vanity metrics",
-      p: "We report on what your PPC campaigns are producing for your business cost-per-acquisition, return on ad spend, revenue contribution not on impressions, clicks, and CTR. Every optimization decision is made based on conversion and revenue data.",
+      icon: "Star",
+      p: "“Clickmasters gave our PPC campaigns a much clearer direction. We started reaching more relevant customers and noticed a real improvement in the quality of our leads.”",
+     h: "— Ethan Parker, Austin Home Solutions",
     },
     {
-      icon: "BadgeCheck",
-      h: "Certified across all major platforms",
-      p: "Our PPC team holds active certifications from Google (Ads, Performance Max, Shopping certified), Meta Blueprint, Microsoft Advertising, and LinkedIn Marketing Solutions. Our specialists work on live campaigns every day our knowledge is applied and current.",
+      icon: "Star",
+     p: "“Our Google Ads performance improved significantly after working with Clickmasters. Their team understood our audience, refined our targeting, and helped us generate more conversions.”",
+     h: "— Sophia Bennett, Denver Retail Group",
     },
     {
-      icon: "Eye",
-      h: "Full transparency your accounts, your data",
-      p: "We manage your PPC accounts within accounts you own you always have complete access. Your data, your campaigns, and your history belong to you at every stage. Monthly performance reports account for every dollar of spend.",
-    },
-    {
-      icon: "Link2",
-      h: "Integrated with SEO and attribution",
-      p: "PPC and SEO are most powerful when integrated sharing keyword intelligence, content insights, and attribution data. Paid search data informs organic keyword priorities; organic rankings reduce paid search cost for high-intent queries.",
+      icon: "Star",
+     p: "“We wanted to make our advertising budget work harder, and Clickmasters delivered. Their PPC management approach helped us attract better prospects and build a more consistent flow of leads.”",
+     h: "— James Wilson, Tampa Business Services",
     },
   ],
   faqs: [
     {
-      q: "How much should I budget for PPC advertising?",
-      a: "PPC budget depends on your industry's average cost-per-click, your target cost-per-acquisition, and the volume of leads or sales you need. As a benchmark: if your target CPL is $100 and you want 50 leads/month, you need a minimum of $5,000/month in ad spend. We provide a specific budget recommendation after an initial discovery call. Management fees are separate from ad spend.",
+      q: "What Are PPC Services and How Do They Work?",
+      a: "PPC services involve managing paid advertising campaigns where businesses pay when someone clicks on their ad. A well-planned pay per click campaign targets relevant searches and audiences to generate qualified traffic, leads, and sales.",
     },
     {
-      q: "What is a good ROAS (Return on Ad Spend) for PPC?",
-      a: "ROAS benchmarks vary by industry, product margin, and funnel structure. For e-commerce, 3x to 5x ROAS is generally healthy. For lead generation, ROAS is revenue-per-lead × lead volume ÷ ad spend. For subscription businesses, lifetime value must be factored in. We set target ROAS based on your specific margins, average order value, and customer lifetime value.",
+      q: "How Can a PPC Agency Help Grow My Business?",
+      a: "A professional PPC agency can build, manage, and optimize campaigns around your business goals, audience, and budget. Through ongoing PPC marketing, we focus on reaching high-intent prospects and improving campaign performance over time.",
     },
     {
-      q: "How long does it take to see results from PPC management?",
-      a: "PPC can produce results immediately campaigns generate impressions and clicks within hours of launch. However, optimization takes time: Smart Bidding requires 2-4 weeks of data accumulation (the 'learning phase'), and meaningful insights accumulate over 4-8 weeks. Fully optimized performance is typically achieved at the 3-4 month mark.",
+      q: "What Is Paid Search and Why Is It Important?",
+      a: "Paid search places your business in front of people actively searching for products or services you offer. Unlike organic strategies that take time to build, paid search can create immediate opportunities when campaigns are properly targeted and managed.",
     },
     {
-      q: "Do you manage Google Ads accounts or create new ones?",
-      a: "Both we work with existing accounts and create new ones. For existing accounts, we prefer to work within the existing account to preserve conversion history (which Smart Bidding uses) and audience lists. Creating a new account loses this historical data. We only recommend new accounts when the existing account has been penalized or has uncorrectable structural issues.",
+      q: "What Are Quality Score, Ad Relevance, and Click-Through Rate?",
+      a: "Quality Score reflects the overall quality and relevance of your ads, keywords, and landing pages. Ad relevance and click-through rate are important performance signals that can help identify opportunities to improve targeting, messaging, and campaign efficiency.",
     },
     {
-      q: "What is the difference between PPC management and Google Ads management?",
-      a: "Google Ads management specifically covers campaigns on Google's platforms Search, Display, Shopping, YouTube, and Performance Max. PPC management is the broader discipline covering all platforms Google Ads, Meta Ads, LinkedIn Ads, Bing Ads, TikTok Ads, Amazon Ads, and others. Our service covers all platforms, with the mix determined by your target audience and business type.",
-    },
-    {
-      q: "How do you report on PPC performance?",
-      a: "Monthly reports include total ad spend by campaign, impressions, clicks, CTR, average CPC, conversion volume, cost-per-conversion, conversion value, ROAS, and comparison to previous month and prior year. We provide written commentary explaining performance changes, optimizations implemented, and planned optimizations.",
-    },
-    {
-      q: "Can you take over management of an existing agency's PPC campaigns?",
-      a: "Yes account transitions are common, and we manage them carefully to preserve performance continuity. Before making any changes, we complete the full account audit and document the current performance baseline. We then implement improvements incrementally, monitoring performance at each step to ensure improvement rather than disruption.",
-    },
-    {
-      q: "Do I own my ad accounts and data if I stop working with you?",
-      a: "Absolutely your Google Ads, Meta Ads Manager, LinkedIn Campaign Manager, and all other advertising accounts are owned by you and remain yours regardless of our working relationship. We manage within your accounts, and you retain full admin access at all times. Your historical conversion data and audience lists are yours permanently.",
-    },
-    {
-      q: "How do I get started?",
-      a: "Book a free PPC audit. We review your existing campaigns (if any), identify the top five specific issues costing you the most in wasted spend, and provide a clear picture of the efficiency improvement a professionally managed account could deliver. No commitment required.",
+      q: "Do You Offer Affordable PPC Management for Small Businesses?",
+      a: "Yes. Our affordable PPC management is designed around your goals and available advertising budget rather than using a one-size-fits-all approach. We focus on efficient spending, continuous optimization, and measurable results so your campaigns can scale as your business grows.",
     },
   ],
   cta: {
-    title: "Ready to Make Every Dollar of Your Ad Spend Work Harder?",
+    title: "Ready to Turn Clicks Into Customers?",
     description:
-      "PPC advertising is the fastest-moving revenue channel available when it is managed correctly. The businesses investing in professional PPC management are consistently outcompeting those running DIY campaigns or working with agencies that manage dozens of accounts without the attention that each deserves. The waste in your current campaigns is findable. The efficiency improvement is achievable. And the revenue it unlocks compounds with every month of professional management.",
+      "Every decision is backed by data and shared in clear, honest reports. If you want a team that treats your budget with care, Clickmasters is ready to help you grow. From setup to scaling, we build PPC campaigns that support steady lead flow for businesses across the USA and our PPC management services grow with your business, from your first campaign to a larger, more profitable ad program.",
     contactLink: "https://clickmastersdigitalmarketing.com/contact/",
     whatsappLink: "https://wa.me/",
     googleAdsLink: "https://clickmastersdigitalmarketing.com/google-ads-management/",
@@ -3264,69 +3366,59 @@ export const PayPerClickManagementContent = {
     regions: "USA, UK, UAE, Pakistan, Canada, Australia",
     author: "Amjad Khan CEO, Clickmasters Digital Marketing | $40M+ in managed ad spend | 10+ years PPC expertise",
   },
-
-
-
-
   schema: {
-  Service: {
-    serviceType: "PPC Management",
-    provider: {
+    Service: {
+      serviceType: "PPC Management",
+      provider: {
+        name: "Clickmasters Digital Marketing",
+        url: "https://clickmastersdigitalmarketing.com",
+        logo: "https://clickmastersdigitalmarketing.com/logo.png"
+      },
+      areaServed: ["US", "UK", "UAE", "PK"]
+    },
+
+    FAQPage: {
+      items: [
+        "What Are PPC Services and How Do They Work?",
+        "How Can a PPC Agency Help Grow My Business?",
+        "What Is Paid Search and Why Is It Important?",
+        "What Are Quality Score, Ad Relevance, and Click-Through Rate?",
+        "Do You Offer Affordable PPC Management for Small Businesses?"
+      ]
+    },
+
+    Organization: {
       name: "Clickmasters Digital Marketing",
       url: "https://clickmastersdigitalmarketing.com",
-      logo: "https://clickmastersdigitalmarketing.com/logo.png"
+      logo: "https://clickmastersdigitalmarketing.com/logo.png",
+      sameAs: [
+        "https://www.facebook.com/clickmasters",
+        "https://www.instagram.com/clickmasters",
+        "https://www.linkedin.com/company/clickmasters"
+      ]
     },
-    areaServed: ["US", "UK", "UAE", "PK"]
-  },
 
-  FAQPage: {
-    items: [
-      "How much should I budget for PPC advertising?",
-      "What is a good ROAS (Return on Ad Spend) for PPC?",
-      "How long does it take to see results from PPC management?",
-      "Do you manage Google Ads accounts or create new ones?",
-      "What is the difference between PPC management and Google Ads management?",
-      "How do you report on PPC performance?",
-      "Can you take over management of an existing agency's PPC campaigns?",
-      "Do I own my ad accounts and data if I stop working with you?",
-      "How do I get started?"
-    ]
-  },
-
-  Organization: {
-    name: "Clickmasters Digital Marketing",
-    url: "https://clickmastersdigitalmarketing.com",
-    logo: "https://clickmastersdigitalmarketing.com/logo.png",
-    sameAs: [
-      "https://www.facebook.com/clickmasters",
-      "https://www.instagram.com/clickmasters",
-      "https://www.linkedin.com/company/clickmasters"
-    ]
-  },
-
-  BreadcrumbList: {
-    items: [
-      {
-        position: 1,
-        name: "Home",
-        url: "https://clickmastersdigitalmarketing.com"
-      },
-      {
-        position: 2,
-        name: "PPC / Paid Ads",
-        url: "https://clickmastersdigitalmarketing.com/ppc-paid-ads/"
-      },
-      {
-        position: 3,
-        name: "PPC Management Services",
-        url: "https://clickmastersdigitalmarketing.com/ppc-management-services/"
-      }
-    ]
+    BreadcrumbList: {
+      items: [
+        {
+          position: 1,
+          name: "Home",
+          url: "https://clickmastersdigitalmarketing.com"
+        },
+        {
+          position: 2,
+          name: "PPC / Paid Ads",
+          url: "https://clickmastersdigitalmarketing.com/ppc-paid-ads/"
+        },
+        {
+          position: 3,
+          name: "PPC Management Services",
+          url: "https://clickmastersdigitalmarketing.com/ppc-management-services/"
+        }
+      ]
+    }
   }
-  }
-  
 };
-
 
 
 
