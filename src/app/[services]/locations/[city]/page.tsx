@@ -1,5 +1,5 @@
 // src/app/[services]/locations/[city]/page.tsx
-// One service in one city — e.g. /search-engine-optimization/locations/boston
+// One service in one city — e.g. /search-engine-optimization/locations/seo-services-boston
 // These are the sub-location pages shown as "Latest locations" cards on the
 // /{services}/locations hub.
 //
@@ -8,7 +8,7 @@
 // city page built from locationPagesData.
 
 import type { Metadata } from "next";
-import { notFound, permanentRedirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { ServiceCityPage } from "@/components/service-locations/ServiceCityPage";
 import { ServiceSubPage } from "@/components/service-locations/ServiceSubPage";
 import { getSubPageBySlug } from "@/content/locations/subPageRegistry";
@@ -17,33 +17,10 @@ import {
   getLocationByCitySlug,
   getLatestServiceSubLocations,
   getTotalCityCount,
-  resolvePrefixedCitySlug,
+  resolveServiceCitySlug,
 } from "@/content/locations/serviceLocations";
 
 const BASE_URL = "https://clickmastersdigitalmarketing.com";
-const SEO_CITY_URL_SLUGS: Record<string, string> = {
-  phoenix: "seo-services-phoenix",
-  seattle: "seo-services-seattle",
-  tampa: "seo-services-tampa",
-  richmond: "seo-services-richmond",
-};
-
-const getLocationCitySlug = (services: string, city: string): string => {
-  if (services !== "search-engine-optimization") return city;
-  return (
-    Object.entries(SEO_CITY_URL_SLUGS).find(
-      ([citySlug, seoSlug]) => city === citySlug || city === seoSlug
-    )?.[0] ?? city
-  );
-};
-
-const getCanonicalCitySlug = (services: string, city: string): string => {
-  if (services !== "search-engine-optimization") return city;
-  const entry = Object.entries(SEO_CITY_URL_SLUGS).find(
-    ([citySlug, seoSlug]) => city === citySlug || city === seoSlug
-  );
-  return entry?.[1] ?? city;
-};
 
 type Params = { params: Promise<{ services: string; city: string }> };
 
@@ -76,23 +53,11 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   }
 
   // Generic city page
-  const location = getLocationByCitySlug(getLocationCitySlug(services, city));
-  const canonicalCity = getCanonicalCitySlug(services, city);
+  const locationCity = resolveServiceCitySlug(services, city);
+  if (!locationCity) notFound();
 
-  if (!location) {
-    // Prefixed slugs like "seo-services-austin" are not real pages — they
-    // redirect to the bare city page (see Page below). Emit the target's
-    // canonical so the redirect chain stays clean for crawlers.
-    const resolvedCity = resolvePrefixedCitySlug(city);
-    if (resolvedCity) {
-      const canonical = `${BASE_URL}/${svc.slug}/locations/${resolvedCity}`;
-      return {
-        alternates: { canonical },
-        openGraph: { url: canonical, type: "website" },
-      };
-    }
-    return {};
-  }
+  const location = getLocationByCitySlug(locationCity);
+  if (!location) notFound();
 
   const title = ` ${location.metaTitle} `;
   const description =
@@ -103,12 +68,12 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     title,
     description,
     alternates: {
-      canonical: `${BASE_URL}/${svc.slug}/locations/${canonicalCity}`,
+      canonical: `${BASE_URL}/${svc.slug}/locations/${city}`,
     },
     openGraph: {
       title,
       description,
-      url: `${BASE_URL}/${svc.slug}/locations/${canonicalCity}`,
+      url: `${BASE_URL}/${svc.slug}/locations/${city}`,
       type: "website",
     },
     twitter: {
@@ -191,22 +156,11 @@ export default async function Page({ params }: Params) {
     );
   }
 
-  const canonicalCity = getCanonicalCitySlug(services, city);
-  if (canonicalCity !== city) {
-    permanentRedirect(`/${services}/locations/${canonicalCity}`);
-  }
+  const locationCity = resolveServiceCitySlug(services, city);
+  if (!locationCity) notFound();
 
-  const location = getLocationByCitySlug(getLocationCitySlug(services, city));
-
-  if (!location) {
-    // e.g. /search-engine-optimization/locations/seo-services-austin
-    //   -> 301-style redirect to /search-engine-optimization/locations/austin
-    const resolvedCity = resolvePrefixedCitySlug(city);
-    if (resolvedCity && resolvedCity !== city) {
-      permanentRedirect(`/${svc.slug}/locations/${resolvedCity}`);
-    }
-    notFound();
-  }
+  const location = getLocationByCitySlug(locationCity);
+  if (!location) notFound();
 
   const otherCities = getLatestServiceSubLocations(svc.slug, 7)
     .filter((sub) => sub.slug !== city)

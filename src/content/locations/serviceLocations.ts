@@ -141,6 +141,25 @@ export const getLocationByCitySlug = (
 export const getAllCitySlugs = (): string[] =>
   uniqueCityLocations().map(citySlugOf);
 
+const getServiceCityPrefix = (serviceSlug: string): string =>
+  serviceSlug === "search-engine-optimization" ? "seo-services" : serviceSlug;
+
+export const getServiceCityUrlSlug = (
+  serviceSlug: string,
+  citySlug: string
+): string => `${getServiceCityPrefix(serviceSlug)}-${citySlug}`;
+
+export const resolveServiceCitySlug = (
+  serviceSlug: string,
+  input: string
+): string | undefined => {
+  const prefix = `${getServiceCityPrefix(serviceSlug)}-`;
+  if (!input.startsWith(prefix)) return undefined;
+
+  const citySlug = input.slice(prefix.length);
+  return getLocationByCitySlug(citySlug) ? citySlug : undefined;
+};
+
 /**
  * Resolves a possibly-prefixed city slug (e.g. "seo-services-austin",
  * "local-seo-services-austin") to its bare city slug ("austin").
