@@ -12,10 +12,27 @@ export async function GET() {
     <loc>${siteUrl}/sitemap_services.xml</loc>
     <lastmod>${lastModified}</lastmod>
   </sitemap>
+
+
   <sitemap>
-    <loc>${siteUrl}/sitemap_locations.xml</loc>
+    <loc>${siteUrl}/sitemap_digital_marketing_locations.xml</loc>
     <lastmod>${lastModified}</lastmod>
   </sitemap>
+  <sitemap>
+    <loc>${siteUrl}/sitemap_seo_locations.xml</loc>
+    <lastmod>${lastModified}</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>${siteUrl}/sitemap_social_media_locations.xml</loc>
+    <lastmod>${lastModified}</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>${siteUrl}/sitemap_ppc_locations.xml</loc>
+    <lastmod>${lastModified}</lastmod>
+  </sitemap>
+
+
+  
   <sitemap>
     <loc>${siteUrl}/sitemap_blogs.xml</loc>
     <lastmod>${lastModified}</lastmod>
