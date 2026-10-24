@@ -856,9 +856,9 @@ const CTA = ({ content }: { content: any }) => {
 
 /* ---------- Main Page Component ---------- */
 
-export default function ServicesPage({ slugOverride }: { slugOverride?: string } = {}) {
+export default function ServicesPage() {
   const params = useParams();
-  const slug = slugOverride ?? (params?.slug as string);
+  const slug = params?.slug as string;
   useSmoothScroll();
 
   const RoutedPage = routedPageRegistry[slug || ""];
