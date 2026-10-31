@@ -1,44 +1,30 @@
 import {
-  MAIN_SERVICES,
   getAllCitySlugs,
   getServiceCityUrlSlug,
   SERVICE_SUB_LOCATIONS,
 } from "@/content/locations/serviceLocations";
 
 const siteUrl = "https://clickmastersdigitalmarketing.com";
+const SEO_SERVICE = "search-engine-optimization";
 
 // All custom SEO sub-page slugs (e.g. "seo-services-atlanta").
 const SEO_SUBPAGE_SLUGS = new Set(
-  (SERVICE_SUB_LOCATIONS["search-engine-optimization"] ?? []).map((s) => s.slug)
+  (SERVICE_SUB_LOCATIONS[SEO_SERVICE] ?? []).map((s) => s.slug)
 );
 
 export async function GET() {
   const lastMod = new Date().toISOString().split("T")[0];
   const urls = new Set<string>();
 
-  const citySlugs = getAllCitySlugs();
+  for (const city of getAllCitySlugs()) {
+    urls.add(
+      `${siteUrl}/${SEO_SERVICE}/locations/${getServiceCityUrlSlug(SEO_SERVICE, city)}`
+    );
+  }
 
-  for (const serviceSlug of Object.keys(MAIN_SERVICES)) {
-    const isSeo = serviceSlug === "search-engine-optimization";
-
-    for (const city of citySlugs) {
-      if (!isSeo) {
-        // Non-SEO services: only the bare city slug is canonical.
-        urls.add(`${siteUrl}/${serviceSlug}/locations/${city}`);
-        continue;
-      }
-
-      urls.add(
-        `${siteUrl}/${serviceSlug}/locations/${getServiceCityUrlSlug(serviceSlug, city)}`
-      );
-    }
-
-    // Include custom SEO sub-pages that are not otherwise in the city list.
-    if (isSeo) {
-      for (const subSlug of SEO_SUBPAGE_SLUGS) {
-        urls.add(`${siteUrl}/${serviceSlug}/locations/${subSlug}`);
-      }
-    }
+  // Include custom SEO sub-pages that are not otherwise in the city list.
+  for (const subSlug of SEO_SUBPAGE_SLUGS) {
+    urls.add(`${siteUrl}/${SEO_SERVICE}/locations/${subSlug}`);
   }
 
   const sorted = Array.from(urls).sort();
