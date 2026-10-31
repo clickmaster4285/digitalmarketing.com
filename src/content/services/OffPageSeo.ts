@@ -281,7 +281,7 @@ export const OffPageSeoContent = {
     title: "Ready to Build the Off-Page Authority That Ranks and Compounds?",
     description:
       "Your organic rankings are a direct reflection of how Google perceives your authority relative to your competitors. If they outrank you, they have more of it. Link building is how you close that gap and in 2026, a clean, high-authority link profile built through white-hat methods is a durable competitive asset that compounds in value for years. Every high-quality link we earn for your business today continues to strengthen your rankings tomorrow, next month, and next year without any additional investment.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     seoLink: "https://clickmastersdigitalmarketing.com/",
   },

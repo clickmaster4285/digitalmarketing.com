@@ -240,7 +240,7 @@ export const DevopsServicesContent = {
     title: "Ready to Ship Faster and Break Less?",
     description:
       "Deployment frequency is a competitive variable. The engineering team that ships every day is learning, correcting, and improving at a rate that the team shipping monthly cannot match  regardless of the talent differential.\n\nThe infrastructure that enables daily deployment is not magic. It is CI/CD pipelines, containerisation, infrastructure-as-code, and observability built deliberately, maintained consistently, and operated by a team that understands how it works.\n\nThat is what we build.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/cloud-solutions/",
   },

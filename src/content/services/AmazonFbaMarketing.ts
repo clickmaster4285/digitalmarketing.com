@@ -241,7 +241,7 @@ export const AmazonFbaMarketingContent = {
     title: "Ready to Scale Your FBA Business?",
     description:
       "The top 10% of Amazon sellers built their positions through the systematic application of listing quality, PPC discipline, review strategy, and off-Amazon traffic. That position is available to every FBA seller willing to invest in the programme quality that produces it.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     ecommerceLink: "https://clickmastersdigitalmarketing.com/ecommerce-services/ecommerce-marketing/",
     ppcLink: "https://clickmastersdigitalmarketing.com/pay-per-click/ppc-management/",
   },

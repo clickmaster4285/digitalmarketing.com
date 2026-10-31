@@ -231,7 +231,7 @@ export const CloudSolutionsContent = {
     title: "Ready to Make Cloud Work for Your Business?",
     description:
       "Cloud infrastructure designed correctly is the most commercially efficient infrastructure available to modern businesses. It scales when you need it, costs what it should at the load you are actually running, and provides the security and compliance foundation that on-premises infrastructure requires significant additional investment to match.\n\nWe design cloud solutions that deliver this  the architecture, the migration, the optimisation, and the ongoing management that transforms cloud from a cost line into a genuine competitive advantage.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/custom-software-development/",
   },

@@ -255,7 +255,7 @@ export const SaasMarketingContent = {
     title: "Ready to Build the SaaS Marketing System That Compounds?",
     description:
       "The SaaS companies that grow sustainably are not the ones with the largest paid advertising budgets. They are the ones with the organic acquisition engine that compounds, the trial experience that converts, the onboarding that activates, and the retention marketing that ensures the revenue acquired stays acquired. We build that system.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     contentMarketingLink: "https://clickmastersdigitalmarketing.com/content-marketing-services/",
   },

@@ -270,7 +270,7 @@ export const ContentMarketingContent = {
     title: "Ready to Build a Content Program That Compounds?",
     description:
       "Every month you delay content marketing is another month your competitors are building the search authority, the audience trust, and the organic traffic pipeline that makes their cost of customer acquisition lower than yours permanently. The businesses that started their content programs three years ago are not going to give back that advantage. But the businesses that start today will, three years from now, have the same compounding advantage. The best time to start was three years ago. The second-best time is today.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     seoLink: "https://clickmastersdigitalmarketing.com/",
   },

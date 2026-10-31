@@ -173,7 +173,7 @@ export const IotDevelopmentContent = {
     title: "Ready to Connect Your Physical Operations?",
     description:
       "The physical world your business operates in is generating operational data that is currently invisible to you. The equipment condition, the environmental parameters, the location and status of your assets  this data exists; it is simply not yet captured, transmitted, and converted into the operational intelligence that transforms how you manage your operations.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/ai-ml-development/",
   },

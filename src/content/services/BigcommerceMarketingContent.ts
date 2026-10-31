@@ -232,7 +232,7 @@ export const BigCommerceMarketingContent = {
     title: "Ready to Grow Your BigCommerce Store at the Rate Its Capabilities Were Built For?",
     description:
       "BigCommerce chose this platform for its capabilities. The question is whether the marketing programme is built to use those capabilities fully  or whether the platform's potential is being constrained by the absence of the systematic marketing operation that makes enterprise e-commerce grow.\n\nWe build that marketing operation.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/ecommerce-marketing-services/",
   },

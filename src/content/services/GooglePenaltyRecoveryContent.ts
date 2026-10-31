@@ -264,7 +264,7 @@ export const GooglePenaltyRecoveryContent = {
     title: "Ready to Recover Your Rankings and Revenue?",
     description:
       "A Google penalty is not a death sentence for your organic channel  but every week it remains unaddressed is a week of compounding revenue loss. The diagnostic is the most important step, and it starts with a conversation. If your organic traffic has dropped significantly and you do not understand why, the answer is findable. And if a penalty is the cause, recovery is achievable  with the right diagnosis, the right remediation plan, and the right team executing it.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/search-engine-optimization/local-seo/locations/local-seo-services-atlanta/",
   },

@@ -174,7 +174,7 @@ export const HeadlessCommerceContent = {
     title: "Ready to Explore Headless Commerce for Your Business?",
     description:
       "The customer experience ceiling you are experiencing on your current platform is architectural. Headless commerce removes the constraint  and in the right business context, the commercial return justifies the investment significantly.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/web-development-services/",
   },

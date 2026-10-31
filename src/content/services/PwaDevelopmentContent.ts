@@ -230,7 +230,7 @@ export const PwaDevelopmentContent = {
     title: "Ready to Give Your Web Audience an App-Like Experience?",
     description:
       "Your mobile web audience is larger than your native app audience. It always will be  because the installation friction of a native app filters out the majority of users who would otherwise engage more deeply with your product.\n\nA well-built PWA captures that engagement gap: lower friction than a native app, higher engagement than mobile web, and the push notification channel that mobile web has never had.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/mobile-app-development/",
   },

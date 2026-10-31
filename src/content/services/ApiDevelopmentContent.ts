@@ -235,7 +235,7 @@ export const ApiDevelopmentContent = {
     title: "Ready to Connect Your Systems and Reclaim Your Team's Time?",
     description:
       "Your software stack is already in place. The data exists in each system. The only thing preventing it from flowing automatically  eliminating the manual transfer, the reconciliation, and the errors  is the integration layer that connects each system to the others.\n\nWe build that layer. Reliably, securely, with the observability that makes it maintainable, and with the documentation that makes it understandable to every developer who touches it.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/custom-software-development/",
   },

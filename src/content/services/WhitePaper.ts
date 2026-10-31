@@ -11,7 +11,7 @@ export const WhitePaperWritingServicesContent = {
     cpc: "$32.40",
     formula: "BAB",
     wordCount: "~5,100 words",
-    internalLinks: "/content-marketing-services/, /case-studies/, /contact/",
+    internalLinks: "/content-marketing-services/, /case-studies/, /contact",
   },
   hero: {
     tag: "White Paper Writing",
@@ -274,7 +274,7 @@ export const WhitePaperWritingServicesContent = {
   cta: {
     title: "Ready to Commission the White Paper That Establishes Your Authority?",
     description: "The organisations that set the intellectual agenda in their market that define how the problem is understood, how solutions are evaluated, and what criteria determine the best approach do not achieve that position by accident. They invest in producing the authoritative resource that makes their perspective the standard reference point for everyone who follows. A white paper done to the standard your target audience expects is that investment. The authority it earns compounds for years. The leads it generates pay for the investment many times over.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/content-marketing-services/",
   },

@@ -187,7 +187,7 @@ export const AiContentGenerationContent = {
     title: "Ready to Scale Your Content Production?",
     description:
       "The content production gap is a commercial problem with a commercial solution. AI content generation  implemented with the quality standards, the editorial oversight, and the SEO architecture that makes it effective  is the solution that produces the content volume your digital marketing requires without sacrificing the quality that makes it work.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/content-marketing-services/",
   },

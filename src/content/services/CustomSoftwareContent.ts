@@ -256,7 +256,7 @@ export const CustomSoftwareContent = {
   cta: {
     title: "Ready to Build the Software That Actually Fits Your Business?",
     description: "The workarounds, the manual reconciliation, the reporting that takes half a day to produce, the integration friction that costs the team hours every week these are not the cost of doing business. They are the cost of using software that was not built for your business.\n\nCustom software built for the way your business actually works eliminates these costs. It creates the operational leverage that scales with the business rather than against it. And it builds the capability advantage that competitors limited to off-the-shelf software cannot replicate.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     saasDevelopmentLink: "https://clickmastersdigitalmarketing.com/saas-development/",
   },

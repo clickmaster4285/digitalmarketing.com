@@ -242,7 +242,7 @@ export const MagentoDevContent = {
     title: "Ready to Build Your Enterprise E-Commerce Platform on Magento?",
     description:
       "The businesses that have outgrown Shopify or WooCommerce are the ones Magento was built for. The implementation that is done right  architected for performance, integrated properly with operational systems, and optimised for the conversion rates and marketing programmes that drive commercial return  produces the e-commerce capability that scales with the business rather than constraining it.",
-    buildLink: "https://clickmastersdigitalmarketing.com/contact/",
+    buildLink: "https://clickmastersdigitalmarketing.com/contact",
     shopifyDevLink: "https://clickmastersdigitalmarketing.com/shopify-development/",
     wooDevLink: "https://clickmastersdigitalmarketing.com/woocommerce-development/",
   },

@@ -248,7 +248,7 @@ export const WebsiteSpeedOptimisationContent = {
     title: "Ready to Make Your Website as Fast as It Needs to Be?",
     description:
       "Your website's speed is not a technical detail. It is a conversion variable, a search ranking factor, and a paid advertising efficiency multiplier  and it is currently set at whatever level your developer left it at when the website was built, whether that was 1 year ago or 6 years ago.\n\nFaster websites earn more from the same traffic. More organic search impressions for the same SEO investment. Lower CPCs for the same advertising budget. More conversions for the same visitor volume.\n\nWe make websites fast. Specifically. Measurably. Permanently.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/technical-seo/",
   },

@@ -296,7 +296,7 @@ export const VideoMarketingContent = {
     title: "Ready to Make Video Your Most Powerful Marketing Asset?",
     description:
       "Every search on YouTube, every scroll through Instagram, every minute spent on TikTok, every LinkedIn feed that loads  video is the dominant format. The brands that commit to video marketing in 2026 are building audience relationships, search authority, and brand trust that static content cannot replicate. Start with the right strategy. Commit to the right formats. Measure the right outcomes.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/content-marketing-services/",
   },

@@ -11,7 +11,7 @@ export const EmailMarketingServicesContent = {
     secondaryKeywords: "email marketing agency, email automation services, klaviyo agency, email campaign management 2026",
     formula: "PASTOR",
     wordCount: "~5,100 words",
-    internalLinks: "/content-marketing, /social-media-marketing, /contact/",
+    internalLinks: "/content-marketing, /social-media-marketing, /contact",
   },
   hero: {
     tag: "Email Marketing",
@@ -282,7 +282,7 @@ export const EmailMarketingServicesContent = {
   cta: {
     title: "Ready to Make Your Email List the Most Profitable Asset in Your Business?",
     description: "Every day your email list is not generating its full revenue potential is a day you are leaving money on the table not hypothetically, but provably. A properly built email programme, from automations to campaigns to deliverability to attribution, generates revenue that compounds as the list grows and the programme matures. The infrastructure takes weeks to build. The revenue compounds for years.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/content-marketing-services/",
   },

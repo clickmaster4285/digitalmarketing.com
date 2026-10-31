@@ -282,7 +282,7 @@ export const WoocommerceMarketingContent = {
     title: "Ready to Grow Your WooCommerce Sales?",
     description:
       "WooCommerce gives you more marketing capability than any other e-commerce platform. The question is whether that capability is being fully exploited  or whether the performance ceiling, the technical debt, and the underinvested marketing channels are limiting the store to a fraction of its revenue potential. We build the WooCommerce marketing programme that unlocks the store's full potential.",
-    growLink: "https://clickmastersdigitalmarketing.com/contact/",
+    growLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     devLink: "https://clickmastersdigitalmarketing.com/woocommerce-development-services/",
   },

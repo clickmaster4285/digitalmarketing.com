@@ -262,7 +262,7 @@ export const ConversionRateOptimizationContent = {
     title: "Ready to Make Your Traffic Work Harder?",
     description:
       "You are already paying for every visitor who arrives at your website. The gap between a 1.8% conversion rate and a 5% conversion rate is not more traffic  it is what happens to the traffic you already have. A systematic CRO programme converts the traffic you are paying for into significantly more revenue, permanently, without increasing acquisition cost. The improvement compounds as the programme matures. The learning accumulates. The revenue grows.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/landing-page-design-services/",
   },

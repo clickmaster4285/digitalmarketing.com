@@ -142,7 +142,7 @@ export const NewsletterContent = {
   cta: {
     title: "Subscribe Free. Stay Current. No Noise.",
     description: "Join 8,000+ digital marketing professionals and business owners who read The Clickmasters Newsletter every week. Written from active programmes, not press releases. Delivered weekly. Free forever.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/blog/",
   },

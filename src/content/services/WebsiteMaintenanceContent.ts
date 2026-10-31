@@ -276,7 +276,7 @@ export const WebsiteMaintenanceContent = {
   cta: {
     title: "Ready to Protect the Website Your Business Depends On?",
     description: "Your website is a business-critical asset. Treating its maintenance as optional is treating your reputation, your security, and your customer experience as optional.\n\nThe cost of website maintenance is fixed and predictable. The cost of not maintaining it a security compromise, a weeks-long silent failure, a performance degradation that suppresses conversion for months is unpredictable, disproportionate, and always higher than it should have been.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     webDevelopmentLink: "https://clickmastersdigitalmarketing.com/website-development-services/",
   },

@@ -186,7 +186,7 @@ export const SocialMediaStrategyContent = {
   cta: {
     title: "Ready to Build a Social Media Programme That Produces Commercial Results?",
     description: "The gap between social media activity and social media strategy is the gap between content production and commercial growth. The strategy engagement closes that gap producing the framework that makes every platform decision, every content investment, and every resource allocation commercially intentional.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/social-media-management/",
   },

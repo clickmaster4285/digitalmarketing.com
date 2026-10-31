@@ -286,7 +286,7 @@ export const RemarketingRetargetingContent = {
     title: "Ready to Stop Losing the 97% and Start Recovering Revenue?",
     description:
       "Every month you run paid acquisition campaigns without remarketing is a month you are paying to bring prospects to your door and letting 97 percent of them walk away without a second chance. The visitors who left without converting were not necessarily uninterested they were often interrupted, distracted, or not quite ready. Remarketing gives them the second chance they would have taken if the timing had been better. The audience is already there. The interest has already been demonstrated. Remarketing is the mechanism that converts that demonstrated interest into actual revenue and it is consistently the highest-ROAS advertising investment available.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     ppcLink: "https://clickmastersdigitalmarketing.com/ppc-management-services/",
   },

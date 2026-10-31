@@ -308,7 +308,7 @@ export const WhiteLabelSeoContent = {
     title: "Ready to Add Professional SEO to Your Agency Without Hiring Anyone?",
     description:
       "Your clients want SEO results. They are paying your competitors for them right now if you cannot provide them. White label SEO is how you change that adding a professionally delivered, fully branded SEO service to your agency's offering in two weeks, with zero headcount, zero infrastructure cost, and margins that improve as your portfolio grows. Over 200 agency partners have built their SEO service line on Clickmasters' white label infrastructure. Yours can be next.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     seoLink: "https://clickmastersdigitalmarketing.com/",
   },

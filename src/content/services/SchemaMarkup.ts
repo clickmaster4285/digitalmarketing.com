@@ -249,7 +249,7 @@ export const SchemaMarkupContent = {
     title: "Ready to Unlock Your Rich Result Potential?",
     description:
       "The star ratings, FAQ dropdowns, and product pricing your competitors display in Google search results are not accidents. They are the direct output of correct schema implementation. Your website is eligible for the same rich results and the CTR improvements, the AI search visibility, and the E-E-A-T signals that come with them.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     seoLink: "https://clickmastersdigitalmarketing.com/technical-seo-services/",
   },

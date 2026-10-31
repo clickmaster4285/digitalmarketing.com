@@ -10,7 +10,7 @@ export const LocalSeoContent = {
     volume: "22,200/mo",
     secondaryKeywords: "local seo agency, local seo company, google maps seo, local search optimization 2026",
     wordCount: "~5,418 words",
-    internalLinks: "/search-engine-optimization/google-business-profile-optimization, /content-marketing/citation-building, /search-engine-optimization/on-page-seo, /contact/",
+    internalLinks: "/search-engine-optimization/google-business-profile-optimization, /content-marketing/citation-building, /search-engine-optimization/on-page-seo, /contact",
   },
   hero: {
     tag: "Local SEO",
@@ -296,7 +296,7 @@ export const LocalSeoContent = {
   cta: {
     title: "Ready to Dominate Your Local Market in 2026?",
     description: "Every day you are not at the top of your local search results, you are losing customers to competitors who are. Local SEO is not a long shot when done correctly, it is the most reliable, measurable, and cost-effective customer acquisition channel available to any business that serves a geographic market. We know local. We know your market. And we have the results to prove what our local SEO system delivers.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/",
   },

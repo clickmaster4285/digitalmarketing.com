@@ -250,7 +250,7 @@ export const FlutterAppDevelopmentContent = {
     title: "Ready to Build Something That Looks Impossible to Build?",
     description:
       "Flutter erases the distinction between what a cross-platform app can look like and what a native app can look like. It removes the constraint that custom visual design is a native-only privilege. It delivers consistent performance across the full range of devices your users carry. The app you have been told would be too expensive to build natively, or too complex to build cross-platform without performance compromise  Flutter makes that app possible.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/mobile-app-development/",
   },

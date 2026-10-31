@@ -250,7 +250,7 @@ export const MarketingAttributionContent = {
     title: "Ready to Make Marketing Budget Decisions Based on Reality?",
     description:
       "Every marketing budget decision you make without accurate attribution is a guess. Some guesses will be right. Many will be wrong. And the systematic biases in last-click attribution ensure that the wrong guesses follow a predictable pattern  consistently over-investing in the channels that capture demand and under-investing in the channels that create it. We build the measurement infrastructure that makes marketing investment decisions based on evidence. The attribution models, the server-side tracking, the MMM, and the unified reporting that replace guesswork with data.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/ai-marketing-services/",
   },

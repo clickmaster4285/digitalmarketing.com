@@ -282,7 +282,7 @@ export const WebDesignContent = {
     title: "Ready for a Website That Wins Customers Before You Say a Word?",
     description:
       "Your website makes a judgment about your business in 50 milliseconds. For most competitors' websites, that judgment is 'average.' For most prospective customers' expectations, 'average' is not good enough to earn the enquiry. We design websites that communicate your quality, expertise, and understanding of your customers' needs before a word is read, before a value proposition is communicated, before a testimonial is seen. The design earns the attention. The content closes the deal.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     webDevLink: "https://clickmastersdigitalmarketing.com/website-development-services/",
   },

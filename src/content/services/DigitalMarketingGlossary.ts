@@ -190,7 +190,7 @@ export const DigitalMarketingGlossaryContent = {
       "This glossary covers the most commonly encountered digital marketing terms. The discipline expands continuously new channels, new platforms, and new techniques generate new vocabulary regularly. If you encounter a term that is not in this glossary, the Clickmasters blog and our team are available to help.",
     blogLink: "https://clickmastersdigitalmarketing.com/blog/",
     seoLink: "https://clickmastersdigitalmarketing.com/",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
   },
   footer: {
     company: "Clickmasters Digital Marketing",

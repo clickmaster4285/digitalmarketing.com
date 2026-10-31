@@ -152,15 +152,15 @@ export const BlogContent = {
     description:
       "The Clickmasters newsletter delivers the blog's most commercially significant insights to your inbox the algorithm updates that affect rankings, the platform changes that affect advertising performance, and the case studies from our client portfolio that demonstrate what the current best practices actually produce in practice.",
     frequency: "2-4 emails per month",
-    subscribeLink: "https://clickmastersdigitalmarketing.com/contact/",
+    subscribeLink: "https://clickmastersdigitalmarketing.com/contact",
   },
   cta: {
     title: "Ready to Grow Your Business With Expert Digital Marketing?",
     description:
       "Whether you are just starting to explore digital marketing or looking to scale an existing programme, our team is ready to help you build the specific strategies that produce commercial growth for your business.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     exploreLink: "https://clickmastersdigitalmarketing.com/blog/",
-    discoveryLink: "https://clickmastersdigitalmarketing.com/contact/",
+    discoveryLink: "https://clickmastersdigitalmarketing.com/contact",
   },
   footer: {
     company: "Clickmasters Digital Marketing",

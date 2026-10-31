@@ -284,7 +284,7 @@ export const CitationBuildingServicesContent = {
     title: "Build the Citation Profile Your Local Rankings Need",
     description:
       "The citation inconsistencies suppressing your local search visibility are fixable. The citation coverage gaps leaving you absent from searches your competitors appear in are buildable. The Local Pack positions your business should occupy are achievable.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     seoLink: "https://clickmastersdigitalmarketing.com/search-engine-optimization/local-seo/",
   },

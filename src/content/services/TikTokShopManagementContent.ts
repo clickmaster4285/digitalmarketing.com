@@ -246,7 +246,7 @@ export const TikTokShopManagementContent = {
     title: "Ready to Launch Your TikTok Shop?",
     description:
       "TikTok Shop is the fastest-growing commerce channel available to consumer product brands right now. The brands that enter in 2026 are building the creator relationships, the review history, and the algorithmic ranking that will compound into significant competitive advantages. The brands that wait until 2027 and beyond will enter a more competitive environment with less first-mover advantage available. The window is open. We help you step through it.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/ecommerce-marketing-services/",
   },

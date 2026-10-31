@@ -9,9 +9,9 @@ export const EcommerceDevContent = {
     primaryKeyword: "ecommerce development services (9,900/mo)",
     secondaryKeywords: "shopify development agency, woocommerce development services, custom ecommerce development, ecommerce website development company 2026",
     wordCount: "~5,100 words",
-    internalLinks: ["/web-design-development/web-design", "/web-design-development/web-development", "/search-engine-optimization/ecommerce-seo", "/content-marketing/email-marketing", "/contact/"],
+    internalLinks: ["/web-design-development/web-design", "/web-design-development/web-development", "/search-engine-optimization/ecommerce-seo", "/content-marketing/email-marketing", "/contact"],
     ctaButtons: [
-      { text: "[Get Your Free E-Commerce Consultation →]", url: "/contact/" },
+      { text: "[Get Your Free E-Commerce Consultation →]", url: "/contact" },
       { text: "[Talk to an E-Commerce Developer →]", url: "WhatsApp" }
     ]
   },
@@ -285,7 +285,7 @@ export const EcommerceDevContent = {
   cta: {
     title: "Ready to Build an E-Commerce Store That Actually Converts?",
     description: "Traffic is a solved problem for most e-commerce businesses. The unsolved problem the one that determines whether the business is profitable is conversion. And conversion is almost entirely a development problem.\n\nWe build the development foundation that converts your traffic into revenue. Platform selection, product page architecture, checkout optimization, mobile commerce, search and filtering, systems integration every technical decision made with conversion as the objective.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     webDevelopmentLink: "https://clickmastersdigitalmarketing.com/website-development-services/",
   },

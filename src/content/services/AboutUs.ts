@@ -219,10 +219,10 @@ export const AboutUsContent = {
     title: "Ready to Find Out If We Are the Right Fit for Your Business?",
     description:
       "The best way to evaluate whether Clickmasters is the right agency for your business is a direct conversation a discovery call with the specific member of our team who has the deepest experience in your market and your sector. No sales script, no generic agency pitch.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
-    servicesLink: "https://clickmastersdigitalmarketing.com/services/",
-    caseStudiesLink: "https://clickmastersdigitalmarketing.com/case-studies/",
-    teamLink: "https://clickmastersdigitalmarketing.com/our-team/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
+    servicesLink: "https://clickmastersdigitalmarketing.com/services",
+    caseStudiesLink: "https://clickmastersdigitalmarketing.com/case-studies",
+    teamLink: "https://clickmastersdigitalmarketing.com/our-team",
   },
   footer: {
     company: "Clickmasters Digital Marketing",

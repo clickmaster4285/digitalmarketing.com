@@ -21,7 +21,7 @@ export const LocalSeoContent = {
       "/google-business-profile-optimization/",
       "/citation-building-services/",
       "/on-page-seo-services/",
-      "/contact/",
+      "/contact",
     ],
   },
   hero: {
@@ -386,7 +386,7 @@ export const LocalSeoContent = {
     title: "Ready to Dominate Your Local Market in 2026?",
     description:
       "Every day you are not at the top of your local search results, you are losing customers to competitors who are. Local SEO is not a long shot  when done correctly, it is the most reliable, measurable, and cost-effective customer acquisition channel available to any business that serves a geographic market. We know local. We know your market. And we have the results to prove what our local SEO system delivers.",
-    auditLink: "https://clickmastersdigitalmarketing.com/contact/",
+    auditLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     seoLink: "https://clickmastersdigitalmarketing.com/search-engine-optimization/local-seo/locations/local-seo-services-atlanta/",
   },

@@ -11,7 +11,7 @@ export const PodcastMarketingServicesContent = {
     secondaryKeywords: "podcast growth services, podcast promotion agency, podcast SEO services, podcast launch marketing 2026",
     formula: "AIDA",
     wordCount: "~5,100 words",
-    internalLinks: "/content-marketing, /social-media-marketing, /contact/",
+    internalLinks: "/content-marketing, /social-media-marketing, /contact",
   },
   hero: {
     tag: "Podcast Marketing",
@@ -270,7 +270,7 @@ export const PodcastMarketingServicesContent = {
   cta: {
     title: "Ready to Turn Your Podcast Into a Business Growth Engine?",
     description: "The most successful business podcasts are not the ones with the biggest budgets or the most famous hosts. They are the ones where every episode is systematically optimised for discovery, every piece of content is repurposed for maximum distribution, and every listener has a clear path from passive audience member to active business relationship. That is what we build. Not just a podcast. A compounding authority and lead generation asset that gets more valuable with every episode published.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/content-marketing-services/",
   },
