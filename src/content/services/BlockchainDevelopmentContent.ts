@@ -240,7 +240,7 @@ export const BlockchainDevelopmentContent = {
     title: "Ready to Build on Infrastructure That Cannot Be Tampered With?",
     description:
       "Blockchain development is not right for every problem. For the specific problems it is right for  trustless settlement, immutable provenance, programmable digital ownership, decentralised governance  it is the only adequate solution.\n\nIf your use case belongs in that category, we are the development partner who will build it correctly.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/custom-software-development/",
   },

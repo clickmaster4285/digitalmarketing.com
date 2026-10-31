@@ -226,7 +226,7 @@ export const PrMediaOutreachContent = {
     title: "Ready to Earn the Coverage That Builds Your Authority?",
     description:
       "The authority that editorial coverage builds the trust signal, the backlink profile, the expert positioning compounds over time in ways that paid media cannot replicate. The businesses building it consistently now are creating competitive advantages that take years to reverse.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     linkBuildingLink: "https://clickmastersdigitalmarketing.com/link-building-services/",
     contentMarketingLink: "https://clickmastersdigitalmarketing.com/content-marketing-services/",
   },

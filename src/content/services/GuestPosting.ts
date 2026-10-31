@@ -241,7 +241,7 @@ export const GuestPostingContent = {
     title: "Ready to Build the Authority Backlinks Your Rankings Need?",
     description:
       "The gap between your current organic rankings and the page 1 positions you need is, in most competitive markets, primarily an authority gap. Guest posting done correctly, with genuine content on genuine publications is the most scalable method of closing it.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     linkBuildingLink: "https://clickmastersdigitalmarketing.com/link-building-services/",
     contentMarketingLink: "https://clickmastersdigitalmarketing.com/content-marketing-services/",
   },

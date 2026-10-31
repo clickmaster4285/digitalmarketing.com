@@ -10,7 +10,7 @@ export const CareersContent = {
     volume: "8,100/mo",
     cpc: "$4.80",
     wordCount: "~2,200 words",
-    internalLinks: "/about-us/, /our-team/, /contact/",
+    internalLinks: "/about-us/, /our-team/, /contact",
   },
   hero: {
     tag: "[ Careers ] Join Clickmasters",
@@ -191,7 +191,7 @@ export const CareersContent = {
   apply: {
     title: "Ready to Apply?",
     description: "If you are a genuine specialist who wants to work in a remote-first, commercially accountable, multi-market digital marketing environment we want to hear from you.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     aboutLink: "https://clickmastersdigitalmarketing.com/about-us/",
     teamLink: "https://clickmastersdigitalmarketing.com/our-team/",
     instructions: "Include in your application: your specific discipline and years of experience, the markets you have worked in, one or two examples of commercial outcomes you have produced for clients (specific metrics preferred), and your preferred working arrangement (hours, time zone, availability).",

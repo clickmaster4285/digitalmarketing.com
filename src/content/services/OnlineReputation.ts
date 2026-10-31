@@ -11,7 +11,7 @@ export const OnlineReputationManagementContent = {
     cpc: "$38.80",
     formula: "PASTOR",
     wordCount: "~5,200 words",
-    internalLinks: "/search-engine-optimization/seo-services-usa, /content-marketing, /contact/",
+    internalLinks: "/search-engine-optimization/seo-services-usa, /content-marketing, /contact",
   },
   hero: {
     tag: "Online Reputation Management",
@@ -272,7 +272,7 @@ export const OnlineReputationManagementContent = {
   cta: {
     title: "Ready to Take Control of Your Brand's Online Reputation?",
     description: "The narrative about your business online is either shaped by you or shaped by the loudest voices which are rarely the most representative ones. Every month that passes without a reputation management programme is a month of conversion suppression, proposal losses, and competitive disadvantage from a problem that has a systematic solution. We provide that solution for the specific business, with the specific reputation challenge, in the specific markets where it matters most.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/content-marketing-services/",
   },

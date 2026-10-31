@@ -242,7 +242,7 @@ export const BrandingIdentityContent = {
     title: "Ready to Build the Brand Your Business Deserves to Be Known By?",
     description:
       "The businesses that are sought out, referred, and trusted in their markets did not arrive at that position through better products alone. They arrived there through better brand  clearer positioning, more consistent identity, and more compelling communication of the specific value they deliver to the specific people they serve. We build that brand. From the strategic foundation through the visual and verbal identity to the governance that keeps it consistent. Everything required for a brand that works as hard as your business does.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/graphic-design-services/",
   },

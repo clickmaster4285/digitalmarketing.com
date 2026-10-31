@@ -11,7 +11,7 @@ export const ClickCareHMSContent = {
     cpc: "$28.80",
     formula: "PAS",
     wordCount: "~5,100 words",
-    internalLinks: "/clickerp/, /clickpos/, /contact/",
+    internalLinks: "/clickerp/, /clickpos/, /contact",
   },
   hero: {
     tag: "[ Product ] ClickCare HMS",
@@ -282,7 +282,7 @@ export const ClickCareHMSContent = {
   cta: {
     title: "Ready to Transform Your Healthcare Administration?",
     description: "Your clinical team chose healthcare to care for patients, not to manage paperwork. Your administrative team deserves systems that make their work accurate, efficient, and compliant not systems that create errors and inefficiencies that cost revenue and expose regulatory risk. ClickCare HMS delivers the integrated, compliant, clinically intelligent platform that allows everyone in the facility to focus on what they are there to do.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/clickerp/",
   },

@@ -289,7 +289,7 @@ export const IosAppDevelopmentContent = {
     title: "Ready to Build the iOS App Your Users Will Actually Use?",
     description:
       "The App Store is not a place to launch something that is almost good enough. iOS users expect the quality that the platform's best apps set as the standard  and they review, rate, and delete accordingly. We build iOS apps to that standard. Native Swift. Deep platform integration. App Store compliance by design. The kind of quality that earns 4.8 ratings and Apple features.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/mobile-app-development/",
   },

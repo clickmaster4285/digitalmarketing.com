@@ -1,32 +1,43 @@
 import {
+  MAIN_SERVICES,
   getAllCitySlugs,
   getServiceCityUrlSlug,
+  SERVICE_SUB_LOCATIONS,
 } from "@/content/locations/serviceLocations";
-import { SUB_PAGE_REGISTRY } from "@/content/locations/subPageRegistry";
 
 const siteUrl = "https://clickmastersdigitalmarketing.com";
-const SERVICE = "search-engine-optimization";
 
-// Custom SEO sub-page slugs — from the SAME registry the page uses.
-const SEO_SUBPAGE_SLUGS = new Set(Object.keys(SUB_PAGE_REGISTRY));
+// All custom SEO sub-page slugs (e.g. "seo-services-atlanta").
+const SEO_SUBPAGE_SLUGS = new Set(
+  (SERVICE_SUB_LOCATIONS["search-engine-optimization"] ?? []).map((s) => s.slug)
+);
 
 export async function GET() {
   const lastMod = new Date().toISOString().split("T")[0];
   const urls = new Set<string>();
 
-  const citySlugs = new Set(getAllCitySlugs());
+  const citySlugs = getAllCitySlugs();
 
-  // 1. Every base city → canonical SEO URL
-  for (const city of citySlugs) {
-    const urlSlug = getServiceCityUrlSlug(SERVICE, city);
-    urls.add(`${siteUrl}/${SERVICE}/locations/${urlSlug}`);
-  }
+  for (const serviceSlug of Object.keys(MAIN_SERVICES)) {
+    const isSeo = serviceSlug === "search-engine-optimization";
 
-  // 2. Sub-pages whose city isn't a base city (greenville, san-jose, chattanooga, raleigh, …)
-  for (const subSlug of SEO_SUBPAGE_SLUGS) {
-    const citySlug = subSlug.replace(/^seo-services-/, "");
-    if (!citySlugs.has(citySlug)) {
-      urls.add(`${siteUrl}/${SERVICE}/locations/${subSlug}`);
+    for (const city of citySlugs) {
+      if (!isSeo) {
+        // Non-SEO services: only the bare city slug is canonical.
+        urls.add(`${siteUrl}/${serviceSlug}/locations/${city}`);
+        continue;
+      }
+
+      urls.add(
+        `${siteUrl}/${serviceSlug}/locations/${getServiceCityUrlSlug(serviceSlug, city)}`
+      );
+    }
+
+    // Include custom SEO sub-pages that are not otherwise in the city list.
+    if (isSeo) {
+      for (const subSlug of SEO_SUBPAGE_SLUGS) {
+        urls.add(`${siteUrl}/${serviceSlug}/locations/${subSlug}`);
+      }
     }
   }
 

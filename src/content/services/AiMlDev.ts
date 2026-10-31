@@ -273,7 +273,7 @@ export const AiMlDevContent = {
     title: "Ready to Build AI That Works in the Real World?",
     description:
       "The AI that generates ROI is not the AI that produces impressive benchmark results in a research context. It is the AI that is deployed in production, integrated with your business systems, monitored for performance, and continuously improving on the specific operational outcome it was built to deliver. That is the AI we build.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/custom-software-development/",
   },

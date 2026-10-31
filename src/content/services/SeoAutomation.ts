@@ -241,7 +241,7 @@ export const SeoAutomationContent = {
     title: "Ready to Automate Your SEO Workflows?",
     description:
       "The mechanical SEO work consuming your team's time is solvable. The scale ceiling constraining your programme's growth is removable. The competitive disadvantage of manual processes in a market where competitors are automating is avoidable.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     seoLink: "https://clickmastersdigitalmarketing.com/",
   },

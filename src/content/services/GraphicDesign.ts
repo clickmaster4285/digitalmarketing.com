@@ -270,7 +270,7 @@ export const GraphicDesignContent = {
     title: "Ready for Design That Works as Hard as Your Business Does?",
     description:
       "The brands that look like leaders in their markets are not always the ones with the best products or the most experienced teams. They are the ones that understood early that visual communication is not decoration it is the first message their market receives, and the message their market judges them by before any other evidence is available. We design that first message precisely, strategically, and to the standard your business deserves to be judged by.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     brandingLink: "https://clickmastersdigitalmarketing.com/conversion-rate-optimization/branding-identity/",
   },

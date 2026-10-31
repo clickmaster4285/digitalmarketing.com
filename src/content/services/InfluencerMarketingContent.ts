@@ -303,7 +303,7 @@ export const InfluencerMarketingContent = {
     title: "Ready to Build Authentic Brand Trust Through Influencer Marketing?",
     description:
       "Paid advertising buys attention. Influencer marketing borrows trust. And in a world where consumer attention is increasingly fragmented, increasingly skeptical, and increasingly ad-blind, borrowed trust is the most efficient path to building the brand relationships that drive long-term revenue. The brands winning in influencer marketing in 2026 are not the ones with the biggest influencer budgets. They are the ones with the most authentic creator partnerships, the most performance-oriented measurement frameworks, and the most strategic approach to building creator relationships over time rather than treating influencer content as a transactional media buy. That is exactly how we build influencer programs.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/social-media-marketing-services/",
   },

@@ -264,7 +264,7 @@ export const InfographicDesignContent = {
     title: "Ready to Turn Your Data Into Content That Gets Shared and Linked?",
     description:
       "The most effective content marketing programs in 2026 do not just produce content they produce visual content that is genuinely easier to consume, more likely to be shared, and more likely to earn the editorial backlinks that compound into SEO value over years. Infographic design, done strategically, is the highest-ROI link-earning content investment available to most businesses. We build the infographics that earn the links.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     contentMarketingLink: "https://clickmastersdigitalmarketing.com/content-marketing-services/",
   },

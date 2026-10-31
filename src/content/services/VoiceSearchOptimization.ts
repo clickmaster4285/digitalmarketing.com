@@ -289,7 +289,7 @@ export const VoiceSearchOptimizationContent = {
     title: "Ready to Become the Answer Voice Search Returns?",
     description:
       "Voice search is already significant and growing continuously. The businesses building voice search visibility now are establishing the presence that compounds as voice adoption expands the presence that is progressively harder to build as competition for voice search positions increases.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     seoLink: "https://clickmastersdigitalmarketing.com/content-marketing/locations/content-marketing-birmingham/",
   },

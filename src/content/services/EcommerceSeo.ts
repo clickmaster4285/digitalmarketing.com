@@ -284,7 +284,7 @@ export const EcommerceSeoContent = {
     title: "Ready to Build an Organic Revenue Engine for Your Online Store?",
     description:
       "Paid ads will always be part of a successful e-commerce marketing mix. But stores that rely exclusively on paid traffic are building on rented ground always one algorithm change, one iOS update, or one budget cut away from losing their revenue source. E-commerce SEO builds your own organic ground. It builds a revenue channel that compounds over time, works without ongoing ad spend, and produces an ever-improving return on every dollar invested in it. Your competitors are already building it. The question is whether you will build it faster.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     seoLink: "https://clickmastersdigitalmarketing.com/",
   },

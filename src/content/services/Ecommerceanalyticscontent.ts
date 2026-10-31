@@ -270,7 +270,7 @@ export const EcommerceAnalyticsContent = {
     title: "Ready to Make Marketing Decisions Based on Data You Can Trust?",
     description:
       "Every marketing investment decision you make with broken attribution, missing conversion data, or platform-inflated ROAS is a decision that systematically misallocates budget. The fix is not more data  it is accurate, connected, cross-channel data that answers the specific commercial questions your business needs to grow. We build that for you.",
-    analyticsLink: "https://clickmastersdigitalmarketing.com/contact/",
+    analyticsLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     dataLink: "https://clickmastersdigitalmarketing.com/data-analytics-reporting/",
   },

@@ -273,7 +273,7 @@ faqs: [
   cta: {
     title: "Ready to Turn Every Page Into a Revenue Asset?",
     description: "Every page on your website is either working for your business or costing you traffic you have already paid for. On-page SEO is how you convert underperforming pages into consistent organic revenue drivers, without increasing your ad spend, without waiting for new backlinks, and without rebuilding your site. The opportunity is on your existing pages, right now. We will show you exactly where it is.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/search-engine-optimization/local-seo/locations/local-seo-services-atlanta/"
   },

@@ -11,7 +11,7 @@ export const AmazonMarketingServicesContent = {
     cpc: "$44.60",
     formula: "PAS",
     wordCount: "~5,200 words",
-    internalLinks: "/ecommerce-services/ecommerce-marketing, /content-marketing/email-marketing, /contact/",
+    internalLinks: "/ecommerce-services/ecommerce-marketing, /content-marketing/email-marketing, /contact",
   },
   hero: {
     tag: "[ Agency ] Amazon Marketing",
@@ -279,7 +279,7 @@ export const AmazonMarketingServicesContent = {
   cta: {
     title: "Ready to Dominate Your Amazon Category?",
     description: "Amazon rewards the sellers who have optimised their listings, earned their reviews, and built their advertising programmes to the standard the category demands. The gap between the page 4 listing and the page 1 listing is specific and addressable not a matter of having a better product, but of having better executed every element of the Amazon marketing programme. We execute the programme. Every element. For the specific category.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/ecommerce-marketing-services/",
   },

@@ -264,7 +264,7 @@ export const CaseStudyWritingContent = {
     title: "Ready to Build the Proof That Closes Your Deals?",
     description:
       "Every deal you lose because a prospect was not sufficiently confident in your ability to deliver is a deal that a well-produced case study could have won. The clients who succeeded with your service have the story that would have closed that deal they just never told it in a format that reaches the next prospect. We build that format. We find that story. We write the proof that makes the next prospect confident.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     contentMarketingLink: "https://clickmastersdigitalmarketing.com/content-marketing-services/",
   },

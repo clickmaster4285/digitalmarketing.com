@@ -215,7 +215,7 @@ export const RoiCalculatorContent = {
     title: "Ready to See the Numbers for Your Business?",
     description:
       "Use the calculator above to estimate your ROI. If the figures are compelling and you want to validate the lead volume assumptions with real competitive data, the strategy call is the next step.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/case-studies/",
     calculatorLink: "#calculator",

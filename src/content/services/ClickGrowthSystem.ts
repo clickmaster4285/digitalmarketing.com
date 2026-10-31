@@ -140,7 +140,7 @@ export const ClickGrowthSystemContent = {
     title: "Learn More About the CLICK Growth System",
     description:
       "The CLICK Growth System is the commercial framework that structures every Clickmasters programme. If you want to understand how it applies to your specific business which stages are your current gaps, which channels are most likely to address those gaps, and what a programme designed around your specific CLICK profile looks like the strategy call is where we work through it together.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     aboutLink: "https://clickmastersdigitalmarketing.com/about-us/",
     servicesLink: "https://clickmastersdigitalmarketing.com/services/",
     caseStudiesLink: "https://clickmastersdigitalmarketing.com/case-studies/",

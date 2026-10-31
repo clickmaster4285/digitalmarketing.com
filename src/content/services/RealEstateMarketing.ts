@@ -218,7 +218,7 @@ export const RealEstateMarketingContent = {
   cta: {
     title: "Ready to Own Your Market and Stop Renting Your Leads?",
     description: "The real estate professionals winning in their markets in 2026 are the ones who have built their own digital presence their own search rankings, their own social audiences, their own review profiles and are no longer paying portals for access to leads that should be coming directly to them. Every month invested in owned channel development compounds. Every ranking earned, every follower gained, every review posted makes the next lead cheaper to acquire.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     seoLink: "https://clickmastersdigitalmarketing.com/content-marketing/locations/content-marketing-birmingham/",
   },

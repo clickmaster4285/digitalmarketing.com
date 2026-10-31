@@ -261,7 +261,7 @@ export const WooCommerceDevelopmentContent = {
   cta: {
     title: "Ready to Build the WooCommerce Store That Handles What Other Platforms Cannot?",
     description: "WooCommerce's flexibility is genuinely exceptional. The ability to model any product type, implement any ordering workflow, own the data completely, and integrate with any system the business uses these are capabilities that no managed e-commerce platform can replicate.\n\nBut flexibility is only valuable when it is implemented correctly. WooCommerce built without performance engineering is slow. WooCommerce built with plugin proliferation is brittle. WooCommerce built without proper security hardening is vulnerable. And WooCommerce built as a template rather than as a platform never delivers the flexibility it promises.\n\nWe build WooCommerce as a platform with the performance, security, and code quality that makes flexibility genuinely useful.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     ecommerceLink: "https://clickmastersdigitalmarketing.com/ecommerce-development-services/",
   },

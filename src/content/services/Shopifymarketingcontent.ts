@@ -267,7 +267,7 @@ export const ShopifyMarketingContent = {
     title: "Ready to Scale Your Shopify Store to Its Full Revenue Potential?",
     description:
       "The Shopify platform is not what limits your store's growth. The marketing system  or the absence of one  is. We build the marketing system: the acquisition channels that fill the store with buyers, the email programme that keeps them coming back, the CRO that makes each session more likely to convert, and the analytics that tell you what is working and what to do next.",
-    scaleLink: "https://clickmastersdigitalmarketing.com/contact/",
+    scaleLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     ecommerceLink: "https://clickmastersdigitalmarketing.com/ecommerce-marketing-services/",
   },

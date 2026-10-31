@@ -270,7 +270,7 @@ export const PpcManagementContent = {
     title: "Ready to Make Every Dollar of Your Ad Spend Work Harder?",
     description:
       "PPC advertising is the fastest-moving revenue channel available when it is managed correctly. The businesses investing in professional PPC management are consistently outcompeting those running DIY campaigns or working with agencies that manage dozens of accounts without the attention that each deserves. The waste in your current campaigns is findable. The efficiency improvement is achievable. And the revenue it unlocks compounds with every month of professional management.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     googleAdsLink: "https://clickmastersdigitalmarketing.com/google-ads-management/",
   },

@@ -228,7 +228,7 @@ export const CrmIntegrationContent = {
     title: "Ready to Give Every Team the Complete Picture?",
     description:
       "Your CRM should be the system that makes your sales team more effective, your marketing more precise, and your leadership reporting more accurate. That only happens when it is connected to every system generating intelligence about your customers  not operating in isolation from them.\n\nWe build the integrations that make it happen.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/marketing-automation-services/",
   },

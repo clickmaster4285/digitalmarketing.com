@@ -221,7 +221,7 @@ export const KeywordResearchContent = {
     title: "Ready to Build Your SEO Programme on the Right Foundation?",
     description:
       "The keyword strategy determines everything that follows in an SEO programme. Getting it right at the start saves months of misdirected investment. Getting it wrong means building on the wrong foundation.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/search-engine-optimization/local-seo/locations/local-seo-services-atlanta/",
   },

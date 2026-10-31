@@ -257,7 +257,7 @@ export const AiAutomationContent = {
   cta: {
     title: "Ready to Build Operations That Scale Without Scaling Your Headcount?",
     description: "The businesses that will operate most efficiently in the next five years are the ones building their automation infrastructure today. Every hour of human time redirected from mechanical, rule-based work to genuinely creative, strategic, and relational work is a compounding competitive advantage not just in cost efficiency, but in the quality of the work that humans are free to do when machines handle everything else.\n\nWe know how to find the automations that matter most. We know how to build them reliably. And we know how to build them in a way that your team owns, understands, and can extend as your business evolves.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/ai-automation/custom-software-development/"
   },

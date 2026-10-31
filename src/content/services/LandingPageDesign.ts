@@ -264,7 +264,7 @@ export const LandingPageDesignContent = {
     title: "Ready to Make Every Click Work Harder?",
     description:
       "Every visitor who arrives at your landing page and does not convert represents paid advertising investment that produced no return. At 2% conversion and $5 CPC, 1,000 visitors cost $5,000 and generate 20 conversions. At 8% conversion achievable with a purpose-built landing page the same campaign generates 80 conversions. Same spend. Four times the outcome. The page is where the money is made or lost. We build pages that make it.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     ppcLink: "https://clickmastersdigitalmarketing.com/ppc-management/",
   },

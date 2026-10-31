@@ -278,7 +278,7 @@ export const MarketingAutomationContent = {
   cta: {
     title: "Ready to Stop Losing Leads While Your Team Sleeps?",
     description: "Every hour that passes between a lead's first touch and your first meaningful response is an hour in which the competitive situation evolves, the intent cools, and the probability of a favourable outcome decreases.\n\nMarketing automation is not a nice-to-have. It is the infrastructure that ensures your marketing investment the ads, the content, the events, the SEO converts into pipeline and revenue at the rate your commercial objectives require.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     emailMarketingLink: "https://clickmastersdigitalmarketing.com/email-marketing-services/",
   },

@@ -22,7 +22,7 @@ export const AiSeoContent = {
       "/on-page-seo-services/",
       "/content-marketing-services/",
       "/technical-seo-services/",
-      "/contact/",
+      "/contact",
     ],
   },
   hero: {
@@ -338,7 +338,7 @@ export const AiSeoContent = {
     title: "Ready to Lead the AI Search Era?",
     description:
       "Your competitors are ranking in traditional search right now. But the businesses that will dominate their categories in 2028 are being determined right now  by who builds AI search citation authority first. The window is open. The category leaders in AI search have not been determined yet in most industries. And the investment required to establish AI citation authority today is a fraction of what it will cost when every competitor is chasing the same citations in two years.",
-    optimizeLink: "https://clickmastersdigitalmarketing.com/contact/",
+    optimizeLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     seoLink: "https://clickmastersdigitalmarketing.com/search-engine-optimization/local-seo/locations/local-seo-services-atlanta/",
   },

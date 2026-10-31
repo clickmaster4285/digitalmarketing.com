@@ -269,7 +269,7 @@ export const SocialMediaMarketingContent = {
     title: "Ready to Build a Social Media Presence That Works for Your Business?",
     description:
       "Social media rewards consistency, quality, and genuine understanding of what your specific audience values. The businesses generating leads and revenue from social media are not doing something magical they are doing something strategic and doing it consistently. We know how to build social media programs that grow audiences, earn genuine engagement, and contribute measurably to business revenue.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     digitalMarketingLink: "https://clickmastersdigitalmarketing.com/digital-marketing-services/",
   },

@@ -174,7 +174,7 @@ export const ArVrDevelopmentContent = {
     title: "Ready to Build Your Immersive Experience?",
     description:
       "The gap between describing your product or service and allowing your customer to experience it is the gap that AR and VR closes. In retail, real estate, training, and industrial applications, that gap has a measurable commercial cost  and closing it has a measurable commercial return.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/mobile-app-development/",
   },

@@ -260,7 +260,7 @@ export const FacebookInstagramAdsContent = {
     title: "Ready to Build a Meta Ads Program That Actually Converts?",
     description:
       "Facebook and Instagram Ads, managed correctly, are one of the most scalable revenue channels available to consumer-facing businesses. The audience scale, the targeting precision, and the creative flexibility of Meta's platform remain unmatched  for businesses that know how to use them. The businesses generating 4x and 5x ROAS from Meta Ads in 2026 are those that lead with creative, invest in proper measurement infrastructure, and build full-funnel campaign architectures rather than running single-objective direct response campaigns against cold audiences and wondering why the ROAS is low.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/ppc-management-services/",
   },

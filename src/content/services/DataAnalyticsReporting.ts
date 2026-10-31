@@ -274,7 +274,7 @@ export const DataAnalyticsReportingContent = {
   cta: {
     title: "Ready to Turn Your Data Into Your Competitive Advantage?",
     description: "Your competitors are operating on the same data you have access to but the ones who have built the infrastructure to synthesise it, trust it, and act on it faster than you are building an advantage that compounds every week.\n\nThe analytical infrastructure is not expensive relative to the decisions it improves. A single better budget allocation decision, made possible by accurate channel attribution, can return the cost of the analytics implementation in a single quarter.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     attributionLink: "https://clickmastersdigitalmarketing.com/ai-marketing/",
   },

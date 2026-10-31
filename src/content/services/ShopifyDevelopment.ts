@@ -258,7 +258,7 @@ export const ShopifyDevelopmentContent = {
   cta: {
     title: "Ready to Build the Shopify Store That Converts at Its Full Potential?",
     description: "The platform is exceptional. The checkout infrastructure is battle-tested. The app ecosystem is comprehensive. What determines whether your Shopify store generates $200,000 or $2,000,000 from the same traffic is almost entirely the development the theme architecture, the conversion design, the mobile experience, and the integrations that make operations scalable.\n\nWe build the development layer that closes the gap between a Shopify store and a Shopify store that performs.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     ecommerceLink: "https://clickmastersdigitalmarketing.com/ecommerce-development-services/",
   },

@@ -258,7 +258,7 @@ export const AndroidAppDevelopmentContent = {
     title: "Ready to Reach the World's Largest Mobile Audience?",
     description:
       "3.6 billion Android devices. 72% of the global mobile market. The dominant platform across the markets where your business is growing fastest. A native Android app built to the quality standard that Google Play rewards gives your business a presence on the world's most widely used computing platform  performing correctly on every device tier, integrating deeply with the Google services your users already use, and positioned for Google Play editorial recognition that accelerates organic growth.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/mobile-app-development/",
   },

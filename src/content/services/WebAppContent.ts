@@ -235,7 +235,7 @@ export const WebAppContent = {
   cta: {
     title: "Ready to Build the Web Application Your Business Needs?",
     description: "The operational problem you have been working around has a solution. The product idea you have been developing deserves the technical execution quality that makes it commercially viable. The workflow that is consuming your team's time can be systemised.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     customSoftwareLink: "https://clickmastersdigitalmarketing.com/custom-software-development/",
     saasDevelopmentLink: "https://clickmastersdigitalmarketing.com/saas-development/",
   },

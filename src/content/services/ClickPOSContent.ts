@@ -11,7 +11,7 @@ export const ClickPOSContent = {
     cpc: "$22.60",
     formula: "PASTOR",
     wordCount: "~5,100 words",
-    internalLinks: "/clickerp/, /contact/",
+    internalLinks: "/clickerp/, /contact",
   },
   hero: {
     tag: "[ Product ] ClickPOS",
@@ -273,7 +273,7 @@ export const ClickPOSContent = {
   cta: {
     title: "Ready to Replace Your POS With One That Actually Runs Your Business?",
     description: "Your POS should be the most reliable, most capable, most data-rich system in your operation. If it is not if it is a transaction processor that does not connect to your inventory, your accounts, your loyalty programme, or your management reporting you are running your business on an information deficit that your competitors are not. ClickPOS closes that gap.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/clickerp/",
   },

@@ -288,7 +288,7 @@ export const YoutubeAdsManagementContent = {
     title: "Ready to Build a YouTube Advertising Program That Produces Real Results?",
     description:
       "YouTube Ads are not a vanity channel. When structured with the right targeting, the right creative strategy, and the right funnel architecture, YouTube Ads produce measurable leads, measurable pipeline, and measurable revenue  at CPMs that consistently undercut the equivalent reach on linear TV, Meta, and LinkedIn. The businesses that build YouTube into their paid media mix in 2026 are building brand preference in the research moment that determines every purchase decision in their category. That preference advantage compounds. And it is available right now, on the world's second-largest search engine, at CPVs that make it one of the most efficient advertising investments available.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/ppc-management-services/",
   },

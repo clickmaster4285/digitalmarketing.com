@@ -246,7 +246,7 @@ export const AiPersonalizationContent = {
   cta: {
     title: "Ready to Treat Every Customer Like the Specific Person They Are?",
     description: "Generic experiences produce generic results. The customers who feel known by a brand who receive the recommendation that is actually relevant, the message that actually fits their situation, the offer that actually addresses their current need convert at higher rates, purchase more frequently, and stay longer.\n\nAI personalisation is the infrastructure that makes that knowing scalable. Not for a handful of VIP customers. For every customer, simultaneously.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     aiMarketingLink: "https://clickmastersdigitalmarketing.com/ai-automation/ai-marketing/",
   },

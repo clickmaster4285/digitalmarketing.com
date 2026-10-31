@@ -246,7 +246,7 @@ export const ReactNativeDevelopmentContent = {
     title: "Ready to Launch on Both Platforms  Together?",
     description:
       "The businesses that win in mobile are not always the ones who spent the most. They are the ones who spent wisely  choosing the right technology for their specific requirements, launching on both platforms at the pace their market opportunity demanded, and iterating rapidly with the OTA updates that React Native's architecture enables. One codebase. Two platforms. Full market reach. That is the React Native advantage we deliver.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/mobile-app-development/",
   },

@@ -254,7 +254,7 @@ export const LogoDesignContent = {
     title: "Ready to Design the Logo Your Business Deserves?",
     description:
       "Your logo is on everything. Every document, every digital presence, every physical touchpoint, every piece of marketing. It is working for you or against you every time it appears. A professionally designed logo that is strategic, well-executed, and built to last is one of the highest long-term-value investments your business can make because it multiplies the perceived quality of every piece of communication it appears on, for years.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     brandingLink: "https://clickmastersdigitalmarketing.com/branding-identity-services/",
   },

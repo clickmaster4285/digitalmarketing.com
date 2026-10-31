@@ -195,7 +195,7 @@ export const PodcastProductionContent = {
     title: "Ready to Launch Your Podcast?",
     description:
       "The production barrier that has been stopping you from launching is removable. The consistency barrier that stops most podcasts before they develop their audience is manageable with the right production support. The commercial outcomes that a well-produced, systematically distributed, and actively promoted podcast produces are achievable within 12 months of a professional launch.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/content-marketing-services/",
   },

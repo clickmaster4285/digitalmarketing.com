@@ -11,6 +11,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ServiceCityPage } from "@/components/service-locations/ServiceCityPage";
 import { ServiceSubPage } from "@/components/service-locations/ServiceSubPage";
+import ServicesPage from "@/components/services/ServicesPage";
+import { SeoServicesUsaContent } from "@/content/services/SeoServicesUsa";
 import { getSubPageBySlug } from "@/content/locations/subPageRegistry";
 import {
   getMainService,
@@ -27,6 +29,20 @@ type Params = { params: Promise<{ services: string; city: string }> };
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { services, city } = await params;
   const svc = getMainService(services);
+
+  if (services === "search-engine-optimization" && city === "seo-services-usa") {
+    const title = `${SeoServicesUsaContent.hero.title} ${SeoServicesUsaContent.hero.titleHighlight}`;
+    const description = SeoServicesUsaContent.hero.description;
+    const canonical = `${BASE_URL}/${svc.slug}/locations/${city}`;
+
+    return {
+      title,
+      description,
+      alternates: { canonical },
+      openGraph: { title, description, url: canonical, type: "website" },
+      twitter: { card: "summary_large_image", title, description },
+    };
+  }
 
   // Custom sub page (e.g. the Atlanta SEO page)
   const subPage =
@@ -91,6 +107,10 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 export default async function Page({ params }: Params) {
   const { services, city } = await params;
   const svc = getMainService(services);
+
+  if (services === "search-engine-optimization" && city === "seo-services-usa") {
+    return <ServicesPage slugOverride="seo-services-usa" />;
+  }
 
   // Custom sub page (e.g. the Atlanta SEO page)
   const subPage =

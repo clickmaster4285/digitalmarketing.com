@@ -10,7 +10,7 @@ export const OurTeamContent = {
     volume: "1,600/mo",
     cpc: "$0",
     wordCount: "~2,100 words",
-    internalLinks: "/about-us/, /careers/, /case-studies/, /contact/",
+    internalLinks: "/about-us/, /careers/, /case-studies/, /contact",
   },
   hero: {
     tag: "[ Team ] Clickmasters",
@@ -153,7 +153,7 @@ export const OurTeamContent = {
   cta: {
     title: "Ready to Work With a Team That Is Accountable for Your Results?",
     description: "The best way to evaluate whether the Clickmasters team is the right fit for your business is a direct conversation. No pitch deck. No sales process. A genuine discussion about your commercial objectives, your current digital performance, and the specific expertise from our team that your programme requires.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     aboutLink: "https://clickmastersdigitalmarketing.com/about-us/",
     caseStudiesLink: "https://clickmastersdigitalmarketing.com/case-studies/",
   },

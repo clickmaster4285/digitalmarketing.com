@@ -236,7 +236,7 @@ export const PredictiveAnalyticsContent = {
     title: "Ready to Stop Reacting and Start Predicting?",
     description:
       "The businesses that consistently outperform their categories are not always the ones with the largest marketing budgets or the most experienced teams. They are the ones making better decisions  decisions informed by what the data predicts will happen, not just by what it records has happened.\n\nPredictive analytics is the discipline that builds that advantage. We build the models, the infrastructure, and the reporting that make it operational.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/ai-marketing-services/",
   },

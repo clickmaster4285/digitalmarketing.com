@@ -232,7 +232,7 @@ export const AiMarketingServicesContent = {
     title: "Ready to Market at the Speed and Precision of AI?",
     description:
       "Your competitors are already using AI to personalise at the individual level, predict which leads will convert before your sales team calls them, and optimise their creative at a testing velocity your team cannot match manually.\n\nThe question is not whether AI marketing will determine competitive advantage in your category. It already does.\n\nThe question is whether your marketing operation is building that advantage or watching someone else build it.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/search-engine-optimization/local-seo/locations/local-seo-services-atlanta/",
   },

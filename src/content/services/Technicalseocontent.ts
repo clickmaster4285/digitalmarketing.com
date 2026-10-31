@@ -20,7 +20,7 @@ export const TechnicalSeoContent = {
       "/on-page-seo-services/",
       "/website-speed-optimization/",
       "/schema-markup-services/",
-      "/contact/",
+      "/contact",
     ],
   },
   hero: {
@@ -419,7 +419,7 @@ export const TechnicalSeoContent = {
     title: "Ready to Fix the Technical Foundation That's Suppressing Your Rankings?",
     description:
       "Your competitors are not waiting. Every week your site operates with unresolved technical SEO issues is a week of compounding disadvantage  pages that do not rank, authority that does not flow correctly, and AI search engines that cannot understand your content. Our technical SEO team is ready to audit your site, identify exactly what is holding your rankings back, and fix it.",
-    auditLink: "https://clickmastersdigitalmarketing.com/contact/",
+    auditLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     seoLink: "https://clickmastersdigitalmarketing.com/search-engine-optimization/local-seo/locations/local-seo-services-atlanta/",
   },

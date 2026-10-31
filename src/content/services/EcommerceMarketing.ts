@@ -11,7 +11,7 @@ export const EcommerceMarketingServicesContent = {
     cpc: "$38.40",
     formula: "AIDA",
     wordCount: "~5,100 words",
-    internalLinks: "/content-marketing/email-marketing, /search-engine-optimization/seo-services-usa, /pay-per-click/ppc-management, /contact/",
+    internalLinks: "/content-marketing/email-marketing, /search-engine-optimization/seo-services-usa, /pay-per-click/ppc-management, /contact",
   },
   hero: {
     tag: "E-Commerce Marketing",
@@ -268,7 +268,7 @@ export const EcommerceMarketingServicesContent = {
   cta: {
     title: "Ready to Build E-Commerce Revenue That Grows Every Month?",
     description: "The e-commerce stores that grow consistently are not the ones that find the cheapest traffic. They are the ones that convert better, retain longer, and build the owned channels that compound month after month without proportionally increasing cost. That is the e-commerce marketing system we build for the specific brand, in the specific markets, at the specific stage of growth.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/ppc-management-services/",
   },

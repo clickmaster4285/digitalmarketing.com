@@ -235,7 +235,7 @@ export const ChatbotDevelopmentContent = {
     title: "Ready to Turn Every Website Visit Into a Conversation?",
     description:
       "The visitors who arrive on your website at 2am, at weekends, and from time zones your team is not covering are not lost causes. They are the highest-intent prospects your marketing has ever generated  doing serious research when they are not distracted by other commitments.\n\nA well-built chatbot starts the conversation your team cannot. It qualifies, it engages, it recommends, it books. And when your team arrives in the morning, the pipeline it built overnight is waiting.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/ai-marketing-services/",
   },

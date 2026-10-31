@@ -290,7 +290,7 @@ export const GoogleAdsManagementContent = {
     title: "Ready to Turn Google Ads Into Your Most Profitable Revenue Channel?",
     description:
       "Google Ads is not a lottery. It is not a black box. It is a precision instrument  and in the hands of specialists who understand how to structure accounts, optimize conversion data, manage match types, and calibrate Smart Bidding, it is consistently the highest-velocity, most measurable revenue channel available to any business with a product or service that people search for. The businesses generating 4x, 5x, and 6x ROAS from Google Ads are not getting lucky. They are getting the management right.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/ppc-management-services/",
   },

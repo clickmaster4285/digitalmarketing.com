@@ -10,7 +10,7 @@ export const SocialMediaContentCreationContent = {
     volume: "8,100/mo",
     secondaryKeywords: "social media content creation services, social media content agency, social content creation service, social media graphics design 2026",
     wordCount: "~5,050 words",
-    internalLinks: "/social-media-marketing, /content-marketing, /content-marketing/video-marketing, /pay-per-click/facebook-instagram-ads, /contact/",
+    internalLinks: "/social-media-marketing, /content-marketing, /content-marketing/video-marketing, /pay-per-click/facebook-instagram-ads, /contact",
   },
   hero: {
     tag: "Content Creation",
@@ -294,7 +294,7 @@ export const SocialMediaContentCreationContent = {
   cta: {
     title: "Ready to Have a Professional Content Team Behind Your Social Media?",
     description: "Consistent, high-quality social media content is not optional for brands competing for attention in 2026 it is the price of admission. The brands winning on social media are not just present; they are publishing content that genuinely earns attention, builds trust, and creates the brand relationships that convert into customers. You do not have to produce that content yourself. You do not have to coordinate a team of freelancers. We provide the complete content creation capability and all you need to do is approve the content before it publishes.",
-    contactLink: "https://clickmastersdigitalmarketing.com/contact/",
+    contactLink: "https://clickmastersdigitalmarketing.com/contact",
     whatsappLink: "https://wa.me/",
     softwareLink: "https://clickmastersdigitalmarketing.com/social-media-marketing-services/",
   },
