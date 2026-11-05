@@ -4,11 +4,15 @@
 // "locations" path, replacing the previously empty page.
 
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { ServiceLocationsHub } from "@/components/service-locations/ServiceLocationsHub";
+import { CmsPageRenderer } from "@/components/cms/CmsPageRenderer";
+import { cmsPageMetadata, getCmsPage } from "@/lib/cms";
 import {
   getMainService,
   getLatestServiceSubLocations,
   getTotalCityCount,
+  isMainServiceSlug,
 } from "@/content/locations/serviceLocations";
 
 const BASE_URL = "https://clickmastersdigitalmarketing.com";
@@ -17,6 +21,10 @@ type Params = { params: Promise<{ services: string }> };
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { services } = await params;
+  if (!isMainServiceSlug(services)) {
+    const cmsPage = await getCmsPage([services, "locations"]);
+    return cmsPage ? cmsPageMetadata(cmsPage) : notFound();
+  }
   const svc = getMainService(services);
   const cityCount = getTotalCityCount();
   const subLocations = getLatestServiceSubLocations(svc.slug, 9);
@@ -51,6 +59,11 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
 export default async function Page({ params }: Params) {
   const { services } = await params;
+  if (!isMainServiceSlug(services)) {
+    const cmsPage = await getCmsPage([services, "locations"]);
+    if (!cmsPage) notFound();
+    return <CmsPageRenderer page={cmsPage} />;
+  }
   const service = getMainService(services);
   const subLocations = getLatestServiceSubLocations(service.slug, 9);
   const cityCount = getTotalCityCount();

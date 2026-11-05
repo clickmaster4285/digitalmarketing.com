@@ -1702,6 +1702,13 @@ images: [
     caption: "Gym dashboard — members, revenue & growth",
     type: "screenshot",
   },
+   {
+    src: "/products/gym-management-dashboard-cover.png",
+    alt: "Gym management dashboard with revenue and active members overview",
+    caption: "Gym dashboard — members, revenue & growth",
+    type: "screenshot",
+  },
+
 
     {
     src: "/products/gym-management-dashboard.png",

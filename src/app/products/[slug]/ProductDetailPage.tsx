@@ -153,72 +153,140 @@ const HeroCover = ({ product }: { product: ProductContent }) => {
     offset: ["start start", "end start"],
   });
 
-  // image: slow zoom + parallax drift
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.18]);
-  const y = useTransform(scrollYProgress, [0, 1], [0, 120]);
-  // subtle dark tint so the transition into the next section feels clean
-  const tint = useTransform(scrollYProgress, [0, 1], [0, 0.45]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
+  const y = useTransform(scrollYProgress, [0, 1], [0, 60]);
+  const tint = useTransform(scrollYProgress, [0, 1], [0, 0.35]);
+
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, -50]);
 
   const heroImage = product.images[0];
   if (!heroImage) return null;
 
   return (
-    <section
-      ref={ref}
-      className="relative w-full overflow-hidden bg-black"
-      // mobile: natural height (no full viewport) / md+: full viewport
-      style={{ height: undefined }}
-    >
-      {/* ═══════════ MOBILE: natural image height, object-contain ═══════════ */}
-      <div className="md:hidden pt-16">
-        <motion.div
-          style={{ scale, y }}
-          className="relative w-full will-change-transform"
-        >
-          <Image
-            src={heroImage.src}
-            alt={heroImage.alt}
-            width={1920}
-            height={1080}
-            priority
-            sizes="100vw"
-            className="w-full h-auto object-contain"
+    <section ref={ref} className="relative w-full overflow-hidden bg-black">
+      {/* ═══════════ MOBILE: full image on top, copy below ═══════════ */}
+      <div className="md:hidden">
+        <div className="relative w-full overflow-hidden bg-black pt-16">
+          <motion.div style={{ scale, y }} className="will-change-transform">
+            <Image
+              src={heroImage.src}
+              alt={heroImage.alt}
+              width={1920}
+              height={1080}
+              priority
+              sizes="100vw"
+              className="w-full h-auto object-contain"
+            />
+          </motion.div>
+
+          <motion.div
+            style={{ opacity: tint }}
+            className="absolute inset-0 bg-black pointer-events-none"
           />
-        </motion.div>
+
+          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black to-transparent pointer-events-none" />
+        </div>
 
         <motion.div
-          style={{ opacity: tint }}
-          className="absolute inset-0 bg-black pointer-events-none"
-        />
+          style={{ opacity: contentOpacity, y: contentY }}
+          className="relative px-6 pt-2 pb-16"
+        >
+          <HeroCopy product={product} />
+        </motion.div>
       </div>
 
-      {/* ═══════════ DESKTOP/TABLET: full viewport cover (unchanged) ═══════════ */}
+      {/* ═══════════ DESKTOP: split — TEXT LEFT, FULL IMAGE RIGHT ═══════════ */}
       <div
-        className="hidden md:block relative w-full overflow-hidden bg-black"
-        style={{ height: "100vh" }}
+        className="hidden md:grid md:grid-cols-12 relative w-full overflow-hidden bg-black"
+        style={{ minHeight: "100svh" }}
       >
-        <motion.div
-          style={{ scale, y }}
-          className="absolute inset-0 will-change-transform"
-        >
-          <Image
-            src={heroImage.src}
-            alt={heroImage.alt}
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover"
-          />
-        </motion.div>
+        {/* LEFT — content panel */}
+        <div className="col-span-5 relative flex items-center bg-black">
+          {/* thin decorative accent line on the right edge */}
+          <div className="absolute right-0 top-1/4 h-24 w-px bg-white/15" />
 
-        <motion.div
-          style={{ opacity: tint }}
-          className="absolute inset-0 bg-black pointer-events-none"
-        />
+          <motion.div
+            style={{ opacity: contentOpacity, y: contentY }}
+            className="relative w-full px-10 lg:px-14 xl:px-16 py-20"
+          >
+            <HeroCopy product={product} />
+          </motion.div>
+        </div>
+
+        {/* RIGHT — image panel: shows the ENTIRE image, centered, no cropping */}
+        <div className="col-span-7 relative bg-black flex items-center justify-center py-6">
+          <motion.div
+            style={{ scale }}
+            className="relative flex h-full w-full items-center justify-center will-change-transform"
+          >
+            {/* height-driven so the full vertical image always fits */}
+            <Image
+              src={heroImage.src}
+              alt={heroImage.alt}
+              width={1080}
+              height={1920}
+              priority
+              sizes="(min-width: 768px) 58vw, 100vw"
+              className="max-h-[92svh] w-auto max-w-full object-contain"
+            />
+          </motion.div>
+
+          {/* scroll-tied tint — kept, but light so the full image stays visible */}
+          <motion.div
+            style={{ opacity: tint }}
+            className="absolute inset-0 bg-black pointer-events-none"
+          />
+        </div>
       </div>
     </section>
   );
 };
+/* ─────────── Shared hero copy ─────────── */
+const HeroCopy = ({ product }: { product: ProductContent }) => {
+  return (
+    <div className="flex flex-col items-start gap-6 max-w-xl">
+      <div className="flex items-center gap-3">
+        <span className="text-[10px] uppercase tracking-[0.4em] text-white/45">
+          [ {product.category} ]
+        </span>
+        <span className="h-px w-10 bg-white/25" />
+      </div>
+
+      <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold leading-[0.95] tracking-tight text-white">
+        {product.name}
+      </h1>
+
+      <p className="text-base sm:text-lg leading-relaxed text-white/65">
+        {product.tagline}
+      </p>
+
+      <div className="flex flex-wrap items-center gap-3 pt-2">
+        <Link
+          href={product.demoUrl ?? "/contact"}
+          className="group inline-flex items-center gap-2 rounded-full bg-white text-black px-6 py-3 text-sm tracking-[0.12em] uppercase font-medium hover:bg-[#FF2E86] hover:text-white transition-colors"
+        >
+          Request a demo
+          <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+        </Link>
+        <a
+          href="#gallery"
+          className="inline-flex items-center gap-2 rounded-full border border-white/25 text-white/80 px-6 py-3 text-sm tracking-[0.12em] uppercase font-medium hover:border-white/60 hover:text-white transition-colors"
+        >
+          View screens
+        </a>
+      </div>
+
+      {product.badge && (
+        <div className="pt-4 flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-white/40">
+          <span className="w-1 h-1 rounded-full bg-[#FF2E86]" />
+          <span>{product.badge}</span>
+        </div>
+      )}
+    </div>
+  );
+};
+
 
 
 const CodeSnippets = ({ product }: { product: ProductContent }) => {
@@ -604,7 +672,7 @@ const Gallery = ({ product }: { product: ProductContent }) => {
                 key={img.src}
                 className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center"
               >
-                {/* ── IMAGE: edge-to-edge cover, no padding, no letterbox ── */}
+                {/* ── IMAGE: full width, fixed height, top-anchored ── */}
                 <motion.div
                   initial={{ opacity: 0, x: reverse ? 60 : -60 }}
                   whileInView={{ opacity: 1, x: 0 }}
@@ -617,18 +685,19 @@ const Gallery = ({ product }: { product: ProductContent }) => {
                     onClick={() => setActive(i)}
                     className="group relative block w-full rounded-2xl overflow-hidden border border-foreground/10 bg-[#0a0a0a] hover:border-[#FF2E86]/40 transition-colors cursor-zoom-in"
                   >
-                    {/* fixed ratio, image fills it completely */}
-                    <div className="relative w-full aspect-[16/10]">
+                    {/* fixed ratio container, image anchored to top, bottom clipped */}
+                    <div className="relative w-full aspect-[16/10] overflow-hidden">
                       <Image
                         src={img.src}
                         alt={img.alt}
-                        fill
+                        width={1600}
+                        height={1000}
                         sizes="(min-width: 1024px) 58vw, 100vw"
-                        className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
+                        className="absolute inset-x-0 top-0 w-full h-auto max-w-none transition-transform duration-700 group-hover:scale-[1.03]"
                       />
                     </div>
 
-                    {/* hover darkening so overlay elements stay legible */}
+                    {/* hover darkening */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
 
                     {/* corner badge */}
@@ -643,7 +712,7 @@ const Gallery = ({ product }: { product: ProductContent }) => {
                   </button>
                 </motion.div>
 
-                {/* ── DETAILS (unchanged) ── */}
+                {/* ── DETAILS ── */}
                 <motion.div
                   initial={{ opacity: 0, x: reverse ? -60 : 60 }}
                   whileInView={{ opacity: 1, x: 0 }}
@@ -684,7 +753,7 @@ const Gallery = ({ product }: { product: ProductContent }) => {
         </div>
       </div>
 
-      {/* ── LIGHTBOX (unchanged) ── */}
+      {/* ── LIGHTBOX ── */}
       {active !== null && (
         <div
           className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-sm"

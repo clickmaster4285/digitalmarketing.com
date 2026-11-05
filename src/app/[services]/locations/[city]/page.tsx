@@ -20,7 +20,10 @@ import {
   getLatestServiceSubLocations,
   getTotalCityCount,
   resolveServiceCitySlug,
+  isMainServiceSlug,
 } from "@/content/locations/serviceLocations";
+import { CmsPageRenderer } from "@/components/cms/CmsPageRenderer";
+import { cmsPageMetadata, getCmsPage } from "@/lib/cms";
 
 const BASE_URL = "https://clickmastersdigitalmarketing.com";
 
@@ -28,6 +31,10 @@ type Params = { params: Promise<{ services: string; city: string }> };
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { services, city } = await params;
+  if (!isMainServiceSlug(services)) {
+    const cmsPage = await getCmsPage([services, "locations", city]);
+    return cmsPage ? cmsPageMetadata(cmsPage) : notFound();
+  }
   const svc = getMainService(services);
 
   if (services === "search-engine-optimization" && city === "seo-services-usa") {
@@ -70,10 +77,18 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
   // Generic city page
   const locationCity = resolveServiceCitySlug(services, city);
-  if (!locationCity) notFound();
+  if (!locationCity) {
+    const cmsPage = await getCmsPage([services, "locations", city]);
+    if (cmsPage) return cmsPageMetadata(cmsPage);
+    notFound();
+  }
 
   const location = getLocationByCitySlug(locationCity);
-  if (!location) notFound();
+  if (!location) {
+    const cmsPage = await getCmsPage([services, "locations", city]);
+    if (cmsPage) return cmsPageMetadata(cmsPage);
+    notFound();
+  }
 
   const title = ` ${location.metaTitle} `;
   const description =
@@ -106,6 +121,11 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
 export default async function Page({ params }: Params) {
   const { services, city } = await params;
+  if (!isMainServiceSlug(services)) {
+    const cmsPage = await getCmsPage([services, "locations", city]);
+    if (!cmsPage) notFound();
+    return <CmsPageRenderer page={cmsPage} />;
+  }
   const svc = getMainService(services);
 
   if (services === "search-engine-optimization" && city === "seo-services-usa") {
@@ -177,10 +197,18 @@ export default async function Page({ params }: Params) {
   }
 
   const locationCity = resolveServiceCitySlug(services, city);
-  if (!locationCity) notFound();
+  if (!locationCity) {
+    const cmsPage = await getCmsPage([services, "locations", city]);
+    if (cmsPage) return <CmsPageRenderer page={cmsPage} />;
+    notFound();
+  }
 
   const location = getLocationByCitySlug(locationCity);
-  if (!location) notFound();
+  if (!location) {
+    const cmsPage = await getCmsPage([services, "locations", city]);
+    if (cmsPage) return <CmsPageRenderer page={cmsPage} />;
+    notFound();
+  }
 
   const otherCities = getLatestServiceSubLocations(svc.slug, 7)
     .filter((sub) => sub.slug !== city)

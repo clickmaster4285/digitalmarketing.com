@@ -1,4 +1,7 @@
 import { Metadata, ResolvingMetadata } from "next";
+import { SERVICE_PAGE_SLUGS } from "@/content/services/servicePageSlugs";
+import { cmsPageMetadata, getCmsPage } from "@/lib/cms";
+import { isMainServiceSlug } from "@/content/locations/serviceLocations";
 
 // Import all content files
 import { AiMlDevContent } from "@/content/services/AiMlDev";
@@ -204,12 +207,34 @@ const contentRegistry: Record<string, any> = {
 };
 
 export async function generateMetadata(
-  { params }: { params: Promise<{ services: string; slug: string }> },
+  { params }: { params: Promise<{ services: string; cmsSlug: string[] }> },
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const { services, slug } = await params;
-  const content = contentRegistry[slug];
+  const { services, cmsSlug } = await params;
+  const slug = cmsSlug.length === 1 ? cmsSlug[0] : null;
+  const isCodeDefinedService = isMainServiceSlug(services);
+  const content =
+    isCodeDefinedService && slug ? contentRegistry[slug] : undefined;
 
+  if (content?.metadata) {
+    const BASE_URL = "https://clickmastersdigitalmarketing.com";
+    const canonicalUrl = `${BASE_URL}/${services}/${slug}`;
+    return {
+      title: content.metadata.seoTitle,
+      description: content.metadata.metaDescription,
+      keywords: content.metadata.secondaryKeywords ?? content.metadata.keyword ?? undefined,
+      alternates: { canonical: canonicalUrl },
+    };
+  }
+
+  if (
+    !isCodeDefinedService ||
+    !slug ||
+    !SERVICE_PAGE_SLUGS.has(slug)
+  ) {
+    const page = await getCmsPage([services, ...cmsSlug]);
+    if (page) return cmsPageMetadata(page);
+  }
 
   if (!content || !content.metadata) {
     return {
@@ -219,17 +244,7 @@ export async function generateMetadata(
     };
   }
 
-  const BASE_URL = "https://clickmastersdigitalmarketing.com";
-  const canonicalUrl = `${BASE_URL}/${services}/${slug}`;
-
-  return {
-    title: content.metadata.seoTitle,
-    description: content.metadata.metaDescription,
-    keywords: content.metadata.secondaryKeywords ?? content.metadata.keyword ?? undefined,
-    alternates: {
-      canonical: canonicalUrl,
-    },
-  };
+  return {};
 }
 
 export default function SubServicesLayout({

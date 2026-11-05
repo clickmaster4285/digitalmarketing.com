@@ -7,6 +7,8 @@ import {
   getAllProducts,
   getProductBySlug,
 } from "@/content/product/productContent";
+import { CmsPageRenderer } from "@/components/cms/CmsPageRenderer";
+import { cmsPageMetadata, getCmsPage } from "@/lib/cms";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -21,7 +23,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const product = getProductBySlug(slug);
 
   if (!product) {
-    return { title: "Product Not Found" };
+    const cmsPage = await getCmsPage(["products", slug]);
+    return cmsPage ? cmsPageMetadata(cmsPage) : { title: "Product Not Found" };
   }
 
   return {
@@ -39,7 +42,11 @@ export default async function ProductPage({ params }: PageProps) {
   const { slug } = await params;
   const product = getProductBySlug(slug);
 
-  if (!product) notFound();
+  if (!product) {
+    const cmsPage = await getCmsPage(["products", slug]);
+    if (!cmsPage) notFound();
+    return <CmsPageRenderer page={cmsPage} />;
+  }
 
   return <ProductDetailPage product={product} />;
 }

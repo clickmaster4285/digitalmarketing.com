@@ -108,6 +108,9 @@ export const MAIN_SERVICES: Record<string, MainServiceInfo> = {
   },
 };
 
+export const isMainServiceSlug = (slug: string): boolean =>
+  Object.hasOwn(MAIN_SERVICES, slug) || slug === "pay-per-click-ppc";
+
 export const getMainService = (slug?: string | null): MainServiceInfo =>
   MAIN_SERVICES[slug ?? ""] ?? MAIN_SERVICES["search-engine-optimization"];
 
