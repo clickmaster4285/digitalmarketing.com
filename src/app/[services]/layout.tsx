@@ -1,5 +1,4 @@
 import { Metadata, ResolvingMetadata } from "next";
-import { notFound } from "next/navigation";
 import {
   SeoServicesContent,
   SocialMediaMarketingContent,
@@ -68,11 +67,6 @@ export default async function ServicesLayout({
   params: Promise<{ services: string }>;
 }) {
   const { services } = await params;
-  
-  // Check if the service slug exists in contentMap
-  if (!contentMap[services]) {
-    notFound();
-  }
   
   return <>{children}</>;
 }

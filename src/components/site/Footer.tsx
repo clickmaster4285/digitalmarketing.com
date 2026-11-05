@@ -9,41 +9,29 @@ import { ArrowUpRight, Phone, Mail, MapPin } from "lucide-react";
 gsap.registerPlugin(ScrollTrigger);
 
 const services = [
-  { label: "SEO Services", href: "https://clickmastersdigitalmarketing.com/search-engine-optimization" },
-  { label: "PPC Services", href: "https://clickmastersdigitalmarketing.com/pay-per-click" },
-  { label: "Social Media Marketing", href: "https://clickmastersdigitalmarketing.com/social-media-marketing" },
-  { label: "AI Automation", href: "https://clickmastersdigitalmarketing.com/ai-automation" },
-  { label: "Web Design & Development", href: "https://clickmastersdigitalmarketing.com/web-design-development" },
-  { label: "Mobile App Development", href: "https://clickmastersdigitalmarketing.com/mobile-app-development" },
-  { label: "CRO", href: "https://clickmastersdigitalmarketing.com/conversion-rate-optimization" },
+  { label: "SEO Services", href: "/search-engine-optimization" },
+  { label: "PPC Services", href: "/pay-per-click" },
+  { label: "Social Media Marketing", href: "/social-media-marketing" },
+  { label: "AI Automation", href: "/ai-automation" },
+  { label: "Web Design & Development", href: "/web-design-development" },
+  { label: "Mobile App Development", href: "/mobile-app-development" },
+  { label: "CRO", href: "/conversion-rate-optimization" },
 ];
 
 const quickLinks = [
-  { label: "Home", href: "https://clickmastersdigitalmarketing.com" },
-  { label: "About", href: "https://clickmastersdigitalmarketing.com/about" },
-  { label: "Contact Us", href: "https://clickmastersdigitalmarketing.com/contact" },
-  { label: "Process", href: "https://clickmastersdigitalmarketing.com/process" },
-  { label: "Testimonial", href: "https://clickmastersdigitalmarketing.com/testimonials" },
-  { label: "Pricing", href: "https://clickmastersdigitalmarketing.com/pricing" },
-  { label: "Solutions", href: "https://clickmastersdigitalmarketing.com/solutions" },
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Contact Us", href: "/contact" },
+  { label: "Process", href: "/process" },
+  { label: "Testimonial", href: "/testimonials" },
+  { label: "Pricing", href: "/pricing" },
+  { label: "Solutions", href: "/solutions" },
 ];
 
 const offices = [
-  {
-    city: "San Francisco",
-    line1: "300 Broadway,",
-    line2: "San Francisco, CA 94133",
-  },
-  {
-    city: "New York",
-    line1: "148 Lafayette St,",
-    line2: "New York, NY 10013",
-  },
-  {
-    city: "Austin",
-    line1: "600 Congress Ave,",
-    line2: "Austin, TX 78701",
-  },
+  { city: "San Francisco", line1: "300 Broadway,", line2: "San Francisco, CA 94133" },
+  { city: "New York", line1: "148 Lafayette St,", line2: "New York, NY 10013" },
+  { city: "Austin", line1: "600 Congress Ave,", line2: "Austin, TX 78701" },
 ];
 
 const socialLinks = [
@@ -78,10 +66,7 @@ export default function Footer() {
           duration: 0.9,
           stagger: 0.1,
           ease: "power3.out",
-          scrollTrigger: {
-            trigger: footerRef.current,
-            start: "top 88%",
-          },
+          scrollTrigger: { trigger: footerRef.current, start: "top 88%" },
         }
       );
     }, footerRef);
@@ -90,14 +75,9 @@ export default function Footer() {
   }, []);
 
   return (
-    <footer
-      ref={footerRef}
-      className="relative overflow-hidden bg-[#0a0a0a] text-neutral-300"
-    >
-      {/* Top accent hairline */}
+    <footer ref={footerRef} className="relative overflow-hidden bg-[#0a0a0a] text-neutral-300 antialiased">
       <div className="h-px w-full bg-gradient-to-r from-transparent via-neutral-700/60 to-transparent" />
 
-      {/* Ambient glow */}
       <div className="pointer-events-none absolute -top-40 right-1/4 h-80 w-80 rounded-full bg-[#FF2E86]/[0.06] blur-[140px]" />
       <div className="pointer-events-none absolute -bottom-40 left-1/4 h-80 w-80 rounded-full bg-[#FF2E86]/[0.04] blur-[140px]" />
 
@@ -108,102 +88,68 @@ export default function Footer() {
             <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[#FF2E86]">
               Get in touch
             </p>
-            <h2 className="text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-6xl">
+            <h2 className="font-display text-5xl leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-7xl">
               Let&apos;s build
               <span className="text-neutral-500"> something</span>
-              <br className="hidden sm:block" /> great together.
+              <br />
+              great together.
             </h2>
           </div>
 
-       <Link
-  href="/contact"
-  className="group inline-flex items-center gap-3 self-start rounded-full border border-neutral-700 bg-neutral-900/60 px-6 py-3 text-sm font-medium text-white transition-all duration-300 hover:border-[#FF2E86] hover:bg-[#FF2E86] hover:text-black sm:self-auto"
->
-  Start a project
-  <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-</Link>
+          <Link
+            href="/contact"
+            className="group inline-flex items-center gap-3 self-start rounded-full border border-neutral-700 bg-neutral-900/60 px-6 py-3 text-sm font-medium text-white transition-all duration-300 hover:border-[#FF2E86] hover:bg-[#FF2E86] hover:text-black sm:self-auto"
+          >
+            Start a project
+            <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </Link>
         </div>
 
-        {/* ───── Main grid ───── */}
         <div className="grid grid-cols-2 gap-x-8 gap-y-12 py-14 sm:gap-x-12 md:grid-cols-4 lg:gap-x-16">
           {/* Brand + contact */}
           <div className="footer-item col-span-2 md:col-span-1">
-            <Link
-              href="#home"
-              className="mb-6 inline-flex items-center gap-2.5"
-              aria-label="ClickMasters home"
-            >
-              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#FF2E86] text-sm font-bold text-black">
+            <Link href="#home" className="mb-6 inline-flex items-center gap-2.5" aria-label="ClickMasters home">
+              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#FF2E86] text-sm font-bold text-black font-sans">
                 CM
               </span>
-              <span className="text-lg font-semibold tracking-tight text-white">
+              <span className="font-display text-2xl leading-snug tracking-tight text-white">
                 ClickMasters
               </span>
             </Link>
 
-            <p className="mb-6 max-w-xs text-sm leading-relaxed text-neutral-500">
-              A full-service digital marketing agency helping brands grow through
-              data-driven strategy, design, and automation.
+            <p className="mb-6 max-w-xs text-base leading-relaxed tracking-[0.01em] text-neutral-500">
+              A full-service digital marketing agency helping brands grow through data-driven strategy, design, and automation.
             </p>
 
-            <div className="space-y-3.5">
-              <a
-                href="mailto:sales@clickmastersdigitalmarketing.com"
-                className="group flex items-start gap-3 text-sm text-neutral-400 transition-colors hover:text-white"
-              >
+            <div className="space-y-4">
+              <a href="mailto:sales@clickmastersdigitalmarketing.com" className="group flex items-start gap-3 text-sm leading-relaxed tracking-[0.01em] text-neutral-400 transition-colors hover:text-white">
                 <Mail className="mt-0.5 h-4 w-4 shrink-0 text-neutral-600 transition-colors group-hover:text-[#FF2E86]" />
-                <span className="break-all">
-                  sales@clickmastersdigitalmarketing.com
-                </span>
+                <span className="break-all">sales@clickmastersdigitalmarketing.com</span>
               </a>
-
-              <a
-                href="tel:+447988576086"
-                className="group flex items-start gap-3 text-sm text-neutral-400 transition-colors hover:text-white"
-              >
+              <a href="tel:+447988576086" className="group flex items-start gap-3 text-sm leading-relaxed tracking-[0.01em] text-neutral-400 transition-colors hover:text-white">
                 <Phone className="mt-0.5 h-4 w-4 shrink-0 text-neutral-600 transition-colors group-hover:text-[#FF2E86]" />
-                <span>
-                  +44 7988 576086
-                  <span className="ml-2 text-xs text-neutral-600">UK</span>
-                </span>
+                <span>+44 7988 576086 <span className="ml-2 font-sans text-xs text-neutral-600">UK</span></span>
               </a>
-
-              <a
-                href="tel:+13252024074"
-                className="group flex items-start gap-3 text-sm text-neutral-400 transition-colors hover:text-white"
-              >
+              <a href="tel:+13252024074" className="group flex items-start gap-3 text-sm leading-relaxed tracking-[0.01em] text-neutral-400 transition-colors hover:text-white">
                 <Phone className="mt-0.5 h-4 w-4 shrink-0 text-neutral-600 transition-colors group-hover:text-[#FF2E86]" />
-                <span>
-                  +1 325 202 4074
-                  <span className="ml-2 text-xs text-neutral-600">US</span>
-                </span>
+                <span>+1 325 202 4074 <span className="ml-2 font-sans text-xs text-neutral-600">US</span></span>
               </a>
-
-              <a
-                href="tel:+923325394285"
-                className="group flex items-start gap-3 text-sm text-neutral-400 transition-colors hover:text-white"
-              >
+              <a href="tel:+923325394285" className="group flex items-start gap-3 text-sm leading-relaxed tracking-[0.01em] text-neutral-400 transition-colors hover:text-white">
                 <Phone className="mt-0.5 h-4 w-4 shrink-0 text-neutral-600 transition-colors group-hover:text-[#FF2E86]" />
-                <span>
-                  +92 332 5394285
-                  <span className="ml-2 text-xs text-neutral-600">PK</span>
-                </span>
+                <span>+92 332 5394285 <span className="ml-2 font-sans text-xs text-neutral-600">PK</span></span>
               </a>
             </div>
           </div>
 
           {/* Explore Services */}
           <nav className="footer-item" aria-label="Services">
-            <h3 className="mb-5 text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">
+            <h3 className="font-display mb-5 text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">
               Explore Services
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-3.5">
               {services.map((item) => (
                 <li key={item.label}>
-                  <Link
-                    href={item.href}
-                    className="group inline-flex items-center gap-1.5 text-[14px] text-neutral-400 transition-colors duration-200 hover:text-white"
-                  >
+                  <Link href={item.href} className="group inline-flex items-center gap-1.5 text-[15px] leading-relaxed tracking-[0.01em] text-neutral-400 transition-colors duration-200 hover:text-white">
                     <span className="relative">
                       {item.label}
                       <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-[#FF2E86] transition-all duration-300 group-hover:w-full" />
@@ -216,16 +162,13 @@ export default function Footer() {
 
           {/* Quick Links */}
           <nav className="footer-item" aria-label="Quick links">
-            <h3 className="mb-5 text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">
+            <h3 className="font-display mb-5 text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">
               Quick Links
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-3.5">
               {quickLinks.map((item) => (
                 <li key={item.label}>
-                  <Link
-                    href={item.href}
-                    className="group inline-flex items-center gap-1.5 text-[14px] text-neutral-400 transition-colors duration-200 hover:text-white"
-                  >
+                  <Link href={item.href} className="group inline-flex items-center gap-1.5 text-[15px] leading-relaxed tracking-[0.01em] text-neutral-400 transition-colors duration-200 hover:text-white">
                     <span className="relative">
                       {item.label}
                       <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-[#FF2E86] transition-all duration-300 group-hover:w-full" />
@@ -238,25 +181,23 @@ export default function Footer() {
 
           {/* Offices */}
           <div className="footer-item">
-            <h3 className="mb-5 text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">
+            <h3 className="font-display mb-5 text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">
               Offices
             </h3>
-            <ul className="space-y-5">
+            <ul className="space-y-6">
               {offices.map((office) => (
                 <li key={office.city}>
                   <a
-                    href={`https://maps.google.com/?q=${encodeURIComponent(
-                      `${office.line1} ${office.line2}`
-                    )}`}
+                    href={`https://maps.google.com/?q=${encodeURIComponent(`${office.line1} ${office.line2}`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="group block"
                   >
-                    <div className="mb-1 flex items-center gap-1.5 text-sm font-medium text-neutral-200 transition-colors group-hover:text-[#FF2E86]">
+                    <div className="mb-1 flex items-center gap-1.5 text-base font-medium leading-snug tracking-[0.01em] text-neutral-200 transition-colors group-hover:text-[#FF2E86]">
                       <MapPin className="h-3.5 w-3.5 text-neutral-600 transition-colors group-hover:text-[#FF2E86]" />
                       {office.city}
                     </div>
-                    <p className="pl-5 text-[13px] leading-relaxed text-neutral-500 transition-colors group-hover:text-neutral-400">
+                    <p className="pl-5 text-[14px] leading-relaxed tracking-[0.01em] text-neutral-500 transition-colors group-hover:text-neutral-400">
                       {office.line1}
                       <br />
                       {office.line2}
@@ -270,38 +211,18 @@ export default function Footer() {
 
         {/* ───── Bottom bar ───── */}
         <div className="footer-item flex flex-col gap-6 border-t border-neutral-800/80 py-8 md:flex-row md:items-center md:justify-between">
-          <p className="text-center text-[13px] text-neutral-500 md:text-left">
-            © {new Date().getFullYear()} ClickMasters Digital Marketing Agency.
-            All rights reserved.
+          <p className="text-center text-[14px] leading-relaxed tracking-[0.01em] text-neutral-500 md:text-left">
+            © {new Date().getFullYear()} ClickMasters Digital Marketing Agency. All rights reserved.
           </p>
-
           <div className="flex flex-col items-center gap-6 sm:flex-row sm:gap-8">
-            <div className="flex gap-6 text-[13px] text-neutral-500">
-              <Link
-                href="#privacy"
-                className="transition-colors hover:text-white"
-              >
-                Privacy
-              </Link>
-              <Link href="#terms" className="transition-colors hover:text-white">
-                Terms
-              </Link>
-              <Link
-                href="/sitemap_index.xml"
-                className="transition-colors hover:text-white"
-              >
-                Sitemap
-              </Link>
+            <div className="flex gap-6 text-[14px] leading-relaxed tracking-[0.01em] text-neutral-500">
+              <Link href="#privacy" className="transition-colors hover:text-white">Privacy</Link>
+              <Link href="#terms" className="transition-colors hover:text-white">Terms</Link>
+              <Link href="/sitemap_index.xml" className="transition-colors hover:text-white">Sitemap</Link>
             </div>
-
             <div className="flex items-center gap-1">
               {socialLinks.map((social) => (
-                <SocialIcon
-                  key={social.label}
-                  label={social.label}
-                  href={social.href}
-                  path={social.path}
-                />
+                <SocialIcon key={social.label} label={social.label} href={social.href} path={social.path} />
               ))}
             </div>
           </div>
@@ -314,7 +235,7 @@ export default function Footer() {
             target="_blank"
             rel="noopener noreferrer"
             data-techbehemoths-verification
-            className="inline-flex items-center gap-1.5 text-[12px] text-neutral-600 transition-colors hover:text-[#FF2E86]"
+            className="inline-flex items-center gap-1.5 text-[13px] leading-relaxed tracking-[0.01em] text-neutral-600 transition-colors hover:text-[#FF2E86]"
           >
             Verified on TechBehemoths
             <ArrowUpRight className="h-3 w-3" />
@@ -325,15 +246,7 @@ export default function Footer() {
   );
 }
 
-function SocialIcon({
-  label,
-  href,
-  path,
-}: {
-  label: string;
-  href: string;
-  path: string;
-}) {
+function SocialIcon({ label, href, path }: { label: string; href: string; path: string }) {
   return (
     <a
       href={href}
@@ -343,14 +256,7 @@ function SocialIcon({
       title={label}
       className="inline-flex h-9 w-9 items-center justify-center rounded-full text-neutral-500 transition-all duration-200 hover:bg-neutral-800 hover:text-[#FF2E86] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF2E86]"
     >
-      <svg
-        width="18"
-        height="18"
-        viewBox="0 0 24 24"
-        fill="currentColor"
-        aria-hidden="true"
-        className="h-[17px] w-[17px]"
-      >
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className="h-[17px] w-[17px]">
         <path d={path} />
       </svg>
     </a>

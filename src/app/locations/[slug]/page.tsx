@@ -4,12 +4,21 @@ import { getLocationBySlug, getAllLocationSlugs } from "@/content/locations/loca
 import { LocationPage } from "@/components/locations";
 import { notFound, permanentRedirect } from "next/navigation";
 import type { Metadata } from "next";
+import { CmsPageRenderer } from "@/components/cms/CmsPageRenderer";
+import { cmsPageMetadata, getCmsPage } from "@/lib/cms";
 
 interface PageProps {
   params: Promise<{
     slug: string;
   }>;
 }
+
+const LEGACY_LOCATION_REDIRECTS = new Set([
+  "digital-marketing-agency-tampa",
+  "digital-marketing-agency-seattle",
+  "digital-marketing-agency-phoenix",
+  "digital-marketing-agency-richmond",
+]);
 
 // Generate static paths for all locations
 export async function generateStaticParams() {
@@ -22,9 +31,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const location = getLocationBySlug(slug);
 
   if (!location) {
-    return {
-      title: "Location Not Found",
-    };
+    if (LEGACY_LOCATION_REDIRECTS.has(slug)) {
+      return { title: "Location Not Found" };
+    }
+    const cmsPage = await getCmsPage(["locations", slug]);
+    return cmsPage ? cmsPageMetadata(cmsPage) : { title: "Location Not Found" };
   }
 
   return {
@@ -69,6 +80,8 @@ export default async function Page({ params }: PageProps) {
   const location = getLocationBySlug(slug);
 
   if (!location) {
+    const cmsPage = await getCmsPage(["locations", slug]);
+    if (cmsPage) return <CmsPageRenderer page={cmsPage} />;
     notFound();
   }
  
