@@ -51,7 +51,6 @@ export const RoamingRobot = () => {
 
   return (
     <motion.div
-      aria-hidden
       style={{ x, y, rotate }}
       className="fixed top-0 left-0 z-[60] pointer-events-none"
     >
@@ -62,7 +61,7 @@ export const RoamingRobot = () => {
       >
         <Image
           src={robot}
-          alt=""
+          alt="Clickmasters mascot robot"
           width={96}
           height={96}
           className="w-full h-full drop-shadow-[0_15px_25px_rgba(0,0,0,0.35)]"

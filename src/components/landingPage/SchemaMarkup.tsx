@@ -1,13 +1,22 @@
 "use client";
 
-import Script from "next/script";
+import { organizationRef } from "@/lib/organizationSchema";
+
+type Faq = { q?: unknown; a?: unknown };
 
 type Props = {
   schema: any;
   slug?: string;
+  /** The FAQs rendered on the page; FAQPage markup uses their real answers. */
+  faqs?: Faq[];
 };
 
-const buildSchemas = (schema: any) => {
+const plainText = (value: unknown): string =>
+  typeof value === "string"
+    ? value.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim()
+    : "";
+
+const buildSchemas = (schema: any, faqs: Faq[] = []) => {
   if (!schema) return [];
 
   const schemas: any[] = [];
@@ -18,12 +27,7 @@ const buildSchemas = (schema: any) => {
       "@context": "https://schema.org",
       "@type": "Service",
       serviceType: schema.Service.serviceType,
-      provider: {
-        "@type": "Organization",
-        name: schema.Service.provider?.name,
-        url: schema.Service.provider?.url,
-        logo: schema.Service.provider?.logo,
-      },
+      provider: organizationRef,
       areaServed: schema.Service.areaServed,
     });
   }
@@ -36,7 +40,7 @@ const buildSchemas = (schema: any) => {
       name: schema.WebPage.name,
       description: schema.WebPage.description,
       url: schema.WebPage.url,
-      publisher: schema.WebPage.publisher,
+      publisher: organizationRef,
       author: schema.WebPage.author,
     });
   }
@@ -93,53 +97,30 @@ const buildSchemas = (schema: any) => {
     });
   }
 
-  /* ---------------- ORGANIZATION ---------------- */
-  if (schema.Organization) {
-    schemas.push({
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      name: schema.Organization.name,
-      url: schema.Organization.url,
-      logo: schema.Organization.logo,
-      sameAs: schema.Organization.sameAs,
-    });
-  }
-
   /* ---------------- FAQ PAGE ---------------- */
-  if (schema.FAQPage) {
+  // Only questions actually answered on the page; never placeholder answers.
+  const answered = faqs
+    .map((faq) => ({ q: plainText(faq.q), a: plainText(faq.a) }))
+    .filter((faq) => faq.q && faq.a);
+  if (answered.length) {
     schemas.push({
       "@context": "https://schema.org",
       "@type": "FAQPage",
-      mainEntity: schema.FAQPage.items.map((q: string) => ({
+      mainEntity: answered.map((faq) => ({
         "@type": "Question",
-        name: q,
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Answer available on page content",
-        },
+        name: faq.q,
+        acceptedAnswer: { "@type": "Answer", text: faq.a },
       })),
     });
   }
 
-  /* ---------------- BREADCRUMB ---------------- */
-  if (schema.BreadcrumbList) {
-    schemas.push({
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      itemListElement: schema.BreadcrumbList.items.map((b: any) => ({
-        "@type": "ListItem",
-        position: b.position,
-        name: b.name,
-        item: b.url,
-      })),
-    });
-  }
+  // BreadcrumbList is emitted sitewide by components/seo/BreadcrumbJsonLd.
 
   return schemas;
 };
 
-export default function SchemaMarkup({ schema }: Props) {
-  const schemas = buildSchemas(schema);
+export default function SchemaMarkup({ schema, faqs }: Props) {
+  const schemas = buildSchemas(schema, faqs);
 
   if (!schemas.length) return null;
 

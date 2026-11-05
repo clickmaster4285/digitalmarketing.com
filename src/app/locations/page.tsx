@@ -1,6 +1,7 @@
 // src/app/locations/page.tsx
 
 import { locations } from "@/content/locations/locationPagesData";
+import { getLocationPageHref } from "@/content/locations/serviceLocations";
 import Link from "next/link";
 import { Globe, ArrowRight, MapPin } from "lucide-react";
 import type { Metadata } from "next";
@@ -8,13 +9,17 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Our Locations | Clickmasters Digital Marketing Agency",
   description:
-    "Find Clickmasters digital marketing agency locations across the United States. We serve businesses in Boston, Atlanta, New York, Dallas, Houston, Chicago, and more.",
+    "Explore Clickmasters' digital marketing services across the United States, including Boston, Atlanta, New York, Dallas, Houston, and Chicago.",
   alternates: {
     canonical: "/locations",
   },
 };
 
 export default function LocationsPage() {
+  const uniqueLocations = Array.from(
+    new Map(locations.map((location) => [location.slug, location])).values(),
+  );
+
   return (
     <main className="min-h-screen pt-32 pb-20 bg-background">
       {/* Grain overlay */}
@@ -37,10 +42,10 @@ export default function LocationsPage() {
 
         {/* Location Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {locations.map((location, index) => (
+          {uniqueLocations.map((location) => (
             <Link
               key={location.slug}
-              href={`/locations/${location.slug}`}
+              href={getLocationPageHref(location)}
               className="group p-6 rounded-2xl border border-border bg-background hover:border-primary/30 hover:shadow-xl transition-all hover:-translate-y-1"
             >
               <div className="flex items-center gap-4 mb-3">

@@ -10,11 +10,11 @@ export const EcommerceSeoContent = {
   },
   hero: {
     tag: "[ Service · 15 ] E-Commerce SEO",
-    title: "E-Commerce Analytics  ",
+    title: "E-Commerce SEO",
     titleHighlight: "Services",
-    subtitle: " Know Exactly What Is Driving Revenue and What Is Wasting Budget.",
+    subtitle: " Build an Organic Revenue Engine That Compounds.",
     description:
-      "Expert e-commerce analytics  GA4 implementation, BigQuery, multi-touch attribution, cohort analysis & CRO dashboards. Shopify & WooCommerce. Free analytics audit.",
+      "E-commerce SEO for Shopify, WooCommerce, Magento & BigCommerce stores: technical fixes, category and product keyword architecture, and revenue tracking.",
     stats: [
       { k: "89%", v: "Organic revenue increase (case)" },
       { k: "14,000", v: "Monthly organic visitors from zero" },

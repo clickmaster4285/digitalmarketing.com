@@ -102,7 +102,7 @@ export default function PricingPage() {
       <RoamingRobot />
 
       <main className="relative">      
-        <section ref={(el) => { sections.current[0] = el; }}><Pricing /></section>
+        <section ref={(el) => { sections.current[0] = el; }}><Pricing headingLevel="h1" /></section>
       </main>
     </div>
   );

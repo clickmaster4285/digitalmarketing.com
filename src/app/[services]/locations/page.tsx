@@ -12,8 +12,15 @@ import {
   getMainService,
   getLatestServiceSubLocations,
   getTotalCityCount,
+  getServiceCityUrlSlug,
   isMainServiceSlug,
+  citySlugOf,
+  uniqueCityLocations,
+  SERVICE_SUB_LOCATIONS,
+  SERVICES_WITH_CITY_PAGES,
 } from "@/content/locations/serviceLocations";
+import { normalizeMetadataText } from "@/lib/serviceMetadata";
+import { organizationRef } from "@/lib/organizationSchema";
 
 const BASE_URL = "https://clickmastersdigitalmarketing.com";
 
@@ -29,13 +36,18 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const cityCount = getTotalCityCount();
   const subLocations = getLatestServiceSubLocations(svc.slug, 9);
 
-  const title = `${svc.name} Locations — ${cityCount}+ US Cities We Serve`;
-  const description =
+  const title = normalizeMetadataText(
+    `${svc.name} Locations — ${cityCount}+ US Cities We Serve`,
+    60,
+  );
+  const description = normalizeMetadataText(
     subLocations.length > 0
       ? `Clickmasters ${svc.name.toLowerCase()} in ${subLocations
           .map((s) => s.city)
           .join(", ")} and ${cityCount}+ US cities. Explore our newest local ${svc.short.toLowerCase()} programs.`
-      : `Clickmasters ${svc.name.toLowerCase()} now available in ${cityCount}+ US cities. Explore our newest local programs and see what a city-level ${svc.short.toLowerCase()} rollout includes.`;
+      : `Clickmasters ${svc.name.toLowerCase()} now available in ${cityCount}+ US cities. Explore our newest local programs and see what a city-level ${svc.short.toLowerCase()} rollout includes.`,
+    155,
+  );
 
   return {
     title,
@@ -67,17 +79,31 @@ export default async function Page({ params }: Params) {
   const service = getMainService(services);
   const subLocations = getLatestServiceSubLocations(service.slug, 9);
   const cityCount = getTotalCityCount();
+  // Every live city page for this service, so none is reachable only via the sitemap.
+  const cityPages = new Map<string, { href: string; city: string; state: string }>();
+  if (SERVICES_WITH_CITY_PAGES.includes(service.slug)) {
+    for (const loc of uniqueCityLocations()) {
+      const href = `/${service.slug}/locations/${getServiceCityUrlSlug(service.slug, citySlugOf(loc))}`;
+      cityPages.set(href, { href, city: loc.name, state: loc.state });
+    }
+    // Hand-built sub-pages are listed in the city sitemaps too.
+    for (const sub of SERVICE_SUB_LOCATIONS[service.slug] ?? []) {
+      const href = `/${service.slug}/locations/${sub.slug}`;
+      if (!cityPages.has(href)) {
+        cityPages.set(href, { href, city: sub.city, state: sub.state });
+      }
+    }
+  }
+  const sortedCityPages = [...cityPages.values()].sort((a, b) =>
+    a.city.localeCompare(b.city),
+  );
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Service",
     name: `${service.name} — ${cityCount}+ US Cities`,
     serviceType: service.title,
-    provider: {
-      "@type": "Organization",
-      name: "Clickmasters Digital Marketing",
-      url: BASE_URL,
-    },
+    provider: organizationRef,
     areaServed:
       subLocations.length > 0
         ? subLocations.map((s) => ({
@@ -97,6 +123,7 @@ export default async function Page({ params }: Params) {
         service={service}
         subLocations={subLocations}
         cityCount={cityCount}
+        cityPages={sortedCityPages}
       />
     </>
   );

@@ -14,8 +14,8 @@ const reasons = [
   {
     bg: "#6C3DF4",
     logo: "✅",
-    title: "Certified Experts",
-    org: "Our team holds certifications in Google Ads, Google Analytics, Meta Blueprint, and HubSpot.",
+    title: "Platform Expertise",
+    org: "Our team works across paid media, analytics, social, and marketing automation platforms.",
     pattern: "dots",
   },
   {
@@ -98,7 +98,7 @@ export const Awards = () => {
         </h2>
 
         <p className="text-center max-w-2xl mx-auto text-lg md:text-base text-muted-foreground mb-12 px-6 z-10 pointer-events-none">
-          We combine certified expertise, transparent reporting, and dedicated account management with no cookie-cutter packages. Every strategy is custom-built around your business, not a template.
+          We combine cross-channel expertise, transparent reporting, and dedicated account management with no cookie-cutter packages. Every strategy is custom-built around your business, not a template.
         </p>
 
         {/* Increased card height from w-[280px] h-[340px] to w-[320px] h-[420px] */}

@@ -6,6 +6,7 @@ import { notFound, permanentRedirect } from "next/navigation";
 import type { Metadata } from "next";
 import { CmsPageRenderer } from "@/components/cms/CmsPageRenderer";
 import { cmsPageMetadata, getCmsPage } from "@/lib/cms";
+import { normalizeMetadataText } from "@/lib/serviceMetadata";
 
 interface PageProps {
   params: Promise<{
@@ -38,15 +39,18 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return cmsPage ? cmsPageMetadata(cmsPage) : { title: "Location Not Found" };
   }
 
+  const title = normalizeMetadataText(location.metaTitle, 60);
+  const description = normalizeMetadataText(location.metaDescription, 155);
+
   return {
-    title: { absolute: location.metaTitle },
-    description: location.metaDescription,
+    title: { absolute: title },
+    description,
     alternates: {
       canonical: `/locations/${slug}`,
     },
     openGraph: {
-      title: location.metaTitle,
-      description: location.metaDescription,
+      title,
+      description,
       url: `/locations/${slug}`,
       siteName: "Clickmasters Digital Marketing",
       locale: "en_US",
@@ -54,8 +58,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     },
     twitter: {
       card: "summary_large_image",
-      title: location.metaTitle,
-      description: location.metaDescription,
+      title,
+      description,
     },
   };
 }

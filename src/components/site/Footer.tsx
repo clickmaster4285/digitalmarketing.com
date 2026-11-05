@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowUpRight, Phone, Mail, MapPin } from "lucide-react";
+import type { ReactNode } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,22 +17,20 @@ const services = [
   { label: "Web Design & Development", href: "/web-design-development" },
   { label: "Mobile App Development", href: "/mobile-app-development" },
   { label: "CRO", href: "/conversion-rate-optimization" },
+  { label: "Content Marketing", href: "/content-marketing" },
+  { label: "Ecommerce Services", href: "/ecommerce-services" },
 ];
 
 const quickLinks = [
   { label: "Home", href: "/" },
+  { label: "Services Directory", href: "/services" },
   { label: "About", href: "/about" },
   { label: "Contact Us", href: "/contact" },
   { label: "Process", href: "/process" },
   { label: "Testimonial", href: "/testimonials" },
   { label: "Pricing", href: "/pricing" },
   { label: "Solutions", href: "/solutions" },
-];
-
-const offices = [
-  { city: "San Francisco", line1: "300 Broadway,", line2: "San Francisco, CA 94133" },
-  { city: "New York", line1: "148 Lafayette St,", line2: "New York, NY 10013" },
-  { city: "Austin", line1: "600 Congress Ave,", line2: "Austin, TX 78701" },
+  { label: "Products", href: "/products" },
 ];
 
 const socialLinks = [
@@ -52,7 +51,7 @@ const socialLinks = [
   },
 ];
 
-export default function Footer() {
+export default function Footer({ children }: { children?: ReactNode }) {
   const footerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -179,35 +178,22 @@ export default function Footer() {
             </ul>
           </nav>
 
-          {/* Offices */}
+          {/* Service areas */}
           <div className="footer-item">
             <h3 className="font-display mb-5 text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">
-              Offices
+              Service Areas
             </h3>
-            <ul className="space-y-6">
-              {offices.map((office) => (
-                <li key={office.city}>
-                  <a
-                    href={`https://maps.google.com/?q=${encodeURIComponent(`${office.line1} ${office.line2}`)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group block"
-                  >
-                    <div className="mb-1 flex items-center gap-1.5 text-base font-medium leading-snug tracking-[0.01em] text-neutral-200 transition-colors group-hover:text-[#FF2E86]">
-                      <MapPin className="h-3.5 w-3.5 text-neutral-600 transition-colors group-hover:text-[#FF2E86]" />
-                      {office.city}
-                    </div>
-                    <p className="pl-5 text-[14px] leading-relaxed tracking-[0.01em] text-neutral-500 transition-colors group-hover:text-neutral-400">
-                      {office.line1}
-                      <br />
-                      {office.line2}
-                    </p>
-                  </a>
-                </li>
-              ))}
-            </ul>
+            <Link
+              href="/locations"
+              className="group inline-flex items-start gap-3 text-sm leading-relaxed text-neutral-400 transition-colors hover:text-white"
+            >
+              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-neutral-600 transition-colors group-hover:text-[#FF2E86]" />
+              <span>Browse all cities we serve</span>
+            </Link>
           </div>
         </div>
+
+        {children}
 
         {/* ───── Bottom bar ───── */}
         <div className="footer-item flex flex-col gap-6 border-t border-neutral-800/80 py-8 md:flex-row md:items-center md:justify-between">

@@ -64,8 +64,13 @@ const solutions = [
   },
 ];
 
-export const Solutions = () => {
+export const Solutions = ({
+  headingLevel = "h2",
+}: {
+  headingLevel?: "h1" | "h2";
+}) => {
   const [showAll, setShowAll] = useState(false);
+  const Heading = headingLevel;
 
   const visibleSolutions = showAll ? solutions : solutions.slice(0, 6);
 
@@ -79,9 +84,9 @@ export const Solutions = () => {
         </div>
 
         <div className="md:col-span-8">
-          <h2 className="font-display text-5xl md:text-7xl leading-[1.05] text-balance">
+          <Heading className="font-display text-5xl md:text-7xl leading-[1.05] text-balance">
             Industries <em className="font-display italic">We Serve</em>
-          </h2>
+          </Heading>
           <p className="mt-6 text-muted-foreground text-lg md:text-xl max-w-2xl text-balance">
             Clickmasters provides specialized digital marketing services for small business and enterprise clients across a wide range of industries. Here's how we help each one grow:
           </p>

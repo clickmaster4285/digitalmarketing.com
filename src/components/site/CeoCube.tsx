@@ -3,7 +3,7 @@
 import { motion, useInView, useScroll, useTransform, useSpring } from "framer-motion";
 import { useRef } from "react";
 import Image from "next/image";
-import ceoImg from "@/assets/ceo.png";
+import ceoImg from "@/assets/ceo.webp";
 import { ExternalLink } from "lucide-react";
 
 const FlipCard = ({

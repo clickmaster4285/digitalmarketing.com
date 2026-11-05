@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { normalizeMetadataText } from "./serviceMetadata";
 
 export interface CmsSection {
   id?: string;
@@ -226,27 +227,46 @@ function metadataRobots(value: unknown): Metadata["robots"] {
 
 export function cmsPageMetadata(page: CmsPage): Metadata {
   const seo = page.seo ?? {};
-  const title = typeof seo.title === "string" ? seo.title : page.title;
-  const description =
+  const rawTitle = typeof seo.title === "string" ? seo.title : page.title;
+  const title =
+    normalizeMetadataText(rawTitle, 60) || "Clickmasters Digital Marketing";
+  const rawDescription =
     typeof seo.description === "string" ? seo.description : undefined;
-  const canonical = safeMetadataUrl(seo.canonicalUrl);
+  const normalizedDescription = normalizeMetadataText(rawDescription ?? "", 155);
+  const description =
+    normalizedDescription.length >= 70
+      ? normalizedDescription
+      : normalizeMetadataText(
+          `Learn about ${page.title} and how Clickmasters helps businesses grow with tailored digital marketing services.`,
+          155,
+        );
+  const canonical =
+    safeMetadataUrl(seo.canonicalUrl) ?? `/${page.slug.replace(/^\/+/, "")}`;
   const openGraph = isRecord(seo.openGraph) ? seo.openGraph : {};
-  const openGraphTitle =
+  const openGraphTitle = normalizeMetadataText(
     typeof openGraph.title === "string"
       ? openGraph.title
       : typeof seo.openGraphTitle === "string"
         ? seo.openGraphTitle
         : typeof seo.ogTitle === "string"
           ? seo.ogTitle
-        : title;
-  const openGraphDescription =
+        : title,
+    60,
+  ) || title;
+  const normalizedOpenGraphDescription = normalizeMetadataText(
     typeof openGraph.description === "string"
       ? openGraph.description
       : typeof seo.openGraphDescription === "string"
         ? seo.openGraphDescription
         : typeof seo.ogDescription === "string"
           ? seo.ogDescription
-        : description;
+        : description,
+    155,
+  );
+  const openGraphDescription =
+    normalizedOpenGraphDescription.length >= 70
+      ? normalizedOpenGraphDescription
+      : description;
   const openGraphImage = safeMetadataUrl(
     openGraph.image ?? seo.openGraphImage ?? seo.ogImage,
   );

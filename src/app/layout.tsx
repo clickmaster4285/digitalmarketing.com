@@ -4,6 +4,9 @@ import "./globals.css";
 import { Providers } from "./providers";
 import { Navbar } from "@/components/site/Navbar";
 import Footer from "@/components/site/Footer";
+import FooterLocationDirectory from "@/components/site/FooterLocationDirectory";
+import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
+import { organizationSchema, websiteSchema } from "@/lib/organizationSchema";
 
 const inter = localFont({
   src: [
@@ -29,8 +32,8 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://clickmastersdigitalmarketing.com"),
 
   title: {
-    default: "Award-Winning Digital Marketing Agency in the United States |",
-    template: "%s ",
+    default: "Digital Marketing Agency | ClickMasters",
+    template: "%s",
   },
 
   description:
@@ -40,9 +43,8 @@ export const metadata: Metadata = {
     google: "kb6Id5erVP_g44Qk5TI9pTr_9XP5UvANRYm4eNrbq6E",
   },
 
-  alternates: {
-    canonical: "/",
-  },
+  // No site-wide canonical: each page sets its own (the homepage in app/page.tsx).
+  // A canonical here would be inherited by every page that lacks one.
 
   robots: {
     index: true,
@@ -95,6 +97,13 @@ export default function RootLayout({
           />
         </noscript>
 
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify([organizationSchema, websiteSchema]),
+          }}
+        />
+        <BreadcrumbJsonLd />
         <Navbar />
 
         <Providers>
@@ -103,7 +112,9 @@ export default function RootLayout({
           </div>
         </Providers>
 
-        <Footer />
+        <Footer>
+          <FooterLocationDirectory />
+        </Footer>
       </body>
     </html>
   );

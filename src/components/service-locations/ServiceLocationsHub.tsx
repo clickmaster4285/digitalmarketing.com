@@ -457,6 +457,52 @@ const LatestLocations = ({
   );
 };
 
+/* ---------------- All city pages directory (light) ---------------- */
+
+export interface ServiceCityPageLink {
+  href: string;
+  city: string;
+  state: string;
+}
+
+const AllCityPages = ({
+  service,
+  cityPages,
+  n,
+}: {
+  service: MainServiceInfo;
+  cityPages: ServiceCityPageLink[];
+  n: string;
+}) => {
+  if (!cityPages.length) return null;
+
+  return (
+    <section
+      className="relative bg-background text-foreground py-24"
+      data-service-city-directory
+    >
+      <div className="container max-w-6xl">
+        <SectionLabel n={n} t="All cities" />
+        <h2 className="font-display text-4xl md:text-6xl font-bold leading-[0.95] tracking-tight mb-12">
+          {service.name} in every city we serve.
+        </h2>
+        <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-3">
+          {cityPages.map((page) => (
+            <li key={page.href}>
+              <Link
+                href={page.href}
+                className="text-sm md:text-base opacity-80 hover:opacity-100 hover:text-[#FF2E86] transition-colors"
+              >
+                {service.name} in {page.city}, {page.state}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+};
+
 /* ---------------- FAQ (light) ---------------- */
 
 const Faqs = ({ n = "06" }: { n?: string }) => (
@@ -547,12 +593,15 @@ export function ServiceLocationsHub({
   service,
   subLocations,
   cityCount,
+  cityPages,
 }: {
   service: MainServiceInfo;
   subLocations: ServiceSubLocation[];
   cityCount: number;
+  cityPages: ServiceCityPageLink[];
 }) {
   useSmoothScroll();
+  const hasLatest = subLocations.length > 0;
 
   return (
     <div className="theme-light w-full overflow-x-clip bg-background text-foreground">
@@ -567,7 +616,12 @@ export function ServiceLocationsHub({
         <WhatsIncluded />
         <Rollout />
         <LatestLocations service={service} subLocations={subLocations} />
-        <Faqs n={subLocations.length ? "06" : "05"} />
+        <AllCityPages
+          service={service}
+          cityPages={cityPages}
+          n={hasLatest ? "06" : "05"}
+        />
+        <Faqs n={hasLatest ? "07" : "06"} />
         <Cta service={service} />
       </main>
     </div>

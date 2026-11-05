@@ -101,7 +101,7 @@ export default function SolutionsPage() {
 
       <main className="relative">
    
-        <section ref={(el) => { sections.current[0] = el; }}><Solutions /></section>
+        <section ref={(el) => { sections.current[0] = el; }}><Solutions headingLevel="h1" /></section>
       
       </main>
     </div>

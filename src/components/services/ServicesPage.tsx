@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useParams } from "next/navigation";
+import { notFound, useParams } from "next/navigation";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useSmoothScroll } from "@/hooks/useSmoothScroll";
+import Link from "next/link";
 
 import {
   Code2, Gauge, ShieldCheck, Plug, Search, Server, ShoppingBag, Layers,
@@ -30,6 +31,7 @@ import { CitationBuildingServicesContent  } from "@/content/services/CitationBui
 import { VoiceSearchOptimizationContent } from "@/content/services/VoiceSearchOptimization";
 import { SchemaMarkupContent } from "@/content/services/SchemaMarkup";
 import { WhiteLabelSeoContent } from "@/content/services/WhiteLabelSeo";
+import { SERVICE_CATEGORIES } from "@/content/services/serviceCategories";
 
 import { OnPageSeoContent } from "@/content/services/OnPageSeo";
 import { OffPageSeoContent } from "@/content/services/OffPageSeo";
@@ -247,28 +249,43 @@ const contentRegistry: Record<string, any> = {
   "ada-compliance-web-accessibility":AdaComplianceContent,
 };
 
-// 404 content for unknown slugs
-const notFoundContent = {
-  hero: {
-    tag: "[ Error 404 ]",
-    title: "Service Not",
-    titleHighlight: "Found",
-    subtitle: " the page you're looking for doesn't exist.",
-    description: "Please check the URL or contact us for more information about our services.",
-    stats: [
-      { k: "404", v: "Page not found" },
-      { k: "0", v: "Results" },
-    ],
-  },
-  // ... minimal structure to prevent errors
-  intro: { problem: "", solution: "", promise: "" },
-  problem: { title: "", titleHighlight: "", items: [], afterTitle: "", afterHighlight: "", afterItems: [] },
-  services: [],
-  cases: [],
-  why: [],
-  faqs: [],
-  cta: { title: "", description: "", contactLink: "#", whatsappLink: "#" },
-  footer: { company: "", url: "", email: "", regions: "", author: "" },
+const RelatedServiceLinks = ({
+  parentSlug,
+  slug,
+}: {
+  parentSlug: string;
+  slug: string;
+}) => {
+  const category = SERVICE_CATEGORIES.find((item) =>
+    item.items.some((service) => service.href === `/${parentSlug}/${slug}`),
+  );
+  const relatedServices = category?.items.filter(
+    (service) => service.href !== `/${parentSlug}/${slug}`,
+  );
+
+  if (!category || !relatedServices?.length) return null;
+
+  return (
+    <section className="bg-background px-5 py-16 text-foreground sm:px-8">
+      <div className="mx-auto max-w-6xl">
+        <h2 className="font-display text-3xl font-semibold">
+          Related {category.title} services
+        </h2>
+        <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {relatedServices.map((service) => (
+            <li key={service.href}>
+              <Link
+                href={service.href}
+                className="block rounded-xl border border-foreground/10 px-5 py-4 text-sm transition-colors hover:border-primary/40 hover:text-primary"
+              >
+                {service.name}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
 };
 
 /* ---------- Reusable bits ---------- */
@@ -859,42 +876,38 @@ const CTA = ({ content }: { content: any }) => {
 export default function ServicesPage({ slugOverride }: { slugOverride?: string } = {}) {
   const params = useParams();
   const slug = slugOverride ?? (params?.slug as string);
+  const parentSlug = params?.services as string;
   useSmoothScroll();
 
   const RoutedPage = routedPageRegistry[slug || ""];
-
-  // Get content based on slug, fallback to 404
-  const content = contentRegistry[slug || ""] || notFoundContent;
-  const is404 = !contentRegistry[slug || ""];
+  const content = contentRegistry[slug || ""];
+  if (!content) notFound();
 
   useEffect(() => {
     if (RoutedPage) return;
 
-    if (!is404) {
-      document.title = `${content.hero.title} ${content.hero.titleHighlight} | Clickmasters Digital Marketing`;
-      const desc = content.hero.description.slice(0, 160);
-      let m = document.querySelector('meta[name="description"]');
-      if (!m) {
-        m = document.createElement("meta");
-        m.setAttribute("name", "description");
-        document.head.appendChild(m);
-      }
-      m.setAttribute("content", desc);
-    } else {
-      document.title = "Service Not Found | Clickmasters Digital Marketing";
+    document.title = `${content.hero.title} ${content.hero.titleHighlight} | Clickmasters Digital Marketing`;
+    const desc = content.hero.description.slice(0, 160);
+    let m = document.querySelector('meta[name="description"]');
+    if (!m) {
+      m = document.createElement("meta");
+      m.setAttribute("name", "description");
+      document.head.appendChild(m);
     }
-  }, [slug, content, is404, RoutedPage]);
+    m.setAttribute("content", desc);
+  }, [slug, content, RoutedPage]);
 
   if (RoutedPage) return <RoutedPage />;
 
   return (
     <div className="theme-light w-full overflow-x-clip bg-background text-foreground">
-          <SchemaMarkup schema={content.schema} slug={slug} />
+          <SchemaMarkup schema={content.schema} slug={slug} faqs={content.faqs} />
       <main>
         <Hero content={content} />
         <Intro content={content} />
         <Problem content={content} />
         <ServicesGrid content={content} />
+        <RelatedServiceLinks parentSlug={parentSlug} slug={slug} />
         <Cases content={content} />
         <Why content={content} />
         <Faqs content={content} />

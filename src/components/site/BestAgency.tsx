@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  animate,
   motion,
   useInView,
   useMotionValue,
@@ -8,7 +9,7 @@ import {
   useScroll,
   useTransform,
 } from "framer-motion";
-import { useRef, useEffect, type ReactNode, type MouseEvent, useMemo } from "react";
+import { useRef, useEffect, useState, type ReactNode, type MouseEvent, useMemo } from "react";
 import { ArrowRight, BarChart3, Target, Shield, TrendingUp } from "lucide-react";
 
 const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
@@ -16,7 +17,6 @@ const clamp = (value: number, min: number, max: number) => Math.min(Math.max(val
 const stats = [
   { value: "200+", label: "US Businesses Grown" },
   { value: "$50M+", label: "Client Revenue Generated" },
-  { value: "5-Star", label: "Rated Agency" },
   { value: "100%", label: "Satisfaction Guaranteed" },
 ];
 
@@ -44,11 +44,11 @@ const features = [
 ];
 
 const tickerBadges = [
-  "Certified Google Partner",
-  "200+ US Businesses Grown",
-  "$50M+ Client Revenue Generated",
-  "5-Star Rated Agency",
-  "No Long-Term Contracts",
+  "SEO & Content Strategy",
+  "Paid Media Management",
+  "Web Design & Development",
+  "Conversion Rate Optimization",
+  "Marketing Analytics",
 ];
 
 /* ---------------------------------------------------------------------- */
@@ -120,7 +120,7 @@ function StatNumber({
   start: boolean;
 }) {
   return (
-    <span className="tabular-nums" suppressHydrationWarning>
+    <span className="tabular-nums" data-counter="true">
       <AnimatedDigits prefix={prefix} target={target} suffix={suffix} start={start} />
     </span>
   );
@@ -137,15 +137,22 @@ function AnimatedDigits({
   suffix: string;
   start: boolean;
 }) {
-  const value = useMotionValue(0);
-  const spring = useSpring(value, { stiffness: 60, damping: 18 });
-  const display = useTransform(spring, (v) => `${prefix}${Math.round(v)}${suffix}`);
+  const [display, setDisplay] = useState(target);
 
   useEffect(() => {
-    if (start) value.set(target);
-  }, [start, target, value]);
+    if (!start) return;
 
-  return <motion.span>{display}</motion.span>;
+    setDisplay(0);
+    const controls = animate(0, target, {
+      type: "spring",
+      stiffness: 60,
+      damping: 18,
+      onUpdate: (current) => setDisplay(Math.round(current)),
+    });
+    return () => controls.stop();
+  }, [start, target]);
+
+  return <span>{`${prefix}${display}${suffix}`}</span>;
 }
 
 /* ---------------------------------------------------------------------- */
@@ -453,7 +460,7 @@ export const BestAgencySection = () => {
       {/* Bottom ticker  Right to Left (opposite direction) */}
       <div className="mt-16">
         <Marquee
-          items={["Google", "Meta", "Microsoft Advertising", "HubSpot", "Semrush", "Clutch"]}
+          items={["Strategy", "Execution", "Measurement", "Optimization", "Growth"]}
           direction="right"
           duration={34}
         />

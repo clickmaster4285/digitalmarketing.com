@@ -1,5 +1,6 @@
 import { promises as fs } from 'fs';
 import path from 'path';
+import { getAllProducts } from '@/content/product/productContent';
 
 const siteUrl = 'https://clickmastersdigitalmarketing.com';
 
@@ -71,7 +72,11 @@ async function collectPageRoutes() {
 }
 
 export async function GET() {
-  const routes = await collectPageRoutes();
+  const routes = [
+    ...(await collectPageRoutes()),
+    // Dynamic product pages are skipped by the file walker.
+    ...getAllProducts().map((product) => `/products/${product.slug}`),
+  ];
   const lastMod = new Date().toISOString().split('T')[0];
   const urls = routes.map((route) => buildUrlElement(`${siteUrl}${route}`, lastMod));
 

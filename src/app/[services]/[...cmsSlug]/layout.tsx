@@ -2,6 +2,8 @@ import { Metadata, ResolvingMetadata } from "next";
 import { SERVICE_PAGE_SLUGS } from "@/content/services/servicePageSlugs";
 import { cmsPageMetadata, getCmsPage } from "@/lib/cms";
 import { isMainServiceSlug } from "@/content/locations/serviceLocations";
+import { createServiceMetadataRegistry } from "@/lib/serviceMetadata";
+import { getCanonicalServicePath } from "@/content/services/serviceCategories";
 
 // Import all content files
 import { AiMlDevContent } from "@/content/services/AiMlDev";
@@ -102,6 +104,7 @@ import { PwaDevelopmentContent } from "@/content/services/PwaDevelopmentContent"
 import { HeadlessCommerceContent } from "@/content/services/HeadlessCommerceContent";
 import { WebsiteMaintenanceContent } from "@/content/services/WebsiteMaintenanceContent";
 import { AdaComplianceContent } from "@/content/services/AdaComplianceContent";
+import { CustomSoftwareContent } from "@/content/services/CustomSoftwareContent";
 
 // Content registry - must match page.tsx
 const contentRegistry: Record<string, any> = {
@@ -203,8 +206,11 @@ const contentRegistry: Record<string, any> = {
   "pwa-development": PwaDevelopmentContent,
   "headless-commerce-development": HeadlessCommerceContent,
   "website-maintenance": WebsiteMaintenanceContent,
+  "custom-software-development": CustomSoftwareContent,
   "ada-compliance-web-accessibility": AdaComplianceContent,
 };
+
+const serviceMetadataRegistry = createServiceMetadataRegistry(contentRegistry);
 
 export async function generateMetadata(
   { params }: { params: Promise<{ services: string; cmsSlug: string[] }> },
@@ -216,13 +222,11 @@ export async function generateMetadata(
   const content =
     isCodeDefinedService && slug ? contentRegistry[slug] : undefined;
 
-  if (content?.metadata) {
+  if (content && slug) {
     const BASE_URL = "https://clickmastersdigitalmarketing.com";
-    const canonicalUrl = `${BASE_URL}/${services}/${slug}`;
+    const canonicalUrl = `${BASE_URL}${getCanonicalServicePath(slug) ?? `/${services}/${slug}`}`;
     return {
-      title: content.metadata.seoTitle,
-      description: content.metadata.metaDescription,
-      keywords: content.metadata.secondaryKeywords ?? content.metadata.keyword ?? undefined,
+      ...serviceMetadataRegistry[slug],
       alternates: { canonical: canonicalUrl },
     };
   }
@@ -238,9 +242,9 @@ export async function generateMetadata(
 
   if (!content || !content.metadata) {
     return {
-      title: "ClickMasters Software crafted with care",
+      title: "Clickmasters Digital Marketing",
       description:
-        "An independent software studio designing and engineering web platforms, apps and AI products for ambitious founders.",
+        "Digital marketing services and growth solutions from Clickmasters Digital Marketing.",
     };
   }
 

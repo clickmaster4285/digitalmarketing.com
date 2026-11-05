@@ -303,7 +303,7 @@ export default function ContactClient() {
               style={{ left: p.x, top: p.y }}
             >
               <img
-                src={p.flag}
+                src={p.flag.replace("https://flagcdn.com/w80/", "/flags/")}
                 alt={p.country}
                 className="h-full w-full object-cover"
               />

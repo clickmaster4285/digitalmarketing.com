@@ -5609,7 +5609,7 @@ buttonLink: "/contact",
 
         icon: "Search",
 
-        link: "/search-engine-optimization/website-audit",
+        link: "/search-engine-optimization/seo-audit",
       },
 
       {
@@ -5642,7 +5642,7 @@ buttonLink: "/contact",
 
         icon: "Link",
 
-        link: "/search-engine-optimization/off-page-seo",
+        link: "/search-engine-optimization/off-page-seo-link-building",
       },
 
       {
@@ -7232,7 +7232,7 @@ packagesSection: {
 
         icon: "FileText",
 
-        link: "/search-engine-optimization/content-optimization",
+        link: "/search-engine-optimization/on-page-seo",
       },
 
       {
@@ -7243,7 +7243,7 @@ packagesSection: {
 
         icon: "Link",
 
-        link: "/search-engine-optimization/off-page-seo",
+        link: "/search-engine-optimization/off-page-seo-link-building",
       },
 
       {
@@ -7254,7 +7254,7 @@ packagesSection: {
 
         icon: "Sparkles",
 
-        link: "/search-engine-optimization/ai-search-optimization",
+        link: "/search-engine-optimization/ai-seo",
       },
     ],
   },

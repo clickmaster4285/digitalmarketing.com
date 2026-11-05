@@ -108,6 +108,13 @@ export const MAIN_SERVICES: Record<string, MainServiceInfo> = {
   },
 };
 
+/** Main services whose /{service}/locations/{city} pages are published (each has a city sitemap). */
+export const SERVICES_WITH_CITY_PAGES: readonly string[] = [
+  "search-engine-optimization",
+  "pay-per-click",
+  "social-media-marketing",
+];
+
 export const isMainServiceSlug = (slug: string): boolean =>
   Object.hasOwn(MAIN_SERVICES, slug) || slug === "pay-per-click-ppc";
 
@@ -116,6 +123,12 @@ export const getMainService = (slug?: string | null): MainServiceInfo =>
 
 /** Location slugs look like "digital-marketing-agency-boston" -> "boston" */
 const CITY_SLUG_PREFIX = "digital-marketing-agency-";
+const LEGACY_LOCATION_SLUGS = new Set([
+  "seo-services-tampa",
+  "seo-services-seattle",
+  "seo-services-phoenix",
+  "seo-services-richmond",
+]);
 
 export const citySlugOf = (loc: LocationData): string =>
   loc.slug.startsWith(CITY_SLUG_PREFIX)
@@ -123,6 +136,13 @@ export const citySlugOf = (loc: LocationData): string =>
     : loc.slug.startsWith("seo-services-")
       ? loc.slug.slice("seo-services-".length)
       : loc.slug;
+
+export const getLocationPageHref = (
+  location: Pick<LocationData, "slug">,
+): string =>
+  LEGACY_LOCATION_SLUGS.has(location.slug)
+    ? `/search-engine-optimization/locations/${location.slug}`
+    : `/locations/${location.slug}`;
 
 /** All locations deduped by city, keeping the freshest entry of each. */
 export const uniqueCityLocations = (): LocationData[] => {

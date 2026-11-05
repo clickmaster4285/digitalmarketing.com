@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useInView, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { animate, motion, useInView } from "framer-motion";
 import {
   ExternalLink,
   CheckCircle2,
@@ -136,10 +136,13 @@ function KineticHeadline({ text, className }: { text: string; className?: string
       aria-label={text}
     >
       {words.map((word, i) => (
-        <span key={i} className="inline-block overflow-hidden pb-1 mr-[0.28em] align-top">
-          <motion.span variants={wordVariants} className="inline-block">
-            {word}
-          </motion.span>
+        <span key={i}>
+          <span className="inline-block overflow-hidden pb-1 mr-[0.28em] align-top">
+            <motion.span variants={wordVariants} className="inline-block">
+              {word}
+            </motion.span>
+          </span>
+          {" "}
         </span>
       ))}
     </motion.h1>
@@ -150,21 +153,23 @@ function KineticHeadline({ text, className }: { text: string; className?: string
 function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.6 });
-  const motionValue = useMotionValue(0);
-  const springValue = useSpring(motionValue, { damping: 24, stiffness: 80 });
-  const [display, setDisplay] = useState(0);
+  const [display, setDisplay] = useState(value);
 
   useEffect(() => {
-    if (inView) motionValue.set(value);
-  }, [inView, motionValue, value]);
+    if (!inView) return;
 
-  useEffect(() => {
-    const unsub = springValue.on("change", (v) => setDisplay(Math.round(v)));
-    return unsub;
-  }, [springValue]);
+    setDisplay(0);
+    const controls = animate(0, value, {
+      type: "spring",
+      damping: 24,
+      stiffness: 80,
+      onUpdate: (current) => setDisplay(Math.round(current)),
+    });
+    return () => controls.stop();
+  }, [inView, value]);
 
   return (
-    <span ref={ref} className="tabular-nums">
+    <span ref={ref} className="tabular-nums" data-counter="true">
       {display}
       {suffix}
     </span>

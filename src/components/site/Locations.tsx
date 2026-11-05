@@ -59,7 +59,7 @@ const locations = [
     coordinates: "33.7490° N, 84.3880° W",
   },
   {
-    url: "seo-services-phoenix",
+    url: "/search-engine-optimization/locations/seo-services-phoenix",
     city: "Phoenix",
     state: "AZ",
     tagline: "Digital Marketing Services Phoenix",
@@ -73,7 +73,7 @@ const locations = [
     coordinates: "33.4484° N, 112.0740° W",
   },
   {
-    url: "seo-services-tampa",
+    url: "/search-engine-optimization/locations/seo-services-tampa",
     city: "Tampa",
     state: "FL",
     tagline: "Digital Marketing Services Tampa",
@@ -290,7 +290,7 @@ export default function LocationsSection() {
                     </div>
                     
                     <a
-                      href={`/locations/${location.url}`}
+                      href={location.url.startsWith("/") ? location.url : `/locations/${location.url}`}
                       className="inline-flex items-center gap-1 text-sm font-medium text-foreground/40 transition-all duration-300 group-hover:text-foreground/80"
                     >
                       Learn more

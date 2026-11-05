@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { ExternalLink } from "lucide-react";
-import servicesImg from "@/assets/services.png";
+import servicesImg from "@/assets/services.webp";
 import Image from "next/image";
 
 const services = [

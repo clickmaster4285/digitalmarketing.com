@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useInView, useMotionValue, useTransform, animate } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { animate, motion, useInView } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
 const stats = [
   { n: 80, s: "+", l: "Team" },
@@ -14,20 +14,22 @@ const stats = [
 const Counter = ({ to, pad }: { to: number; pad?: boolean }) => {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
-  const mv = useMotionValue(0);
-  const rounded = useTransform(mv, (v) => {
-    const n = Math.floor(v);
-    return pad && n < 10 ? `0${n}` : `${n}`;
-  });
+  const [display, setDisplay] = useState(to);
 
   useEffect(() => {
-    if (inView) {
-      const controls = animate(mv, to, { duration: 2, ease: [0.22, 1, 0.36, 1] });
-      return () => controls.stop();
-    }
-  }, [inView, to, mv]);
+    if (!inView) return;
 
-  return <motion.span ref={ref}>{rounded}</motion.span>;
+    setDisplay(0);
+    const controls = animate(0, to, {
+      duration: 2,
+      ease: [0.22, 1, 0.36, 1],
+      onUpdate: (value) => setDisplay(Math.floor(value)),
+    });
+    return () => controls.stop();
+  }, [inView, to]);
+
+  const formatted = pad && display < 10 ? `0${display}` : `${display}`;
+  return <span ref={ref} data-counter="true">{formatted}</span>;
 };
 
 export const Stats = () => (
