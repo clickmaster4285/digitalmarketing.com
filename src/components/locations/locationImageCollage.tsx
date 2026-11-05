@@ -3,9 +3,6 @@
 
 import { motion } from "framer-motion";
 import { ArrowUpRight, Sparkle } from "lucide-react";
-import image1 from "@/assets/image1.jpg";
-import image2 from "@/assets/image2.jpg";
-import image3 from "@/assets/image3.jpg";
 
 interface LocationImageCollageProps {
   /** Alt text for the images */
@@ -21,9 +18,9 @@ export default function LocationImageCollage({
 
   // Same images for all location pages
   const images = {
-    main: image1.src,
-    topRight: image2.src,
-    bottomRight: image3.src,
+    main: "/locations/image1.jpg",
+    topRight: "/locations/image2.jpg",
+    bottomRight: "/locations/image3.jpg",
   };
 
   return (
