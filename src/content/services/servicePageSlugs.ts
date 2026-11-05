@@ -4,6 +4,7 @@ export const SERVICE_PAGE_SLUGS = new Set([
   "ai-ml-development",
   "ai-personalization",
   "data-analytics-reporting",
+  "custom-software-development",
   "marketing-attribution",
   "marketing-automation",
   "ai-automation",

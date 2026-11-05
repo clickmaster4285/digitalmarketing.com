@@ -1,5 +1,5 @@
 // src/components/locations/LocationPage.tsx
-import { LocationData } from "@/content/locations/locationPagesData";
+import type { LocationData } from "@/content/locations/locationPagesData";
 import LocationHero from "./Hero";
 import LocationIntroduction from "./Introduction";
 import LocationServices from "./Services";
@@ -17,14 +17,52 @@ import LocationCaseStudies from "./CaseStudy";
 import LocationAreasServed from "./AreasServed";
 import LocationReviews from "./Reviews";
 import LocationAISearch from "./AiSearch";
+import RegionalLocations from "./RegionalLocations";
+import { getLocationPageHref } from "@/content/locations/serviceLocations";
+import { SITE_URL, organizationRef } from "@/lib/organizationSchema";
 
 interface LocationPageProps {
   data: LocationData;
 }
 
+const locationSchema = (data: LocationData) => {
+  const url = `${SITE_URL}${getLocationPageHref(data)}`;
+  const graph: Record<string, unknown>[] = [
+    {
+      "@type": "Service",
+      "@id": `${url}#service`,
+      name: `Digital Marketing Services in ${data.name}, ${data.state}`,
+      serviceType: "Digital Marketing",
+      url,
+      provider: organizationRef,
+      areaServed: {
+        "@type": "City",
+        name: data.name,
+        containedInPlace: { "@type": "State", name: data.state },
+      },
+    },
+  ];
+  const faqs = (data.faqs ?? []).filter((faq) => faq.question && faq.answer);
+  if (faqs.length) {
+    graph.push({
+      "@type": "FAQPage",
+      mainEntity: faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: { "@type": "Answer", text: faq.answer },
+      })),
+    });
+  }
+  return { "@context": "https://schema.org", "@graph": graph };
+};
+
 export default function LocationPage({ data }: LocationPageProps) {
   return (
     <main className="bg-background text-foreground">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(locationSchema(data)) }}
+      />
       {/* Grain texture overlay for the whole page */}
       <div className="grain fixed inset-0 pointer-events-none z-0" />
 
@@ -49,6 +87,8 @@ export default function LocationPage({ data }: LocationPageProps) {
           description={data.servicesSection.description}
           items={data.servicesSection.items}
         />
+
+        <RegionalLocations current={data} />
 
         {data.challengesSection && (
           <LocationChallenges

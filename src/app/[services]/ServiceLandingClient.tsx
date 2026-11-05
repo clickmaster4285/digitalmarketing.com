@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { useParams } from "next/navigation";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
+import Link from "next/link";
 import {
   SeoServicesContent,
   SocialMediaMarketingContent,
@@ -15,6 +16,7 @@ import {
   PayPerClickManagementContent,
   EcommerceServicesContent
 } from "@/content/services/main-services";
+import { SERVICE_CATEGORIES } from "@/content/services/serviceCategories";
 
 import SchemaMarkup from "@/components/landingPage/SchemaMarkup";
 
@@ -339,6 +341,75 @@ const Services = ({ content }: { content: any }) => {
   );
 };
 
+// Main services with published city pages under /{service}/locations.
+const CITY_DIRECTORY_LABELS: Record<string, string> = {
+  "search-engine-optimization": "SEO services",
+  "pay-per-click": "PPC management",
+  "social-media-marketing": "social media marketing",
+};
+
+const ServicesInCategory = ({
+  slug,
+  content,
+}: {
+  slug: string;
+  content: any;
+}) => {
+  const contentPath = String(content.metadata?.url ?? "")
+    .replace(/^https?:\/\/[^/]+/i, "")
+    .replace(/\/+$/, "");
+  const category = SERVICE_CATEGORIES.find(
+    (item) => item.href === `/${slug}` || item.href === contentPath,
+  );
+
+  if (!category) return null;
+
+  return (
+    <section className="relative bg-background py-20 text-foreground">
+      <div className="container max-w-6xl">
+        <SectionLabel n="05.5" t="Related services" />
+        <Reveal>
+          <h2 className="mb-8 font-display text-4xl font-bold leading-[0.95] tracking-tight md:text-6xl">
+            Services in this category
+          </h2>
+        </Reveal>
+        <nav aria-label={`${category.title} services`}>
+          <ul
+            data-service-category={category.href}
+            className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3"
+          >
+            {category.items.map((service) => (
+              <li key={service.href}>
+                <Link
+                  href={service.href}
+                  className="group flex h-full items-center justify-between gap-4 rounded-xl border border-foreground/10 bg-foreground/[0.02] px-5 py-4 transition-colors hover:border-[#FF2E86]/50 hover:bg-foreground/[0.04]"
+                >
+                  <span className="font-medium">{service.name}</span>
+                  <ArrowUpRight
+                    className="h-4 w-4 shrink-0 text-foreground/40 transition-colors group-hover:text-[#FF2E86]"
+                    aria-hidden="true"
+                  />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        {CITY_DIRECTORY_LABELS[slug] && (
+          <p className="mt-8 text-sm md:text-base">
+            <Link
+              href={`/${slug}/locations`}
+              className="inline-flex items-center gap-2 font-medium underline decoration-[#FF2E86]/50 underline-offset-4 hover:text-[#FF2E86]"
+            >
+              Find {CITY_DIRECTORY_LABELS[slug]} in your city
+              <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          </p>
+        )}
+      </div>
+    </section>
+  );
+};
+
 const Process = ({ content }: { content: any }) => {
   const timeline = content.process?.timeline || [];
   if (!timeline.length) return null;
@@ -578,7 +649,7 @@ export default function ServiceLandingClient() {
 
   return (
     <div className="theme-light w-full overflow-x-clip bg-background text-foreground">
-        <SchemaMarkup schema={content.schema} slug={slug} />
+        <SchemaMarkup schema={content.schema} slug={slug} faqs={content.faqs} />
       <main>
         <Hero content={content} />
         <Intro content={content} />
@@ -586,6 +657,7 @@ export default function ServiceLandingClient() {
         <TopRatedSection content={content} />
         <ProblemSection content={content} />
         <Services content={content} />
+        <ServicesInCategory slug={slug} content={content} />
         <Process content={content} />
         <Cases content={content} />
         <Why content={content} />

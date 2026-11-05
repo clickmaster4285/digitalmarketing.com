@@ -133,13 +133,15 @@ export default function LocationCTA({
                   <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
                     <Phone className="w-4 h-4 text-[#FF3D77]" />
                   </div>
-                  <span>(555) 123-4567</span>
+                  <a href="tel:+13252024074">+1 325 202 4074</a>
                 </div>
                 <div className="flex items-center gap-3 text-sm text-white/60">
                   <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
                     <Mail className="w-4 h-4 text-[#6C5CE7]" />
                   </div>
-                  <span>info@clickmasters.com</span>
+                  <a href="mailto:sales@clickmastersdigitalmarketing.com">
+                    sales@clickmastersdigitalmarketing.com
+                  </a>
                 </div>
                 <div className="flex items-center gap-3 text-sm text-white/60">
                   <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">

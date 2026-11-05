@@ -1,4 +1,4 @@
-const words = ["Google", "✦", "Meta", "✦", "Microsoft Advertising", "✦", "HubSpot", "✦", "Semrush", "✦", "Clutch", "✦", "UpCity", "✦", "Agency Spotter" , "✦" ,"GoodFirms", "✦" ,"Expertise.com", "✦"];
+const words = ["SEO", "✦", "Paid Media", "✦", "Web Design", "✦", "Content", "✦", "Analytics", "✦", "Automation", "✦", "Optimization", "✦"];
 
 export const Marquee = () => (
   <section className="py-10 border-y border-border overflow-hidden">

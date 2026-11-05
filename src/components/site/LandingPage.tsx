@@ -35,13 +35,6 @@ type Theme = { bg: string; fg: string };
 const LIGHT: Theme = { bg: "0 0% 98%", fg: "0 0% 6%" };
 const DARK: Theme = { bg: "0 0% 6%", fg: "0 0% 98%" };
 
-const SEO = {
-  title:
-    "Award-Winning Digital Marketing Agency in United States | ClickMasters",
-  description:
-    "Your full-service digital marketing agency for SEO, PPC, web design & performance marketing. Elevate your marketing strategies with top digital marketing company in United States.",
-};
-
 export default function LandingPage() {
   useSmoothScroll();
   const [idx, setIdx] = useState(0);
@@ -66,19 +59,6 @@ export default function LandingPage() {
     LIGHT,
     DARK,
   ];
-
-  useEffect(() => {
-    document.title = SEO.title;
-    let m = document.querySelector('meta[name="description"]');
-
-    if (!m) {
-      m = document.createElement("meta");
-      m.setAttribute("name", "description");
-      document.head.appendChild(m);
-    }
-
-    m.setAttribute("content", SEO.description);
-  }, []);
 
   useEffect(() => {
     const obs = new IntersectionObserver(

@@ -10,6 +10,7 @@ import {
   PayPerClickManagementContent,
   EcommerceServicesContent
 } from "@/content/services/main-services";
+import { createServiceMetadataRegistry } from "@/lib/serviceMetadata";
 
 
 
@@ -26,6 +27,8 @@ const contentMap: Record<string, any> = {
     "pay-per-click-ppc": PayPerClickManagementContent,
 };
 
+const serviceMetadataRegistry = createServiceMetadataRegistry(contentMap);
+
 export async function generateMetadata(
   { params }: { params: Promise<{ services: string }> },
   parent: ResolvingMetadata
@@ -33,16 +36,16 @@ export async function generateMetadata(
   const { services } = await params;
   const content = contentMap[services];
 
-  if (!content || !content.metadata) {
+  if (!content) {
     return {
-      title: "ClickMasters Software crafted with care",
+      title: "Clickmasters Digital Marketing",
       description:
-        "An independent software studio designing and engineering web platforms, apps and AI products for ambitious founders.",
+        "Digital marketing services and growth solutions from Clickmasters Digital Marketing.",
     };
   }
 
   const BASE_URL = "https://clickmastersdigitalmarketing.com";
-  const url = content.metadata.url || "/";
+  const url = content.metadata?.url || `/${services}`;
   // Normalize: never emit a trailing slash in canonicals (matches next.config trailingSlash: false)
   const canonicalPath = (url.startsWith("http") ? new URL(url).pathname : url).replace(/\/+$/, "") || "/";
   const canonicalUrl = canonicalPath.startsWith("http")
@@ -50,9 +53,7 @@ export async function generateMetadata(
     : `${BASE_URL}${canonicalPath.startsWith("/") ? "" : "/"}${canonicalPath}`;
 
   return {
-    title: content.metadata.seoTitle,
-    description: content.metadata.metaDescription,
-    keywords: content.metadata.secondaryKeywords ?? content.metadata.keyword ?? undefined,
+    ...serviceMetadataRegistry[services],
     alternates: {
       canonical: canonicalUrl,
     },

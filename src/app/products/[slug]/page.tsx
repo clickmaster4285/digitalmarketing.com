@@ -30,6 +30,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: `${product.name} | ClickMasters Products`,
     description: product.tagline,
+    alternates: { canonical: `/products/${product.slug}` },
     openGraph: {
       title: product.name,
       description: product.tagline,

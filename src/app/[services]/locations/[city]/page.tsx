@@ -11,6 +11,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ServiceCityPage } from "@/components/service-locations/ServiceCityPage";
 import { ServiceSubPage } from "@/components/service-locations/ServiceSubPage";
+import RegionalLocations from "@/components/locations/RegionalLocations";
+import ServiceCityCrossLinks from "@/components/service-locations/ServiceCityCrossLinks";
 import ServicesPage from "@/components/services/ServicesPage";
 import { SeoServicesUsaContent } from "@/content/services/SeoServicesUsa";
 import { getSubPageBySlug } from "@/content/locations/subPageRegistry";
@@ -24,6 +26,8 @@ import {
 } from "@/content/locations/serviceLocations";
 import { CmsPageRenderer } from "@/components/cms/CmsPageRenderer";
 import { cmsPageMetadata, getCmsPage } from "@/lib/cms";
+import { normalizeMetadataText } from "@/lib/serviceMetadata";
+import { organizationRef } from "@/lib/organizationSchema";
 
 const BASE_URL = "https://clickmastersdigitalmarketing.com";
 
@@ -38,8 +42,14 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const svc = getMainService(services);
 
   if (services === "search-engine-optimization" && city === "seo-services-usa") {
-    const title = `${SeoServicesUsaContent.hero.title} ${SeoServicesUsaContent.hero.titleHighlight}`;
-    const description = SeoServicesUsaContent.hero.description;
+    const title = normalizeMetadataText(
+      `${SeoServicesUsaContent.hero.title} ${SeoServicesUsaContent.hero.titleHighlight}`,
+      60,
+    );
+    const description = normalizeMetadataText(
+      SeoServicesUsaContent.hero.description,
+      155,
+    );
     const canonical = `${BASE_URL}/${svc.slug}/locations/${city}`;
 
     return {
@@ -55,22 +65,24 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const subPage =
     services === "search-engine-optimization" ? getSubPageBySlug(city) : undefined;
   if (subPage) {
+    const title = normalizeMetadataText(subPage.metaTitle, 60);
+    const description = normalizeMetadataText(subPage.metaDescription, 155);
     return {
-      title: subPage.metaTitle,
-      description: subPage.metaDescription,
+      title,
+      description,
       alternates: {
         canonical: `${BASE_URL}/${svc.slug}/locations/${city}`,
       },
       openGraph: {
-        title: subPage.metaTitle,
-        description: subPage.metaDescription,
+        title,
+        description,
         url: `${BASE_URL}/${svc.slug}/locations/${city}`,
         type: "website",
       },
       twitter: {
         card: "summary_large_image",
-        title: subPage.metaTitle,
-        description: subPage.metaDescription,
+        title,
+        description,
       },
     };
   }
@@ -90,10 +102,12 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     notFound();
   }
 
-  const title = ` ${location.metaTitle} `;
-  const description =
+  const title = normalizeMetadataText(location.metaTitle, 60);
+  const description = normalizeMetadataText(
     location.metaDescription ||
-    `Looking for ${svc.name.toLowerCase()} in ${location.name}? Clickmasters delivers data-driven ${svc.short.toLowerCase()} for ${location.name} businesses. Book your free strategy call.`;
+      `Looking for ${svc.name.toLowerCase()} in ${location.name}? Clickmasters delivers data-driven ${svc.short.toLowerCase()} for ${location.name} businesses. Book your free strategy call.`,
+    155,
+  );
 
   return {
     title,
@@ -136,6 +150,10 @@ export default async function Page({ params }: Params) {
   const subPage =
     services === "search-engine-optimization" ? getSubPageBySlug(city) : undefined;
   if (subPage) {
+    const subPageCitySlug = resolveServiceCitySlug(services, city);
+    const subPageLocation = subPageCitySlug
+      ? getLocationByCitySlug(subPageCitySlug)
+      : undefined;
     const jsonLd = {
       "@context": "https://schema.org",
       "@graph": [
@@ -143,11 +161,7 @@ export default async function Page({ params }: Params) {
           "@type": "Service",
           name: `${subPage.cityDisplay} ${svc.title}`,
           serviceType: svc.title,
-          provider: {
-            "@type": "Organization",
-            name: "Clickmasters Digital Marketing",
-            url: BASE_URL,
-          },
+          provider: organizationRef,
           areaServed: {
             "@type": "City",
             name: `${subPage.cityDisplay}, ${subPage.stateDisplay}`,
@@ -192,6 +206,12 @@ export default async function Page({ params }: Params) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         <ServiceSubPage service={svc} content={subPage} />
+        {subPageLocation && (
+          <>
+            <ServiceCityCrossLinks serviceSlug={svc.slug} current={subPageLocation} />
+            <RegionalLocations current={subPageLocation} />
+          </>
+        )}
       </>
     );
   }
@@ -222,11 +242,7 @@ export default async function Page({ params }: Params) {
         "@type": "Service",
         name: `${svc.title} in ${location.name}, ${location.state}`,
         serviceType: svc.title,
-        provider: {
-          "@type": "Organization",
-          name: "Clickmasters Digital Marketing",
-          url: BASE_URL,
-        },
+        provider: organizationRef,
         areaServed: {
           "@type": "City",
           name: `${location.name}, ${location.state}`,
@@ -276,6 +292,8 @@ export default async function Page({ params }: Params) {
         otherCities={otherCities}
         cityCount={cityCount}
       />
+      <ServiceCityCrossLinks serviceSlug={svc.slug} current={location} />
+      <RegionalLocations current={location} />
     </>
   );
 }

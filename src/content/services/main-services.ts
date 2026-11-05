@@ -30,7 +30,7 @@ export const SeoServicesContent = {
     ],
     wordCount: "~5,000 words",
     internalLinks:
-      "/technical-seo-services/, /local-seo/, /on-page-seo/, /off-page-seo/, /ai-seo/, /contact",
+      "/technical-seo-services/, /local-seo/, /on-page-seo/, /off-page-seo-link-building/, /ai-seo/, /contact",
   },
 
   hero: {
@@ -3426,7 +3426,7 @@ export const EcommerceServicesContent = {
   slug: "ecommerce-services",
   metadata: {
     url: "https://clickmastersdigitalmarketing.com/ecommerce-services/",
-    seoTitle: "E-Commerce Development Services Build Online Stores That Sell | Clickmasters",
+    seoTitle: "Ecommerce Services | Clickmasters",
     metaDescription: "Expert e-commerce development for Shopify, WooCommerce & custom platforms. High-converting product pages, checkout optimization & systems integration. Free consultation today.",
     schema: "Service + FAQPage + Organization + BreadcrumbList",
     author: "Amjad Khan, CEO Clickmasters Digital Marketing",

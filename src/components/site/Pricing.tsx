@@ -55,12 +55,19 @@ const plans = [
 ];
 
 
-export const Pricing = () => (
+export const Pricing = ({
+  headingLevel = "h2",
+}: {
+  headingLevel?: "h1" | "h2";
+}) => {
+  const Heading = headingLevel;
+
+  return (
   <section id="pricing" className="py-32 container">
     <p className="text-xs uppercase tracking-[0.25em] mb-4"> Pricing</p>
-    <h2 className="font-display text-5xl md:text-7xl leading-[1.05] mb-20 max-w-3xl">
+    <Heading className="font-display text-5xl md:text-7xl leading-[1.05] mb-20 max-w-3xl">
       Our Digital Marketing Agency <em>Pricing </em> & Packages.
-    </h2>
+    </Heading>
     <div className="grid md:grid-cols-3 gap-6">
       {plans.map((p, i) => (
         <motion.div
@@ -148,3 +155,4 @@ export const Pricing = () => (
 </motion.div>
   </section>
 );
+};

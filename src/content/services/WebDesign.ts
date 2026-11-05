@@ -7,6 +7,8 @@ export const WebDesignContent = {
   slug: "web-design-services",
   metadata: {
     url: "/web-design-services/",
+    // Distinct from the category hub title.
+    seoTitle: "Web Design Services That Win Customers | Clickmasters",
     keyword: "web design services",
     volume: "49,500/mo",
     cpc: "$38.40",

@@ -227,23 +227,17 @@ export const RoiCalculatorContent = {
     regions: "USA, UK, UAE, Pakistan, Canada, Australia",
     author: "Amjad Khan  CEO | USA · UK · UAE · Pakistan · Canada · Australia | 2026",
   },schema: {
-  WebApplication: {
-    "@type": "WebApplication",
-    name: "Digital Marketing ROI Calculator",
-    description: "Free digital marketing ROI calculator  estimate returns from SEO, Google Ads, Meta Ads and email marketing. Includes ROI benchmarks and worked examples.",
-    applicationCategory: "BusinessApplication",
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "USD"
+    WebPage: {
+      name: "Digital Marketing ROI Calculator",
+      description: "Free digital marketing ROI calculator  estimate returns from SEO, Google Ads, Meta Ads and email marketing. Includes ROI benchmarks and worked examples.",
+      url: "https://clickmastersdigitalmarketing.com/conversion-rate-optimization/roi-calculator",
+      publisher: {
+        "@type": "Organization",
+        name: "Clickmasters Digital Marketing",
+        url: "https://clickmastersdigitalmarketing.com",
+        logo: "https://clickmastersdigitalmarketing.com/logo.png"
+      }
     },
-    url: "https://clickmastersdigitalmarketing.com/roi-calculator/",
-    provider: {
-      "@type": "Organization",
-      name: "Clickmasters Digital Marketing",
-      url: "https://clickmastersdigitalmarketing.com"
-    }
-  },
 
   HowTo: {
     "@type": "HowTo",

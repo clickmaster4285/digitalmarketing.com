@@ -7,7 +7,12 @@ import sculpture from "@/assets/hero-sculpture.jpg";
 import { ExternalLink } from "lucide-react";
 
 const techs = [
-  "Certified Google Partner Digital Marketing Agency", "200+ US Businesses Successfully Grown", "$50M+ in Client Revenue Generated", "5-Star Rated Digital Marketing Company", "No Long-Term Contracts ", "We Earn Your Business Every Month",
+  "SEO & Content Strategy",
+  "Paid Media Management",
+  "Web Design & Development",
+  "Conversion Rate Optimization",
+  "Marketing Analytics",
+  "Automation",
 ];
 
 const floatIcons = [
@@ -65,9 +70,12 @@ export const Hero = () => {
           <div className="lg:col-span-7 relative z-10">
             <h1 className="font-display text-[clamp(2.5rem,10vw,6rem)] leading-[0.92] text-balance tracking-tight">
               {"Grow Your Business With a Full-Service".split(" ").map((word, i) => (
-                <motion.span key={i} initial={{ y: "100%", opacity: 0 }} animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.2 + i * 0.06, duration: 0.7, ease: [0.65, 0, 0.35, 1] }}
-                  className="inline-block mr-2">{word}</motion.span>
+                <span key={i}>
+                  <motion.span initial={{ y: "100%", opacity: 0 }} animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.2 + i * 0.06, duration: 0.7, ease: [0.65, 0, 0.35, 1] }}
+                    className="inline-block mr-2">{word}</motion.span>
+                  {" "}
+                </span>
               ))}
               <br />
               <motion.span
@@ -106,7 +114,11 @@ export const Hero = () => {
           </div>
 
           <motion.div style={{ y, scale, rotate }} className="lg:col-span-5 relative">
-            <Image src={sculpture} alt="" className="w-full h-auto select-none pointer-events-none drop-shadow-[0_30px_60px_rgba(0,0,0,0.25)]" />
+            <Image
+              src={sculpture}
+              alt="Abstract chrome sculpture representing creative digital marketing"
+              className="w-full h-auto select-none pointer-events-none drop-shadow-[0_30px_60px_rgba(0,0,0,0.25)]"
+            />
           </motion.div>
         </div>
       </motion.div>

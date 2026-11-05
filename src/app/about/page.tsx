@@ -5,14 +5,14 @@ import { AboutPageContent } from "@/content/AboutPageContent";
 export const metadata: Metadata = {
   title: "About Us - Clickmasters Digital Marketing Agency",
   description:
-    "Learn about Clickmasters Digital Marketing - a full-service agency helping US businesses grow through SEO, PPC, and data-driven strategies. 10+ years of proven results.",
+    "Meet the Clickmasters team and learn how our SEO, PPC, and data-driven marketing strategies help US businesses grow.",
   alternates: {
     canonical: "https://clickmastersdigitalmarketing.com/about",
   },
   openGraph: {
     title: "About Us - Clickmasters Digital Marketing Agency",
     description:
-      "Learn about Clickmasters Digital Marketing - a full-service agency helping US businesses grow through SEO, PPC, and data-driven strategies. 10+ years of proven results.",
+      "Meet the Clickmasters team and learn how our SEO, PPC, and data-driven marketing strategies help US businesses grow.",
     url: "https://clickmastersdigitalmarketing.com/about",
     type: "website",
   },
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "About Us - Clickmasters Digital Marketing Agency",
     description:
-      "Learn about Clickmasters Digital Marketing - a full-service agency helping US businesses grow through SEO, PPC, and data-driven strategies. 10+ years of proven results.",
+      "Meet the Clickmasters team and learn how our SEO, PPC, and data-driven marketing strategies help US businesses grow.",
   },
 };
 
