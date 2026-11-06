@@ -156,7 +156,6 @@ export const SERVICE_CATEGORIES: ServiceCategory[] = [
     title: "Ecommerce",
     href: "/ecommerce-services",
     items: [
-      { name: "Ecommerce Development", desc: "Online stores", icon: ShoppingCart, href: "/ecommerce-services/ecommerce-development" },
       { name: "Ecommerce Marketing", desc: "Drive sales", icon: Megaphone, href: "/ecommerce-services/ecommerce-marketing" },
       { name: "Ecommerce Analytics", desc: "Track performance", icon: BarChart3, href: "/ecommerce-services/ecommerce-analytics" },
       { name: "Shopify Development", desc: "Custom Shopify stores", icon: Store, href: "/ecommerce-services/shopify-development" },

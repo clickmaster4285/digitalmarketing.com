@@ -47,7 +47,10 @@ describe("CMS page integration", () => {
 
     expect(fetchMock).toHaveBeenCalledWith(
       "https://erp.example/public/clickmastersdigitalmarketing.com/pages/abc/xyz",
-      { next: { revalidate: 300 } },
+      expect.objectContaining({
+        next: { revalidate: 300 },
+        signal: expect.any(AbortSignal),
+      }),
     );
     expect(page?.title).toBe("Nested page");
     expect(page?.sections.map((section) => section.id)).toEqual([
@@ -67,7 +70,7 @@ describe("CMS page integration", () => {
     await expect(getCmsPage("missing")).resolves.toBeNull();
   });
 
-  it("reports an HTML response as a CMS endpoint configuration error", async () => {
+  it("logs an HTML response as a CMS configuration error and treats the page as missing", async () => {
     vi.stubEnv("CMS_API_URL", "http://localhost:3000");
     vi.stubEnv("CMS_SITE_DOMAIN", "clickmastersdigitalmarketing.com");
     vi.stubGlobal(
@@ -80,9 +83,13 @@ describe("CMS page integration", () => {
       ),
     );
 
-    await expect(getCmsPage("new-digital-page")).rejects.toThrow(
-      "CMS endpoint returned HTML instead of JSON",
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    await expect(getCmsPage("new-digital-page")).resolves.toBeNull();
+    expect(errorSpy).toHaveBeenCalledWith(
+      expect.stringContaining("CMS endpoint returned HTML instead of JSON"),
     );
+    errorSpy.mockRestore();
   });
 
   it("does not fetch when the integration is not configured", async () => {

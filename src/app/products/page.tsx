@@ -1,4 +1,5 @@
 // app/products/page.tsx
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Home, Car, Store, ShoppingCart, PawPrint, Pill, ScanLine, Stethoscope, Dumbbell, UtensilsCrossed, Package as FallbackIcon, type LucideIcon } from "lucide-react";
 import type { Metadata } from "next";
@@ -83,10 +84,12 @@ export default function ProductsIndexPage() {
               >
                 {/* Top Cover Image Area */}
                 <div className="relative w-full aspect-[4/3] bg-[#0a0a0a] overflow-hidden">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  {/* Responsive, lazy-loaded (cards sit below the hero) */}
+                  <Image
                     src={product.images[0]?.src || "/placeholder.png"}
                     alt={product.images[0]?.alt || product.name}
+                    fill
+                    sizes="(min-width: 1280px) 395px, (min-width: 1024px) 30vw, (min-width: 768px) 45vw, 100vw"
                     className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/20 to-transparent opacity-80" />

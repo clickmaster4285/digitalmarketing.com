@@ -71,6 +71,8 @@ export const Solutions = ({
 }) => {
   const [showAll, setShowAll] = useState(false);
   const Heading = headingLevel;
+  // Sub-headings sit one level below the section heading (h2 on its own page, h3 on the homepage).
+  const SubHeading = headingLevel === "h1" ? "h2" : "h3";
 
   const visibleSolutions = showAll ? solutions : solutions.slice(0, 6);
 
@@ -107,7 +109,7 @@ export const Solutions = ({
             <div className={`absolute inset-0 ${s.c}`} aria-hidden />
             <div className="relative">
               <div className="text-5xl mb-6">{s.i}</div>
-              <h3 className="font-display text-2xl md:text-3xl mb-3">{s.t}</h3>
+              <SubHeading className="font-display text-2xl md:text-3xl mb-3">{s.t}</SubHeading>
               <p className="text-sm opacity-80 max-w-xs leading-relaxed">{s.d}</p>
             </div>
           </motion.div>

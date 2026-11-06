@@ -8,13 +8,14 @@
 // city page built from locationPagesData.
 
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { ServiceCityPage } from "@/components/service-locations/ServiceCityPage";
 import { ServiceSubPage } from "@/components/service-locations/ServiceSubPage";
 import RegionalLocations from "@/components/locations/RegionalLocations";
 import ServiceCityCrossLinks from "@/components/service-locations/ServiceCityCrossLinks";
 import ServicesPage from "@/components/services/ServicesPage";
 import { SeoServicesUsaContent } from "@/content/services/SeoServicesUsa";
+import { getServiceContent } from "@/content/services/serviceContentRegistry";
 import { getSubPageBySlug } from "@/content/locations/subPageRegistry";
 import {
   getMainService,
@@ -23,6 +24,11 @@ import {
   getTotalCityCount,
   resolveServiceCitySlug,
   isMainServiceSlug,
+  getAllCitySlugs,
+  getServiceCityUrlSlug,
+  getServiceCityMetaText,
+  SERVICES_WITH_CITY_PAGES,
+  SERVICE_SUB_LOCATIONS,
 } from "@/content/locations/serviceLocations";
 import { CmsPageRenderer } from "@/components/cms/CmsPageRenderer";
 import { cmsPageMetadata, getCmsPage } from "@/lib/cms";
@@ -35,6 +41,7 @@ type Params = { params: Promise<{ services: string; city: string }> };
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { services, city } = await params;
+  if (services === "pay-per-click-ppc") return {}; // redirected in Page
   if (!isMainServiceSlug(services)) {
     const cmsPage = await getCmsPage([services, "locations", city]);
     return cmsPage ? cmsPageMetadata(cmsPage) : notFound();
@@ -102,12 +109,11 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     notFound();
   }
 
-  const title = normalizeMetadataText(location.metaTitle, 60);
-  const description = normalizeMetadataText(
-    location.metaDescription ||
-      `Looking for ${svc.name.toLowerCase()} in ${location.name}? Clickmasters delivers data-driven ${svc.short.toLowerCase()} for ${location.name} businesses. Book your free strategy call.`,
-    155,
-  );
+  // Service-specific: location.metaTitle belongs to the city's
+  // digital-marketing page and was duplicated across every service.
+  const meta = getServiceCityMetaText(svc, location);
+  const title = normalizeMetadataText(meta.title, 60);
+  const description = normalizeMetadataText(meta.description, 155);
 
   return {
     title,
@@ -131,10 +137,41 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
 // __ROUTE_P2__
 
+// Prerender every published service/city page (the same set the city sitemaps
+// list) so they are served from the static cache instead of being
+// server-rendered on each request. Other valid slugs still render on demand.
+export async function generateStaticParams() {
+  const params = new Set<string>();
+  for (const service of SERVICES_WITH_CITY_PAGES) {
+    for (const city of getAllCitySlugs()) {
+      params.add(`${service}|${getServiceCityUrlSlug(service, city)}`);
+    }
+    for (const sub of SERVICE_SUB_LOCATIONS[service] ?? []) {
+      params.add(`${service}|${sub.slug}`);
+    }
+  }
+  return Array.from(params, (key) => {
+    const [services, city] = key.split("|");
+    return { services, city };
+  });
+}
+
 
 
 export default async function Page({ params }: Params) {
   const { services, city } = await params;
+  // "pay-per-click-ppc" is an alias of "pay-per-click"; its city URLs fell
+  // through to the SEO service and emitted a canonical for a page that does
+  // not exist.
+  if (services === "pay-per-click-ppc") {
+    const ppcCity = resolveServiceCitySlug(services, city);
+    if (ppcCity) {
+      permanentRedirect(
+        `/pay-per-click/locations/${getServiceCityUrlSlug("pay-per-click", ppcCity)}`,
+      );
+    }
+    notFound();
+  }
   if (!isMainServiceSlug(services)) {
     const cmsPage = await getCmsPage([services, "locations", city]);
     if (!cmsPage) notFound();
@@ -143,7 +180,12 @@ export default async function Page({ params }: Params) {
   const svc = getMainService(services);
 
   if (services === "search-engine-optimization" && city === "seo-services-usa") {
-    return <ServicesPage slugOverride="seo-services-usa" />;
+    return (
+      <ServicesPage
+        slugOverride="seo-services-usa"
+        content={getServiceContent("seo-services-usa")}
+      />
+    );
   }
 
   // Custom sub page (e.g. the Atlanta SEO page)

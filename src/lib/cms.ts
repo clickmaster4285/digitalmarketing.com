@@ -22,6 +22,7 @@ export interface CmsPage {
 type JsonRecord = Record<string, unknown>;
 
 const REVALIDATE_SECONDS = 300;
+const CMS_TIMEOUT_MS = 5000;
 
 function isRecord(value: unknown): value is JsonRecord {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -157,6 +158,9 @@ export async function getCmsPage(
   const endpoint = `${baseUrl.toString().replace(/\/+$/, "")}/public/${encodeURIComponent(siteDomain)}/pages/${encodedSlug}`;
   const response = await fetch(endpoint, {
     next: { revalidate: REVALIDATE_SECONDS },
+    // Without a timeout a hanging CMS holds the page request open until the
+    // reverse proxy gives up (502/504).
+    signal: AbortSignal.timeout(CMS_TIMEOUT_MS),
   });
 
   if (response.status === 404) return null;
@@ -174,11 +178,16 @@ export async function getCmsPage(
     const looksLikeHtml =
       contentType.includes("text/html") ||
       /^\s*<!doctype\s+html|^\s*<html[\s>]/i.test(responseText);
-    throw new Error(
+    // A non-JSON body means CMS_API_URL is not pointing at the CMS API (e.g. an
+    // SPA that answers every path with index.html), not that this page
+    // exists. Report the misconfiguration in the server log, but answer the
+    // visitor with a 404 instead of turning every unknown URL into a 500.
+    console.error(
       looksLikeHtml
         ? `CMS endpoint returned HTML instead of JSON (content-type: ${contentType}). Check that CMS_API_URL points to the ERP API server and that the public pages endpoint is available at ${endpoint}.`
         : `CMS endpoint returned invalid JSON (content-type: ${contentType}). Check the ERP public pages API response.`,
     );
+    return null;
   }
 
   return parsePage(payload, slug);

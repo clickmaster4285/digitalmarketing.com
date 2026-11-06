@@ -321,7 +321,7 @@ export default function ContactClient() {
               Contact Us
             </p>
             <h1 className="text-5xl leading-[1.05] font-bold sm:text-6xl lg:text-7xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
-              Let's Grow Your Business{" "}
+              {"Let's Grow Your Business "}
               <span className="text-[#FF2E86]">Together</span>
             </h1>
             <p className="mt-6 max-w-2xl text-lg text-white/70 leading-relaxed">

@@ -34,16 +34,25 @@ const steps = [
   },
 ];
 
-export const Process = () => (
+export const Process = ({
+  headingLevel = "h2",
+}: {
+  headingLevel?: "h1" | "h2";
+} = {}) => {
+  // h1 when this section is the whole page (/process), h2 on the homepage.
+  const Heading = headingLevel;
+  const SubHeading = headingLevel === "h1" ? "h2" : "h3";
+
+  return (
   <section id="process" className="py-32 container">
     <div className="grid md:grid-cols-12 gap-12 mb-20">
       <div className="md:col-span-4">
         <p className="text-xs uppercase tracking-[0.25em] mb-4"> Process</p>
       </div>
       <div className="md:col-span-8">
-        <h2 className="font-display text-5xl md:text-7xl leading-[1.05] text-balance">
+        <Heading className="font-display text-5xl md:text-7xl leading-[1.05] text-balance">
           Our <em className="font-display italic">Process</em>
-        </h2>
+        </Heading>
         <p className="mt-6 text-muted-foreground text-lg md:text-xl max-w-2xl text-balance">
           From discovery call to strategy, launch, optimization, and monthly reporting  our six-step process keeps you informed at every stage. We continuously test and refine campaigns to improve results over time.
         </p>
@@ -84,9 +93,9 @@ export const Process = () => (
           Free Consultation
         </p>
 
-        <h3 className="font-display text-4xl md:text-6xl leading-[1.05] mb-6 text-balance">
+        <SubHeading className="font-display text-4xl md:text-6xl leading-[1.05] mb-6 text-balance">
           Let's Build Your Custom Digital <em>Marketing Strategy</em> Starting Today.
-        </h3>
+        </SubHeading>
 
         <div className="flex items-center justify-center gap-4 flex-wrap">
           {/* Primary CTA */}
@@ -103,4 +112,5 @@ export const Process = () => (
       </div>
     </motion.div>
   </section>
-);
+  );
+};
