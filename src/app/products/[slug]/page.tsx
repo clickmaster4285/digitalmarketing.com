@@ -7,6 +7,7 @@ import {
   getAllProducts,
   getProductBySlug,
 } from "@/content/product/productContent";
+import { getRelatedProducts } from "@/content/product/relatedProducts";
 import { CmsPageRenderer } from "@/components/cms/CmsPageRenderer";
 import { cmsPageMetadata, getCmsPage } from "@/lib/cms";
 
@@ -18,6 +19,13 @@ export async function generateStaticParams() {
   return getAllProducts().map((p) => ({ slug: p.slug }));
 }
 
+// Keep titles within ~60 characters (the SERP display limit) by shortening
+// only the brand suffix; the product name itself is never cut.
+const productTitle = (name: string) =>
+  [`${name} | ClickMasters Products`, `${name} | ClickMasters`, name].find(
+    (title) => title.length <= 60,
+  ) ?? name;
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const product = getProductBySlug(slug);
@@ -28,7 +36,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   return {
-    title: `${product.name} | ClickMasters Products`,
+    title: productTitle(product.name),
     description: product.tagline,
     alternates: { canonical: `/products/${product.slug}` },
     openGraph: {
@@ -49,5 +57,10 @@ export default async function ProductPage({ params }: PageProps) {
     return <CmsPageRenderer page={cmsPage} />;
   }
 
-  return <ProductDetailPage product={product} />;
+  return (
+    <ProductDetailPage
+      product={product}
+      related={getRelatedProducts(product.slug)}
+    />
+  );
 }

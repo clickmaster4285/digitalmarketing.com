@@ -446,7 +446,7 @@ export const BestAgencySection = () => {
                     {feature.icon}
                   </div>
                   <div className="flex-1">
-                    <h4 className="text-sm font-medium text-zinc-900">{feature.title}</h4>
+                    <h3 className="text-sm font-medium text-zinc-900">{feature.title}</h3>
                     <p className="text-xs text-zinc-700/70">{feature.description}</p>
                   </div>
                   <ArrowRight className="h-4 w-4 shrink-0 -translate-x-1 text-zinc-700/0 transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-0 group-hover:rotate-[-45deg] group-hover:text-foreground" />

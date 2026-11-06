@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { useSmoothScroll } from "@/hooks/useSmoothScroll";
 import type { ProductContent } from "@/content/product/productContent";
+import type { RelatedProductSummary } from "@/content/product/relatedProducts";
 import { useInView } from "framer-motion";
 
 
@@ -163,73 +164,38 @@ const HeroCover = ({ product }: { product: ProductContent }) => {
   const heroImage = product.images[0];
   if (!heroImage) return null;
 
+  // The image and the copy (with the page's only <h1>) are each rendered once:
+  // rendering them twice (mobile + desktop copies, one hidden) duplicated the
+  // <h1> and made browsers download two sizes of the same priority image.
+  // On mobile the image sits above the copy; from md up the section is a
+  // 12-column grid with the copy on the left and the image on the right.
   return (
     <section ref={ref} className="relative w-full overflow-hidden bg-black">
-      {/* ═══════════ MOBILE: full image on top, copy below ═══════════ */}
-      <div className="md:hidden">
-        <div className="relative w-full overflow-hidden bg-black pt-16">
-          <motion.div style={{ scale, y }} className="will-change-transform">
-            <Image
-              src={heroImage.src}
-              alt={heroImage.alt}
-              width={1920}
-              height={1080}
-              priority
-              sizes="100vw"
-              className="w-full h-auto object-contain"
-            />
-          </motion.div>
-
+      <div className="relative w-full overflow-hidden bg-black md:grid md:grid-cols-12 md:min-h-[100svh]">
+        {/* ═══════════ IMAGE: full width on top (mobile) / right panel, entire image, no cropping (desktop) ═══════════ */}
+        <div className="relative w-full overflow-hidden bg-black pt-16 md:order-2 md:col-span-7 md:flex md:items-center md:justify-center md:overflow-visible md:py-6">
+          {/* vertical drift is mobile-only; desktop keeps just the scale */}
           <motion.div
-            style={{ opacity: tint }}
-            className="absolute inset-0 bg-black pointer-events-none"
-          />
-
-          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black to-transparent pointer-events-none" />
-        </div>
-
-        <motion.div
-          style={{ opacity: contentOpacity, y: contentY }}
-          className="relative px-6 pt-2 pb-16"
-        >
-          <HeroCopy product={product} />
-        </motion.div>
-      </div>
-
-      {/* ═══════════ DESKTOP: split — TEXT LEFT, FULL IMAGE RIGHT ═══════════ */}
-      <div
-        className="hidden md:grid md:grid-cols-12 relative w-full overflow-hidden bg-black"
-        style={{ minHeight: "100svh" }}
-      >
-        {/* LEFT — content panel */}
-        <div className="col-span-5 relative flex items-center bg-black">
-          {/* thin decorative accent line on the right edge */}
-          <div className="absolute right-0 top-1/4 h-24 w-px bg-white/15" />
-
-          <motion.div
-            style={{ opacity: contentOpacity, y: contentY }}
-            className="relative w-full px-10 lg:px-14 xl:px-16 py-20"
+            style={{ y }}
+            className="md:!transform-none md:flex md:h-full md:w-full md:items-center md:justify-center"
           >
-            <HeroCopy product={product} />
-          </motion.div>
-        </div>
-
-        {/* RIGHT — image panel: shows the ENTIRE image, centered, no cropping */}
-        <div className="col-span-7 relative bg-black flex items-center justify-center py-6">
-          <motion.div
-            style={{ scale }}
-            className="relative flex h-full w-full items-center justify-center will-change-transform"
-          >
-            {/* height-driven so the full vertical image always fits */}
-            <Image
-              src={heroImage.src}
-              alt={heroImage.alt}
-              width={1080}
-              height={1920}
-              priority
-              sizes="(min-width: 768px) 58vw, 100vw"
-              className="max-h-[92svh] w-auto max-w-full object-contain"
-            />
+            <motion.div
+              style={{ scale }}
+              className="will-change-transform md:relative md:flex md:h-full md:w-full md:items-center md:justify-center"
+            >
+              {/* Desktop width is set explicitly (it is the 58vw "sizes"
+                  slot) so it no longer depends on which srcset file the
+                  browser picked; max-h keeps the whole image in view. */}
+              <Image
+                src={heroImage.src}
+                alt={heroImage.alt}
+                width={1920}
+                height={1080}
+                priority
+                sizes="(min-width: 768px) 58vw, 100vw"
+                className="w-full h-auto object-contain md:w-[58vw] md:max-w-full md:max-h-[92svh]"
+              />
+            </motion.div>
           </motion.div>
 
           {/* scroll-tied tint — kept, but light so the full image stays visible */}
@@ -237,6 +203,21 @@ const HeroCover = ({ product }: { product: ProductContent }) => {
             style={{ opacity: tint }}
             className="absolute inset-0 bg-black pointer-events-none"
           />
+
+          <div className="md:hidden absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black to-transparent pointer-events-none" />
+        </div>
+
+        {/* ═══════════ COPY: below the image on mobile, left panel on desktop ═══════════ */}
+        <div className="relative bg-black md:order-1 md:col-span-5 md:flex md:items-center">
+          {/* thin decorative accent line on the right edge */}
+          <div className="hidden md:block absolute right-0 top-1/4 h-24 w-px bg-white/15" />
+
+          <motion.div
+            style={{ opacity: contentOpacity, y: contentY }}
+            className="relative px-6 pt-2 pb-16 md:w-full md:px-10 lg:px-14 xl:px-16 md:py-20"
+          >
+            <HeroCopy product={product} />
+          </motion.div>
         </div>
       </div>
     </section>
@@ -556,9 +537,10 @@ const Intro = ({ product }: { product: ProductContent }) => {
               <p className="text-[10px] uppercase tracking-[0.4em] opacity-60 mb-2">
                 {product.badge}
               </p>
-              <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold leading-[0.95] tracking-tight">
+              {/* The hero holds the page's <h1>; this repeats the name as the section heading. */}
+              <h2 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold leading-[0.95] tracking-tight">
                 {product.name}
-              </h1>
+              </h2>
             </div>
           </div>
         </Reveal>
@@ -1100,6 +1082,61 @@ const TechAndUseCases = ({ product }: { product: ProductContent }) => (
   </section>
 );
 
+/* ───────────── RELATED PRODUCTS ───────────── */
+const RelatedProducts = ({ related }: { related: RelatedProductSummary[] }) => {
+  if (related.length === 0) return null;
+
+  return (
+    <section className="relative bg-background text-foreground pt-24 md:pt-32">
+      <div className="container max-w-6xl">
+        <SectionLabel n="08" t="Related products" />
+        <Reveal>
+          <h2 className="font-display text-3xl md:text-5xl font-bold leading-[0.95] mb-12">
+            You may also <span className="text-[#FF2E86]">like.</span>
+          </h2>
+        </Reveal>
+        <ul className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {related.map((item) => (
+            <li key={item.slug}>
+              <Link
+                href={`/products/${item.slug}`}
+                className="group flex h-full flex-col overflow-hidden rounded-3xl border border-foreground/10 hover:border-foreground/30 transition-colors"
+              >
+                {item.cover && (
+                  <div className="relative w-full aspect-[4/3] bg-[#0a0a0a] overflow-hidden">
+                    <Image
+                      src={item.cover.src}
+                      alt={item.cover.alt}
+                      fill
+                      sizes="(min-width: 1152px) 368px, (min-width: 768px) 31vw, 100vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  </div>
+                )}
+                <div className="flex flex-1 flex-col p-6">
+                  <p className="text-[10px] uppercase tracking-[0.3em] opacity-60 mb-2">
+                    {item.category}
+                  </p>
+                  <h3 className="font-display text-xl md:text-2xl font-bold leading-[1.1] mb-3 group-hover:text-[#FF2E86] transition-colors">
+                    {item.name}
+                  </h3>
+                  <p className="text-sm opacity-70 leading-relaxed line-clamp-2">
+                    {item.tagline}
+                  </p>
+                  <span className="mt-auto pt-6 inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] opacity-60">
+                    View {item.shortName}
+                    <ArrowUpRight className="w-3.5 h-3.5" />
+                  </span>
+                </div>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+};
+
 /* ───────────── CTA ───────────── */
 const CTA = ({ product }: { product: ProductContent }) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -1287,20 +1324,16 @@ const StaticCTA = () => {
 
 
 /* ───────────── MAIN ───────────── */
-export default function ProductDetailPage({ product }: { product: ProductContent }) {
+export default function ProductDetailPage({
+  product,
+  related = [],
+}: {
+  product: ProductContent;
+  related?: RelatedProductSummary[];
+}) {
   useSmoothScroll();
 
-  useEffect(() => {
-    document.title = `${product.name} | ClickMasters Products`;
-    const desc = product.tagline.slice(0, 160);
-    let m = document.querySelector('meta[name="description"]');
-    if (!m) {
-      m = document.createElement("meta");
-      m.setAttribute("name", "description");
-      document.head.appendChild(m);
-    }
-    m.setAttribute("content", desc);
-  }, [product]);
+  // <title> and meta description come from generateMetadata in page.tsx.
 
   return (
     <div className="theme-light w-full overflow-x-clip bg-background text-foreground">
@@ -1314,6 +1347,7 @@ export default function ProductDetailPage({ product }: { product: ProductContent
         <Modules product={product} />
         <StaticCTA />
         <TechAndUseCases product={product} />
+        <RelatedProducts related={related} />
         <CTA product={product} />
       </main>
     </div>

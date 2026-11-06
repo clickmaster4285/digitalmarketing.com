@@ -284,7 +284,7 @@ const ProblemSection = ({ content }: { content: any }) => {
           <div className="mt-20">
             <Reveal>
               <h3 className="font-display text-3xl md:text-5xl font-bold mb-8">
-                {problem.afterTitle} <span className="text-[#FF2E86]">{problem.afterHighlight}</span>
+                {`${problem.afterTitle} `}<span className="text-[#FF2E86]">{problem.afterHighlight}</span>
               </h3>
             </Reveal>
             <div className="grid gap-6 md:grid-cols-3">

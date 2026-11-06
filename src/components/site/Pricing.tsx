@@ -61,6 +61,8 @@ export const Pricing = ({
   headingLevel?: "h1" | "h2";
 }) => {
   const Heading = headingLevel;
+  // Sub-headings sit one level below the section heading (h2 on its own page, h3 on the homepage).
+  const SubHeading = headingLevel === "h1" ? "h2" : "h3";
 
   return (
   <section id="pricing" className="py-32 container">
@@ -127,9 +129,9 @@ export const Pricing = ({
       Free Consultation
     </p>
 
-    <h3 className="font-display text-4xl md:text-6xl leading-[1.05] mb-6 text-balance">
+    <SubHeading className="font-display text-4xl md:text-6xl leading-[1.05] mb-6 text-balance">
       Not sure which package is <em>right for you?</em>
-    </h3>
+    </SubHeading>
 
     <p className="text-muted-foreground text-lg md:text-xl leading-relaxed mb-10 max-w-2xl mx-auto">
       We’ll analyze your business for free and recommend exactly what you need.

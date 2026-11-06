@@ -100,3 +100,15 @@ export const SERVICE_PAGE_SLUGS = new Set([
   "website-maintenance",
   "ada-compliance-web-accessibility",
 ]);
+
+/**
+ * Service slugs whose page duplicated its category hub and was consolidated
+ * into it. Requests for /{any main service}/{slug} redirect to the hub, so no
+ * parent path keeps serving a 200 copy of the hub's content.
+ */
+export const CONSOLIDATED_SERVICE_SLUGS: Record<string, string> = {
+  // Rendered the same content as the CRO category hub.
+  "cro-services": "/conversion-rate-optimization",
+  // 93 of the hub's 95 text blocks were identical to this page.
+  "ecommerce-development": "/ecommerce-services",
+};

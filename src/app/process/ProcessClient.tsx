@@ -118,7 +118,7 @@ export default function ProcessPage() {
 
       <main className="relative">
         
-        <section ref={(el) => { sections.current[0] = el; }}><Process /></section>
+        <section ref={(el) => { sections.current[0] = el; }}><Process headingLevel="h1" /></section>
      
       </main>
     </div>

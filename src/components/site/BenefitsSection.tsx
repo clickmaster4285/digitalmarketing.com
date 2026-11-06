@@ -185,7 +185,7 @@ export default function BenefitsSection() {
             className="relative"
           >
             <h2 className="font-display text-[clamp(2.5rem,6vw,4.5rem)] leading-[1.05] tracking-tight text-balance">
-              Benefits of Working With a{" "}
+              {"Benefits of Working With a "}
               <span className="relative">
                 <span className="relative z-10 font-display italic">Digital Marketing</span>
                 <span className="absolute -bottom-2 left-0 right-0 h-3 bg-foreground/10 blur-sm" />

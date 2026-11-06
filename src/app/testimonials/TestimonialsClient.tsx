@@ -118,7 +118,7 @@ export default function Page() {
 
       <main className="relative">
        
-        <section ref={(el) => { sections.current[0] = el; }}><Testimonials /></section>
+        <section ref={(el) => { sections.current[0] = el; }}><Testimonials headingLevel="h1" /></section>
       
       </main>
     </div>

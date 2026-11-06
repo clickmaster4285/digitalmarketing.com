@@ -18,6 +18,7 @@ import {
   uniqueCityLocations,
   SERVICE_SUB_LOCATIONS,
   SERVICES_WITH_CITY_PAGES,
+  MAIN_SERVICES,
 } from "@/content/locations/serviceLocations";
 import { normalizeMetadataText } from "@/lib/serviceMetadata";
 import { organizationRef } from "@/lib/organizationSchema";
@@ -25,6 +26,11 @@ import { organizationRef } from "@/lib/organizationSchema";
 const BASE_URL = "https://clickmastersdigitalmarketing.com";
 
 type Params = { params: Promise<{ services: string }> };
+
+// Prerender the code-defined location hubs; CMS slugs render on demand.
+export async function generateStaticParams() {
+  return Object.keys(MAIN_SERVICES).map((services) => ({ services }));
+}
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { services } = await params;

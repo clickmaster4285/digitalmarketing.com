@@ -7,6 +7,8 @@ const serviceRedirects: Record<string, string> = {
     "/search-engine-optimization/seo-audit",
   // Rendered the same content as the CRO category hub.
   "/conversion-rate-optimization/cro-services": "/conversion-rate-optimization",
+  // Duplicated the e-commerce category hub (see CONSOLIDATED_SERVICE_SLUGS).
+  "/ecommerce-services/ecommerce-development": "/ecommerce-services",
 };
 
 export function middleware(request: NextRequest) {
@@ -23,5 +25,6 @@ export const config = {
     "/search-engine-optimization/off-page-seo",
     "/search-engine-optimization/website-audit",
     "/conversion-rate-optimization/cro-services",
+    "/ecommerce-services/ecommerce-development",
   ],
 };

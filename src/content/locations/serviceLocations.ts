@@ -108,6 +108,56 @@ export const MAIN_SERVICES: Record<string, MainServiceInfo> = {
   },
 };
 
+/**
+ * <title> / meta description for a generic /{service}/locations/{city} page.
+ *
+ * The city's own metaTitle/metaDescription in locationPagesData describe the
+ * full-service digital marketing page (/locations/digital-marketing-agency-*),
+ * so reusing them here gave the SEO, PPC and social media pages for a city the
+ * exact same title. Copy below is built only from the city name/state and the
+ * service descriptions already used on the page — no city-specific claims.
+ */
+const SERVICE_CITY_META: Record<
+  string,
+  { title: (city: string) => string; description: (place: string) => string }
+> = {
+  "search-engine-optimization": {
+    title: (city) => `${city} SEO Agency | Local SEO Services`,
+    description: (place) =>
+      `Local SEO services for ${place} businesses: technical fixes, content built on real search intent, and authority link building. Book a free strategy call.`,
+  },
+  "pay-per-click": {
+    title: (city) => `${city} PPC Agency | Google Ads Management`,
+    description: (place) =>
+      `PPC management for ${place} businesses: Google Ads, paid social and remarketing managed against cost per lead and ROAS. Book a free strategy call.`,
+  },
+  "social-media-marketing": {
+    title: (city) => `${city} Social Media Marketing Agency`,
+    description: (place) =>
+      `Social media marketing for ${place} businesses: consistent content, community management and paid social campaigns. Book a free strategy call.`,
+  },
+  "web-design-development": {
+    title: (city) => `${city} Web Design Agency | Website Development`,
+    description: (place) =>
+      `Web design and development for ${place} businesses: fast, mobile-first, conversion-focused websites built for local search. Book a free strategy call.`,
+  },
+};
+
+export const getServiceCityMetaText = (
+  service: MainServiceInfo,
+  location: Pick<LocationData, "name" | "state">,
+): { title: string; description: string } => {
+  const place = location.state ? `${location.name}, ${location.state}` : location.name;
+  const meta = SERVICE_CITY_META[service.slug];
+  if (meta) {
+    return { title: meta.title(location.name), description: meta.description(place) };
+  }
+  return {
+    title: `${service.title} in ${location.name} | Clickmasters`,
+    description: `${service.title} for ${place} businesses. ${service.blurb}`,
+  };
+};
+
 /** Main services whose /{service}/locations/{city} pages are published (each has a city sitemap). */
 export const SERVICES_WITH_CITY_PAGES: readonly string[] = [
   "search-engine-optimization",
@@ -145,7 +195,10 @@ export const getLocationPageHref = (
     : `/locations/${location.slug}`;
 
 /** All locations deduped by city, keeping the freshest entry of each. */
-export const uniqueCityLocations = (): LocationData[] => {
+// `locations` is static module data, so the deduped view is computed once.
+let uniqueCityCache: Map<string, LocationData> | undefined;
+const uniqueCityMap = (): Map<string, LocationData> => {
+  if (uniqueCityCache) return uniqueCityCache;
   const map = new Map<string, LocationData>();
   for (const loc of locations) {
     const key = citySlugOf(loc);
@@ -153,13 +206,16 @@ export const uniqueCityLocations = (): LocationData[] => {
     // Later entries in the data file win (they are the most recent revision)
     map.set(key, existing ? { ...existing, ...loc } : loc);
   }
-  return Array.from(map.values());
+  uniqueCityCache = map;
+  return map;
 };
+
+export const uniqueCityLocations = (): LocationData[] =>
+  Array.from(uniqueCityMap().values());
 
 export const getLocationByCitySlug = (
   citySlug: string
-): LocationData | undefined =>
-  uniqueCityLocations().find((loc) => citySlugOf(loc) === citySlug);
+): LocationData | undefined => uniqueCityMap().get(citySlug);
 
 export const getAllCitySlugs = (): string[] =>
   uniqueCityLocations().map(citySlugOf);

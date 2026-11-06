@@ -45,13 +45,21 @@ const items = [
   rot: 1,
 },
 ];
-export const Testimonials = () => (
+export const Testimonials = ({
+  headingLevel = "h2",
+}: {
+  headingLevel?: "h1" | "h2";
+} = {}) => {
+  // h1 when this section is the whole page (/testimonials), h2 on the homepage.
+  const Heading = headingLevel;
+
+  return (
   <section   id="testimonials" className="py-32 container">
     <div className="mb-20 max-w-3xl">
       <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-6"> What our clients says</p>
-      <h2 className="font-display text-5xl md:text-7xl leading-[1.05] text-balance">
+      <Heading className="font-display text-5xl md:text-7xl leading-[1.05] text-balance">
   What Business Owners Say About <em>Our Digital Marketing Agency</em>
-      </h2>
+      </Heading>
          <p className="text-md md:text-xl text-muted-foreground leading-relaxed max-w-4xl mt-4">
         Across industries and across the country, business owners trust Clickmasters as their preferred Digital Marketing Agency. Here's what a few of them have to say: 
           </p>
@@ -84,4 +92,5 @@ export const Testimonials = () => (
       ))}
     </div>
   </section>
-);
+  );
+};
