@@ -105,6 +105,7 @@ import { HeadlessCommerceContent } from "@/content/services/HeadlessCommerceCont
 import { WebsiteMaintenanceContent } from "@/content/services/WebsiteMaintenanceContent";
 import { AdaComplianceContent } from "@/content/services/AdaComplianceContent";
 import { CustomSoftwareContent } from "@/content/services/CustomSoftwareContent";
+import { applyEditedPageSeo } from "@/lib/pageEdits.server";
 
 // Content registry - must match page.tsx
 const contentRegistry: Record<string, any> = {
@@ -212,7 +213,7 @@ const contentRegistry: Record<string, any> = {
 
 const serviceMetadataRegistry = createServiceMetadataRegistry(contentRegistry);
 
-export async function generateMetadata(
+async function baseMetadata(
   { params }: { params: Promise<{ services: string; cmsSlug: string[] }> },
   parent: ResolvingMetadata
 ): Promise<Metadata> {
@@ -249,6 +250,17 @@ export async function generateMetadata(
   }
 
   return {};
+}
+
+export async function generateMetadata(
+  props: { params: Promise<{ services: string; cmsSlug: string[] }> },
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const { services, cmsSlug } = await props.params;
+  return applyEditedPageSeo(
+    `/${[services, ...cmsSlug].join("/")}`,
+    await baseMetadata(props, parent),
+  );
 }
 
 export default function SubServicesLayout({

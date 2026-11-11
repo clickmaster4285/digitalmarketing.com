@@ -4,8 +4,9 @@ import Link from "next/link";
 import { ArrowUpRight, Home, Car, Store, ShoppingCart, PawPrint, Pill, ScanLine, Stethoscope, Dumbbell, UtensilsCrossed, Package as FallbackIcon, type LucideIcon } from "lucide-react";
 import type { Metadata } from "next";
 import { getAllProducts } from "@/content/product/productContent";
+import { applyEditedPageSeo } from "@/lib/pageEdits.server";
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: "Business Software Products | Clickmasters",
   description:
     "Ready-to-deploy business software from Clickmasters: POS, restaurant, gym, real estate, car service and pet care management systems.",
@@ -166,4 +167,8 @@ export default function ProductsIndexPage() {
       </section>
     </main>
   );
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return applyEditedPageSeo("/products", metadata);
 }

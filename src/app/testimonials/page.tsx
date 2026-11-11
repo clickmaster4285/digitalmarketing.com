@@ -1,7 +1,8 @@
 import { Metadata } from "next";
 import TestimonialsPage from "./TestimonialsClient";
+import { applyEditedPageSeo } from "@/lib/pageEdits.server";
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: "Digital Marketing Agency Reviews - Client Testimonials",
   description:
     "Read digital marketing agency reviews and testimonials from real US clients who achieved growth through our result-driven marketing strategies.",
@@ -25,4 +26,8 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return <TestimonialsPage />;
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return applyEditedPageSeo("/testimonials", metadata);
 }

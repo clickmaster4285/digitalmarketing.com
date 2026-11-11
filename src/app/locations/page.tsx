@@ -5,8 +5,9 @@ import { getLocationPageHref } from "@/content/locations/serviceLocations";
 import Link from "next/link";
 import { Globe, ArrowRight, MapPin } from "lucide-react";
 import type { Metadata } from "next";
+import { applyEditedPageSeo } from "@/lib/pageEdits.server";
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: "Our Locations | Clickmasters Digital Marketing Agency",
   description:
     "Explore Clickmasters' digital marketing services across the United States, including Boston, Atlanta, New York, Dallas, Houston, and Chicago.",
@@ -92,4 +93,8 @@ export default function LocationsPage() {
       </div>
     </main>
   );
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return applyEditedPageSeo("/locations", metadata);
 }

@@ -6,6 +6,7 @@ import { Navbar } from "@/components/site/Navbar";
 import Footer from "@/components/site/Footer";
 import FooterLocationDirectory from "@/components/site/FooterLocationDirectory";
 import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
+import { ErpPageEdits } from "@/components/cms/ErpPageEdits";
 import { organizationSchema, websiteSchema } from "@/lib/organizationSchema";
 
 const inter = localFont({
@@ -104,6 +105,8 @@ export default function RootLayout({
           }}
         />
         <BreadcrumbJsonLd />
+        {/* Must stay before Navbar and page content: see ErpPageEdits. */}
+        <ErpPageEdits />
         <Navbar />
 
         <Providers>

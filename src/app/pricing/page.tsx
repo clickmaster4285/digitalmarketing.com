@@ -1,7 +1,8 @@
 import { Metadata } from "next";
 import PricingPage from "./PricingClient";
+import { applyEditedPageSeo } from "@/lib/pageEdits.server";
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: "Digital Marketing Plans for US Businesses - Our Pricing",
   description:
     "Compare our digital marketing packages and pricing built for US businesses. Affordable, transparent plans covering SEO, PPC, and social media growth.",
@@ -25,4 +26,8 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return <PricingPage />;
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return applyEditedPageSeo("/pricing", metadata);
 }

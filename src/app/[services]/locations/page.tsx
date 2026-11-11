@@ -22,6 +22,7 @@ import {
 } from "@/content/locations/serviceLocations";
 import { normalizeMetadataText } from "@/lib/serviceMetadata";
 import { organizationRef } from "@/lib/organizationSchema";
+import { applyEditedPageSeo } from "@/lib/pageEdits.server";
 
 const BASE_URL = "https://clickmastersdigitalmarketing.com";
 
@@ -32,7 +33,7 @@ export async function generateStaticParams() {
   return Object.keys(MAIN_SERVICES).map((services) => ({ services }));
 }
 
-export async function generateMetadata({ params }: Params): Promise<Metadata> {
+async function baseMetadata({ params }: Params): Promise<Metadata> {
   const { services } = await params;
   if (!isMainServiceSlug(services)) {
     const cmsPage = await getCmsPage([services, "locations"]);
@@ -133,4 +134,9 @@ export default async function Page({ params }: Params) {
       />
     </>
   );
+}
+
+export async function generateMetadata(props: Params): Promise<Metadata> {
+  const { services } = await props.params;
+  return applyEditedPageSeo(`/${services}/locations`, await baseMetadata(props));
 }

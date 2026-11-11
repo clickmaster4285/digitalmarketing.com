@@ -1,8 +1,9 @@
 import { Metadata } from "next";
 import AboutPageClient from "./AboutClient";
 import { AboutPageContent } from "@/content/AboutPageContent";
+import { applyEditedPageSeo } from "@/lib/pageEdits.server";
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: "About Us - Clickmasters Digital Marketing Agency",
   description:
     "Meet the Clickmasters team and learn how our SEO, PPC, and data-driven marketing strategies help US businesses grow.",
@@ -26,4 +27,8 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return <AboutPageClient />;
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return applyEditedPageSeo("/about", metadata);
 }

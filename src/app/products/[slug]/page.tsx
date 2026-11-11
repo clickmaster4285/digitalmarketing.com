@@ -10,6 +10,7 @@ import {
 import { getRelatedProducts } from "@/content/product/relatedProducts";
 import { CmsPageRenderer } from "@/components/cms/CmsPageRenderer";
 import { cmsPageMetadata, getCmsPage } from "@/lib/cms";
+import { applyEditedPageSeo } from "@/lib/pageEdits.server";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -26,7 +27,7 @@ const productTitle = (name: string) =>
     (title) => title.length <= 60,
   ) ?? name;
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+async function baseMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const product = getProductBySlug(slug);
 
@@ -63,4 +64,9 @@ export default async function ProductPage({ params }: PageProps) {
       related={getRelatedProducts(product.slug)}
     />
   );
+}
+
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const { slug } = await props.params;
+  return applyEditedPageSeo(`/products/${slug}`, await baseMetadata(props));
 }

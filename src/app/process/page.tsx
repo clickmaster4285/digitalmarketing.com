@@ -1,7 +1,8 @@
 import { Metadata } from "next";
 import ProcessPage from "./ProcessClient";
+import { applyEditedPageSeo } from "@/lib/pageEdits.server";
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: "Our Digital Marketing Process - Proven Growth Strategy",
   description:
     "Discover our proven digital marketing processfrom strategy and planning to execution and reportingdesigned to help US businesses grow online.",
@@ -25,4 +26,8 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return <ProcessPage />;
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return applyEditedPageSeo("/process", metadata);
 }
