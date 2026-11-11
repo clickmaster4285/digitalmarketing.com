@@ -4,6 +4,7 @@ import { CmsPageRenderer } from "@/components/cms/CmsPageRenderer";
 import { isMainServiceSlug, MAIN_SERVICES } from "@/content/locations/serviceLocations";
 import { cmsPageMetadata, getCmsPage } from "@/lib/cms";
 import ServiceLandingClient from "./ServiceLandingClient";
+import { applyEditedPageSeo } from "@/lib/pageEdits.server";
 
 type PageProps = {
   params: Promise<{ services: string }>;
@@ -14,7 +15,7 @@ export async function generateStaticParams() {
   return Object.keys(MAIN_SERVICES).map((services) => ({ services }));
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+async function baseMetadata({ params }: PageProps): Promise<Metadata> {
   const { services } = await params;
   if (isMainServiceSlug(services)) return {};
 
@@ -32,4 +33,9 @@ export default async function Page({ params }: PageProps) {
   const page = await getCmsPage(services);
   if (!page) notFound();
   return <CmsPageRenderer page={page} />;
+}
+
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const { services } = await props.params;
+  return applyEditedPageSeo(`/${services}`, await baseMetadata(props));
 }

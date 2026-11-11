@@ -1,8 +1,9 @@
 import { Metadata } from "next";
 import React from "react";
 import ContactClient from "./ContactClient";
+import { applyEditedPageSeo } from "@/lib/pageEdits.server";
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: "Get in Touch with Our Digital Marketing Agency  Contact Us",
   description:
     "Contact our digital marketing agency today to discuss your business goals. Get a free consultation and start growing your online presence with us. ",
@@ -33,4 +34,8 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return <ContactClient />;
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return applyEditedPageSeo("/contact", metadata);
 }

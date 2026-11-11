@@ -193,7 +193,7 @@ export async function getCmsPage(
   return parsePage(payload, slug);
 }
 
-function safeMetadataUrl(value: unknown): string | undefined {
+export function safeMetadataUrl(value: unknown): string | undefined {
   if (typeof value !== "string" || !value.trim()) return undefined;
 
   try {
@@ -211,7 +211,7 @@ function safeMetadataUrl(value: unknown): string | undefined {
   }
 }
 
-function metadataRobots(value: unknown): Metadata["robots"] {
+export function metadataRobots(value: unknown): Metadata["robots"] {
   if (typeof value === "boolean") {
     return { index: value, follow: value };
   }

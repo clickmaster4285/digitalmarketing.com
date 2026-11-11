@@ -6,8 +6,9 @@ import {
   MAIN_SERVICES,
   SERVICES_WITH_CITY_PAGES,
 } from "@/content/locations/serviceLocations";
+import { applyEditedPageSeo } from "@/lib/pageEdits.server";
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: "Digital Marketing Services Directory | Clickmasters",
   description:
     "Browse Clickmasters digital marketing, development, and optimization services by category, with links to every service page.",
@@ -117,4 +118,8 @@ export default function ServicesDirectoryPage() {
       </div>
     </main>
   );
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return applyEditedPageSeo("/services", metadata);
 }

@@ -1,7 +1,8 @@
 import { Metadata } from "next";
 import SolutionsPage from "./SolutionClient";
+import { applyEditedPageSeo } from "@/lib/pageEdits.server";
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: "Digital Marketing Solutions for US Businesses | Get Results",
   description:
     "Looking for effective digital marketing solutions? We help US businesses boost visibility, traffic, and sales through SEO, PPC, and social media marketing.",
@@ -26,4 +27,8 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return <SolutionsPage />;
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return applyEditedPageSeo("/solutions", metadata);
 }

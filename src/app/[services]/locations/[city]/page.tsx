@@ -34,12 +34,13 @@ import { CmsPageRenderer } from "@/components/cms/CmsPageRenderer";
 import { cmsPageMetadata, getCmsPage } from "@/lib/cms";
 import { normalizeMetadataText } from "@/lib/serviceMetadata";
 import { organizationRef } from "@/lib/organizationSchema";
+import { applyEditedPageSeo } from "@/lib/pageEdits.server";
 
 const BASE_URL = "https://clickmastersdigitalmarketing.com";
 
 type Params = { params: Promise<{ services: string; city: string }> };
 
-export async function generateMetadata({ params }: Params): Promise<Metadata> {
+async function baseMetadata({ params }: Params): Promise<Metadata> {
   const { services, city } = await params;
   if (services === "pay-per-click-ppc") return {}; // redirected in Page
   if (!isMainServiceSlug(services)) {
@@ -338,4 +339,9 @@ export default async function Page({ params }: Params) {
       <RegionalLocations current={location} />
     </>
   );
+}
+
+export async function generateMetadata(props: Params): Promise<Metadata> {
+  const { services, city } = await props.params;
+  return applyEditedPageSeo(`/${services}/locations/${city}`, await baseMetadata(props));
 }

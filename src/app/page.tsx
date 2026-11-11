@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import LandingPage from "@/components/site/LandingPage";
+import { applyEditedPageSeo } from "@/lib/pageEdits.server";
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: "Digital Marketing Agency in the US | ClickMasters",
   description:
     "Grow leads and revenue with Clickmasters' SEO, PPC, web design, and performance marketing services. Request a free consultation today.",
@@ -12,4 +13,8 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return <LandingPage />;
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return applyEditedPageSeo("/", metadata);
 }

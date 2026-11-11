@@ -7,6 +7,7 @@ import type { Metadata } from "next";
 import { CmsPageRenderer } from "@/components/cms/CmsPageRenderer";
 import { cmsPageMetadata, getCmsPage } from "@/lib/cms";
 import { normalizeMetadataText } from "@/lib/serviceMetadata";
+import { applyEditedPageSeo } from "@/lib/pageEdits.server";
 
 interface PageProps {
   params: Promise<{
@@ -27,7 +28,7 @@ export async function generateStaticParams() {
 }
 
 // Generate metadata for each location page
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+async function baseMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const location = getLocationBySlug(slug);
 
@@ -90,4 +91,9 @@ export default async function Page({ params }: PageProps) {
   }
  
   return <LocationPage data={location} />;
+}
+
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const { slug } = await props.params;
+  return applyEditedPageSeo(`/locations/${slug}`, await baseMetadata(props));
 }
