@@ -121,6 +121,25 @@ function chooseReading(root: Document, selectors: string[]): Reading {
   return best;
 }
 
+/**
+ * Entrance animations (framer-motion `initial`, GSAP `from`) leave inline
+ * `opacity: 0` + `transform` on elements until they scroll into view. A clone
+ * of such an element is never animated by the library, so it would stay
+ * invisible forever: settle it (and its descendants) to the final state.
+ */
+function settleAnimatedClone(clone: Element) {
+  for (const element of [clone, ...Array.from(clone.querySelectorAll("*"))]) {
+    if (!hasStyle(element)) continue;
+    const style = element.style;
+    const opacity = style.opacity === "" ? 1 : Number(style.opacity);
+    if (!(opacity < 1) && style.visibility !== "hidden") continue;
+    style.removeProperty("opacity");
+    style.removeProperty("visibility");
+    style.removeProperty("transform");
+    style.removeProperty("will-change");
+  }
+}
+
 const PROPAGATED_STYLES = new Set(["color", "text-decoration"]);
 
 export function applyPageEdits(
@@ -167,6 +186,7 @@ export function applyPageEdits(
     if (query(root, `[data-erp-clone="${instruction.id}"]`)) continue;
     const clone = element.cloneNode(true) as Element;
     clone.setAttribute("data-erp-clone", instruction.id);
+    settleAnimatedClone(clone);
     element.after(clone);
     clones.push(clone);
   }

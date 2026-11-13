@@ -7,7 +7,7 @@ import { getEditedPages } from "@/lib/pageEdits.server";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  const pages = await getEditedPages().catch(() => []);
+  const pages = await getEditedPages({ live: true }).catch(() => []);
   return NextResponse.json(
     { paths: pages.map((page) => page.path) },
     { headers: { "Cache-Control": "no-store" } },

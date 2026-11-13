@@ -56,15 +56,34 @@ const failedUntil = new Map<string, number>();
 /** Forget remembered failures (called after an on-demand revalidation). */
 export function clearPageEditFailures() {
   failedUntil.clear();
+  liveCache.clear();
 }
 
-async function fetchErpJson(url: string): Promise<{ status: number; body: unknown } | null> {
+type ErpResult = { status: number; body: unknown } | null;
+
+/**
+ * `live` requests (the browser's live-update polling via /api/cms/*) bypass
+ * the Next.js data cache, which serves stale data first and refreshes in the
+ * background, so a just-published edit would only show on the second poll.
+ * They are deduped for LIVE_TTL_MS so many open tabs cost one ERP request.
+ * Page renders keep the data cache so pages stay statically cacheable.
+ */
+export interface ErpFetchOptions {
+  live?: boolean;
+}
+
+const LIVE_TTL_MS = 2_000;
+const liveCache = new Map<string, { at: number; value: Promise<ErpResult> }>();
+
+async function requestErpJson(url: string, live: boolean): Promise<ErpResult> {
   const until = failedUntil.get(url);
   if (until && until > Date.now()) return null;
 
   try {
     const response = await fetch(url, {
-      next: { revalidate: REVALIDATE_SECONDS, tags: [PAGE_EDITS_CACHE_TAG] },
+      ...(live
+        ? { cache: "no-store" as const }
+        : { next: { revalidate: REVALIDATE_SECONDS, tags: [PAGE_EDITS_CACHE_TAG] } }),
       signal: AbortSignal.timeout(TIMEOUT_MS),
     });
     if (response.status === 404) return { status: 404, body: null };
@@ -79,27 +98,47 @@ async function fetchErpJson(url: string): Promise<{ status: number; body: unknow
   }
 }
 
-export async function getEditedPages(): Promise<EditedPageEntry[]> {
+function fetchErpJson(url: string, { live = false }: ErpFetchOptions = {}): Promise<ErpResult> {
+  if (!live) return requestErpJson(url, false);
+  const hit = liveCache.get(url);
+  if (hit && Date.now() - hit.at < LIVE_TTL_MS) return hit.value;
+  const value = requestErpJson(url, true);
+  liveCache.set(url, { at: Date.now(), value });
+  if (liveCache.size > 500) {
+    const oldest = liveCache.keys().next().value;
+    if (oldest !== undefined) liveCache.delete(oldest);
+  }
+  return value;
+}
+
+export async function getEditedPages(options?: ErpFetchOptions): Promise<EditedPageEntry[]> {
   const erp = erpBase();
   if (!erp) return [];
-  const result = await fetchErpJson(`${erp.base}/public/${erp.domain}/edited-pages`);
+  const result = await fetchErpJson(`${erp.base}/public/${erp.domain}/edited-pages`, options);
   return result ? parseEditedPagesList(result.body) : [];
 }
 
-export async function findEditedPage(path: string): Promise<EditedPageEntry | null> {
+export async function findEditedPage(
+  path: string,
+  options?: ErpFetchOptions,
+): Promise<EditedPageEntry | null> {
   const normalized = normalizeEditPath(path);
   if (!normalized) return null;
-  const pages = await getEditedPages();
+  const pages = await getEditedPages(options);
   return pages.find((page) => page.path === normalized) ?? null;
 }
 
 /** Edits for one path, or null. Checks the edited-pages list first. */
-export async function getPageEdits(path: string): Promise<PageEdits | null> {
-  const entry = await findEditedPage(path);
+export async function getPageEdits(
+  path: string,
+  options?: ErpFetchOptions,
+): Promise<PageEdits | null> {
+  const entry = await findEditedPage(path, options);
   const erp = erpBase();
   if (!entry || !erp) return null;
   const result = await fetchErpJson(
     `${erp.base}/public/${erp.domain}/page-edits?path=${encodeURIComponent(entry.path)}`,
+    options,
   );
   if (!result || result.status === 404) return null;
   return parsePageEdits(result.body);
