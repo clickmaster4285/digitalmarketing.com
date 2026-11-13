@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 
 export async function GET(request: NextRequest) {
   const path = normalizeEditPath(request.nextUrl.searchParams.get("path"));
-  const edits = path ? await getPageEdits(path).catch(() => null) : null;
+  const edits = path ? await getPageEdits(path, { live: true }).catch(() => null) : null;
   return NextResponse.json(
     { edits: edits ? { instructions: edits.instructions, version: edits.version } : null },
     { headers: { "Cache-Control": "no-store" } },
