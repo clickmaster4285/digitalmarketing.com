@@ -11,6 +11,6 @@ export async function GET(request: NextRequest) {
   const edits = path ? await getPageEdits(path).catch(() => null) : null;
   return NextResponse.json(
     { edits: edits ? { instructions: edits.instructions, version: edits.version } : null },
-    { headers: { "Cache-Control": "public, max-age=60" } },
+    { headers: { "Cache-Control": "no-store" } },
   );
 }

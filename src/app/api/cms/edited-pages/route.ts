@@ -10,6 +10,6 @@ export async function GET() {
   const pages = await getEditedPages().catch(() => []);
   return NextResponse.json(
     { paths: pages.map((page) => page.path) },
-    { headers: { "Cache-Control": "public, max-age=60" } },
+    { headers: { "Cache-Control": "no-store" } },
   );
 }
