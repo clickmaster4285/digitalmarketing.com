@@ -15,9 +15,14 @@ import {
  * exactly as it would without the ERP.
  */
 
-const REVALIDATE_SECONDS = 60;
+// Short TTL so CRM edits reach the site within seconds even without the
+// revalidate webhook; POST /api/cms/revalidate makes them instant.
+const REVALIDATE_SECONDS = 5;
 const TIMEOUT_MS = 3000;
-const FAILURE_TTL_MS = 60_000;
+const FAILURE_TTL_MS = 15_000;
+
+/** Next.js data-cache tag on every ERP request; see /api/cms/revalidate. */
+export const PAGE_EDITS_CACHE_TAG = "erp-page-edits";
 
 function erpBase(): { base: string; domain: string } | null {
   const apiUrl = process.env.CMS_API_URL?.trim();
@@ -43,10 +48,15 @@ function devWarn(message: string, error?: unknown) {
   }
 }
 
-// Remembers failed endpoints for a minute so a dead ERP costs one timeout per
-// minute, not one per page render. Successful responses are cached by the
-// Next.js data cache (revalidate: 60).
+// Remembers failed endpoints briefly so a dead ERP costs one timeout per
+// FAILURE_TTL_MS, not one per page render. Successful responses are cached by
+// the Next.js data cache (revalidate: REVALIDATE_SECONDS, tag above).
 const failedUntil = new Map<string, number>();
+
+/** Forget remembered failures (called after an on-demand revalidation). */
+export function clearPageEditFailures() {
+  failedUntil.clear();
+}
 
 async function fetchErpJson(url: string): Promise<{ status: number; body: unknown } | null> {
   const until = failedUntil.get(url);
@@ -54,7 +64,7 @@ async function fetchErpJson(url: string): Promise<{ status: number; body: unknow
 
   try {
     const response = await fetch(url, {
-      next: { revalidate: REVALIDATE_SECONDS },
+      next: { revalidate: REVALIDATE_SECONDS, tags: [PAGE_EDITS_CACHE_TAG] },
       signal: AbortSignal.timeout(TIMEOUT_MS),
     });
     if (response.status === 404) return { status: 404, body: null };

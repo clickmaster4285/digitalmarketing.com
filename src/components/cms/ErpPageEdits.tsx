@@ -11,17 +11,26 @@ import { applyPageEdits } from "@/lib/pageEditsDom";
  * effect cleanup (which reverts the DOM changes) runs before React removes
  * or updates the previous route's nodes during the next navigation commit.
  *
+ * Edits update live: while the tab is visible it re-checks the current
+ * path every POLL_MS (and on focus) and swaps in changed edits without a
+ * reload. Pair with POST /api/cms/revalidate from the ERP for instant updates.
+ *
  * Renders nothing and fails silently: if the ERP is unreachable or a path
  * has no edits, the page is untouched.
  */
 
-const CACHE_TTL_MS = 60_000;
+// Requests younger than this are reused (dedupes the many effects that fire
+// on one navigation); anything older is refetched.
+const FRESH_MS = 2_000;
+const POLL_MS = 5_000;
 const ANTI_FLICKER_MS = 1500;
 
 type Cached<T> = { at: number; value: Promise<T>; settled?: T };
+/** `undefined` = request failed (keep whatever is applied). */
+type EditsResult = EditInstruction[] | null | undefined;
 
 let pathsCache: Cached<Set<string>> | null = null;
-const editsCache = new Map<string, Cached<EditInstruction[] | null>>();
+const editsCache = new Map<string, Cached<EditsResult>>();
 
 const useIsomorphicLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 
@@ -32,15 +41,20 @@ function devWarn(message: string, error?: unknown) {
 }
 
 async function fetchJson(url: string): Promise<unknown> {
-  const response = await fetch(url, { headers: { Accept: "application/json" } });
+  const response = await fetch(url, {
+    headers: { Accept: "application/json" },
+    cache: "no-store",
+  });
   if (!response.ok) throw new Error(`${url} returned ${response.status}`);
   return response.json();
 }
 
 function cached<T>(entry: Cached<T> | null | undefined, load: () => Promise<T>, fallback: T): Cached<T> {
-  if (entry && Date.now() - entry.at < CACHE_TTL_MS) return entry;
+  if (entry && Date.now() - entry.at < FRESH_MS) return entry;
   const next: Cached<T> = {
     at: Date.now(),
+    // Keep the last known value as a synchronous hint while refetching.
+    settled: entry?.settled,
     value: load().catch((error) => {
       devWarn("request failed", error);
       return fallback;
@@ -60,13 +74,13 @@ function editedPaths(): Cached<Set<string>> {
       const paths = Array.isArray(body.paths) ? body.paths : [];
       return new Set(paths.filter((p): p is string => typeof p === "string"));
     },
-    new Set<string>(),
+    pathsCache?.settled ?? new Set<string>(),
   );
   return pathsCache;
 }
 
-function pageEdits(path: string): Promise<EditInstruction[] | null> {
-  const entry = cached(
+function pageEdits(path: string): Promise<EditsResult> {
+  const entry = cached<EditsResult>(
     editsCache.get(path),
     async () => {
       const body = (await fetchJson(
@@ -75,7 +89,7 @@ function pageEdits(path: string): Promise<EditInstruction[] | null> {
       const instructions = body.edits?.instructions;
       return Array.isArray(instructions) ? (instructions as EditInstruction[]) : null;
     },
-    null,
+    undefined,
   );
   editsCache.set(path, entry);
   return entry.value;
@@ -108,9 +122,22 @@ export function ErpPageEdits() {
     if (!path) return;
 
     let active = true;
+    let ready = false;
     let frame = 0;
     let revert: (() => void) | null = null;
     let reveal: (() => void) | null = null;
+    let appliedKey = "";
+
+    // Swaps the applied edits for `instructions` if they changed.
+    const apply = (instructions: EditsResult) => {
+      if (!active || instructions === undefined) return;
+      const key = instructions?.length ? JSON.stringify(instructions) : "";
+      if (key === appliedKey) return;
+      revert?.();
+      revert = null;
+      appliedKey = key;
+      if (instructions?.length) revert = applyPageEdits(instructions);
+    };
 
     const paths = editedPaths();
     // Only hide when we already know (synchronously, before paint) that this
@@ -127,13 +154,31 @@ export function ErpPageEdits() {
       });
       if (!active) return;
       reveal?.();
-      revert = applyPageEdits(instructions);
+      apply(instructions);
     })()
       .catch((error) => devWarn("failed to apply page edits", error))
-      .finally(() => reveal?.());
+      .finally(() => {
+        reveal?.();
+        ready = true;
+      });
+
+    // Live updates. The page-edits route checks the edited-pages list itself,
+    // so this also picks up pages that gain or lose edits.
+    const refresh = () => {
+      if (!active || !ready || document.visibilityState !== "visible") return;
+      pageEdits(path)
+        .then(apply)
+        .catch((error) => devWarn("failed to refresh page edits", error));
+    };
+    const timer = window.setInterval(refresh, POLL_MS);
+    window.addEventListener("focus", refresh);
+    document.addEventListener("visibilitychange", refresh);
 
     return () => {
       active = false;
+      window.clearInterval(timer);
+      window.removeEventListener("focus", refresh);
+      document.removeEventListener("visibilitychange", refresh);
       window.cancelAnimationFrame(frame);
       reveal?.();
       revert?.();
