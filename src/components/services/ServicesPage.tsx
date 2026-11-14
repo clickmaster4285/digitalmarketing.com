@@ -5,6 +5,7 @@ import { notFound, useParams } from "next/navigation";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useSmoothScroll } from "@/hooks/useSmoothScroll";
 import Link from "next/link";
+import { IllustrativeBadge, IllustrativeResultsNotice, IllustrativeStatsCaption } from "@/components/site/IllustrativeResults";
 
 import {
   Code2, Gauge, ShieldCheck, Plug, Search, Server, ShoppingBag, Layers,
@@ -179,6 +180,7 @@ const Hero = ({ content }: { content: any }) => {
               </div>
             ))}
           </div>
+          {heroContent.stats?.length ? <IllustrativeStatsCaption className="mt-6" /> : null}
         </Reveal>
       </motion.div>
     </section>
@@ -449,11 +451,12 @@ const CasesSection = ({ cases }: { cases: any[] }) => {
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-[160px] opacity-25 bg-[#FF2E86] pointer-events-none"
       />
       <div className="container relative">
-        <SectionLabel n="05" t="Client results" />
+        <SectionLabel n="05" t="Illustrative results" />
         <Reveal>
-          <h2 className="font-display text-4xl md:text-7xl font-bold leading-[0.95] mb-20 tracking-tight">
-            Client results<br /><span className="text-[#FF2E86]">in practice.</span>
+          <h2 className="font-display text-4xl md:text-7xl font-bold leading-[0.95] mb-8 tracking-tight">
+            Example results<br /><span className="text-[#FF2E86]">in practice.</span>
           </h2>
+          <IllustrativeResultsNotice className="mb-16" />
         </Reveal>
 
         <div className="space-y-8">
@@ -468,6 +471,7 @@ const CasesSection = ({ cases }: { cases: any[] }) => {
               className="grid md:grid-cols-12 gap-8 rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur p-8 md:p-12 hover:border-[#FF2E86]/40 transition-colors"
             >
               <div className="md:col-span-4">
+                <IllustrativeBadge className="mb-4" />
                 <p className="text-[10px] uppercase tracking-[0.4em] opacity-60 mb-4">[ {c.tag} ]</p>
                 <p className="font-display text-5xl md:text-6xl text-[#FF2E86] leading-none">
                   {c.metric}

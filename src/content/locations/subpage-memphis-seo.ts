@@ -172,7 +172,7 @@ export const memphisSeoSubPage: SubPageContent = {
     ],
   },
   results: {
-    title: "Case Studies: Real Memphis SEO Results",
+    title: "Case Studies: Example Memphis SEO Results",
     items: [
       {
         title: "Memphis Logistics Company",
@@ -202,7 +202,7 @@ export const memphisSeoSubPage: SubPageContent = {
           "Organic traffic to the neighborhood pages increased, and the brokerage began generating consistent inbound leads directly from Google, reducing reliance on paid portals.",
       },
     ],
-    note: "Every claim on this page is backed by real client work, and these three examples show how our Memphis SEO company approach plays out in practice.",
+    note: "These three examples show how our Memphis SEO company approach can play out in practice.",
   },
   industries: {
     title: "Industries We Serve in Memphis",

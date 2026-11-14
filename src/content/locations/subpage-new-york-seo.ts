@@ -28,7 +28,7 @@ export const newYorkSeoSubPage: SubPageContent = {
     intro:
       "Real numbers behind our seo services new york track record. We're a new york seo company trusted by businesses across Manhattan, Brooklyn, and Queens, backed by real client reviews and transparent monthly reporting — not vanity metrics.",
     items: [
-      { value: "500+", label: "Clients served nationwide" },
+      { value: "3,500+", label: "Clients served nationwide" },
       { value: "10+", label: "Years of hands-on SEO experience" },
       { value: "4.9/5", label: "Average client rating" },
       {
@@ -265,7 +265,7 @@ export const newYorkSeoSubPage: SubPageContent = {
       },
     ],
     note:
-      "(Client names available on request; results vary by industry, competition, and starting point.)",
+      "(Results vary by industry, competition, and starting point.)",
   },
   testimonials: {
     title: "What New York Clients Say",

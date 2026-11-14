@@ -129,7 +129,7 @@ export const sanJoseSeoSubPage: SubPageContent = {
     ],
   },
   results: {
-    title: "San Jose SEO Case Studies — Real Challenges, Real Results",
+    title: "San Jose SEO Case Studies — Typical Challenges, Example Results",
     items: [
       {
         title: "SaaS Company (San Jose Tech Sector)",
@@ -160,7 +160,7 @@ export const sanJoseSeoSubPage: SubPageContent = {
       },
     ],
     note:
-      "(Replace these with your actual client data, names, and verified metrics before publishing — real, substantiated numbers build far more trust than placeholder figures.)",
+      "",
   },
   industries: {
     title: "San Jose SEO Services by Industry",

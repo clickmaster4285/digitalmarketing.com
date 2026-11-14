@@ -15,9 +15,9 @@ import { ArrowRight, BarChart3, Target, Shield, TrendingUp } from "lucide-react"
 const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
 
 const stats = [
-  { value: "200+", label: "US Businesses Grown" },
-  { value: "$50M+", label: "Client Revenue Generated" },
-  { value: "100%", label: "Satisfaction Guaranteed" },
+  { value: "3,500+", label: "Client Accounts Served" },
+  { value: "$120M+", label: "Ad Spend Managed" },
+  { value: "4.9/5", label: "Client Rating" },
 ];
 
 const features = [
@@ -98,13 +98,15 @@ function Marquee({
 /* ---------------------------------------------------------------------- */
 
 function CountStat({ value, start }: { value: string; start: boolean }) {
-  const match = useMemo(() => value.match(/^(\D*)(\d+)(.*)$/), [value]);
+  // Digits may contain thousands separators ("3,500+").
+  const match = useMemo(() => value.match(/^(\D*)(\d[\d,]*)(.*)$/), [value]);
   if (!match) return <>{value}</>;
   const [, prefix, digits, suffix] = match;
-  const target = parseInt(digits, 10);
+  const target = parseInt(digits.replace(/,/g, ""), 10);
+  const grouped = digits.includes(",");
 
   return (
-    <StatNumber prefix={prefix} target={target} suffix={suffix} start={start} />
+    <StatNumber prefix={prefix} target={target} suffix={suffix} start={start} grouped={grouped} />
   );
 }
 
@@ -113,15 +115,17 @@ function StatNumber({
   target,
   suffix,
   start,
+  grouped = false,
 }: {
   prefix: string;
   target: number;
   suffix: string;
   start: boolean;
+  grouped?: boolean;
 }) {
   return (
     <span className="tabular-nums" data-counter="true">
-      <AnimatedDigits prefix={prefix} target={target} suffix={suffix} start={start} />
+      <AnimatedDigits prefix={prefix} target={target} suffix={suffix} start={start} grouped={grouped} />
     </span>
   );
 }
@@ -131,11 +135,13 @@ function AnimatedDigits({
   target,
   suffix,
   start,
+  grouped = false,
 }: {
   prefix: string;
   target: number;
   suffix: string;
   start: boolean;
+  grouped?: boolean;
 }) {
   const [display, setDisplay] = useState(target);
 
@@ -152,7 +158,8 @@ function AnimatedDigits({
     return () => controls.stop();
   }, [start, target]);
 
-  return <span>{`${prefix}${display}${suffix}`}</span>;
+  const shown = grouped ? display.toLocaleString("en-US") : String(display);
+  return <span>{`${prefix}${shown}${suffix}`}</span>;
 }
 
 /* ---------------------------------------------------------------------- */

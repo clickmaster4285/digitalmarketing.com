@@ -159,7 +159,7 @@ export const losAngelesSeoSubPage: SubPageContent = {
     ],
   },
   results: {
-    title: "Los Angeles SEO Case Studies — Real Challenges, Real Results",
+    title: "Los Angeles SEO Case Studies — Typical Challenges, Example Results",
     items: [
       {
         title: "Case Study 1 — Ecommerce Retailer",
@@ -190,7 +190,7 @@ export const losAngelesSeoSubPage: SubPageContent = {
       },
     ],
     note:
-      "(Replace with your actual client data and verified metrics before publishing.)",
+      "",
   },
   stats: {
     title: "What Our Los Angeles SEO Clients Say",

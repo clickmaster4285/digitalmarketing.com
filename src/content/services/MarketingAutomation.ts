@@ -286,7 +286,7 @@ export const MarketingAutomationContent = {
     company: "Clickmasters Digital Marketing | https://clickmastersdigitalmarketing.com | marketing@clickmastersdigitalmarketing.com",
     url: "https://clickmastersdigitalmarketing.com",
     email: "marketing@clickmastersdigitalmarketing.com",
-    regions: "Serving businesses in USA, UK, UAE, Pakistan, Canada, Australia",
+    regions: "businesses in USA, UK, UAE, Pakistan, Canada, and Australia",
     author: "Amjad Khan CEO, Clickmasters Digital Marketing | Marketing automation specialist | 10+ years",
   },schema: {
   Service: {

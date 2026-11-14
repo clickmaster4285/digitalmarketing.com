@@ -124,7 +124,7 @@ export const AdaComplianceContent = {
         },
         {
           h: "TEAM TRAINING AND PROCESS INTEGRATION",
-          p: "Sustained accessibility requires that the teams producing website content  content writers, designers, developers, and marketing managers  understand the accessibility requirements relevant to their specific role. We provide accessibility training for website teams: content editor training (alt text writing, heading structure, link text, document accessibility), designer training (colour contrast, focus indicator design, accessible component patterns), and developer training (semantic HTML, ARIA patterns, keyboard accessibility testing).",
+          p: "Sustained accessibility requires that the teams producing website content (content writers, designers, developers, and marketing managers) understand the accessibility requirements relevant to their specific role. We provide accessibility training for website teams: content editor training (alt text writing, heading structure, link text, document accessibility), designer training (colour contrast, focus indicator design, accessible component patterns), and developer training (semantic HTML, ARIA patterns, keyboard accessibility testing).",
         },
       ],
     },

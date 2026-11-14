@@ -193,7 +193,7 @@ export const pittsburghSeoSubPage: SubPageContent = {
     ],
   },
   results: {
-    title: "Real Results for Pittsburgh & Southwestern Pennsylvania Businesses",
+    title: "Example Results for Pittsburgh & Southwestern Pennsylvania Businesses",
     items: [
       {
         title: "Local Home Services Company",
@@ -224,7 +224,7 @@ export const pittsburghSeoSubPage: SubPageContent = {
       },
     ],
     note:
-      "(Client names available on request; results vary by industry, competition, and starting point.)",
+      "(Results vary by industry, competition, and starting point.)",
   },
   faqs: [
     {

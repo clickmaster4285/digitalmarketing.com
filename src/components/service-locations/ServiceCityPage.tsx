@@ -6,6 +6,7 @@
 
 import { useRef } from "react";
 import Link from "next/link";
+import { IllustrativeBadge, IllustrativeResultsNotice } from "@/components/site/IllustrativeResults";
 import { motion, useScroll, useTransform } from "framer-motion";
 import {
   ArrowUpRight,
@@ -168,7 +169,7 @@ const CityHero = ({
           <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-6 border-t border-white/10 pt-10">
             {[
               { k: "60–90", v: "Days to local traction" },
-              { k: "500+", v: "Clients nationwide" },
+              { k: "3,500+", v: "Clients nationwide" },
               { k: "4.9/5", v: "Average client rating" },
               { k: "10+", v: "Years of growth" },
             ].map((s) => (
@@ -580,18 +581,20 @@ const Cases = ({ content }: { content: LocationData }) => {
   return (
     <section className="relative bg-[#0a0a0a] text-white py-24">
       <div className="container max-w-6xl">
-        <SectionLabel n="07" t="Client results" />
+        <SectionLabel n="07" t="Illustrative results" />
 
         <Reveal>
-          <h2 className="font-display text-4xl md:text-7xl font-bold leading-[0.95] tracking-tight mb-10 max-w-4xl">
-            {content.caseStudies?.title ?? "SEO success stories"}
+          <h2 className="font-display text-4xl md:text-7xl font-bold leading-[0.95] tracking-tight mb-6 max-w-4xl">
+            {content.caseStudies?.title ?? "Example SEO results"}
           </h2>
+          <IllustrativeResultsNotice className="mb-10" />
         </Reveal>
 
         <div className="space-y-8">
           {cases.map((item, idx) => (
             <Reveal key={item.title || idx} delay={idx * 0.08}>
               <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-8 md:p-10">
+                <IllustrativeBadge className="mb-4" />
                 <p className="text-[10px] uppercase tracking-[0.35em] opacity-60 mb-4">
                   {item.services?.join(" · ")}
                 </p>

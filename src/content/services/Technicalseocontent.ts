@@ -159,7 +159,7 @@ export const TechnicalSeoContent = {
         },
         {
           h: "Orphan Page Detection and Linking",
-          p: "Orphan pages  pages with no internal links pointing to them  are effectively invisible to Google's crawl. We identify every orphan on your site and integrate them into the internal linking structure, or recommend consolidation or deletion depending on their content value.",
+          p: "Orphan pages (pages with no internal links pointing to them) are effectively invisible to Google's crawl. We identify every orphan on your site and integrate them into the internal linking structure, or recommend consolidation or deletion depending on their content value.",
         },
       ],
     },

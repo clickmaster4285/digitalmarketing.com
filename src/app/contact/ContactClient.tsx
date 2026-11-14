@@ -58,7 +58,7 @@ const reasons = [
   "Free initial consultation to understand your goals",
   "A dedicated team that responds quickly",
   "Custom strategies — no generic packages",
-  "10+ years of experience helping 100+ businesses grow online",
+  "10+ years of experience helping 3,500+ client accounts grow online",
 ];
 
 interface FormData {

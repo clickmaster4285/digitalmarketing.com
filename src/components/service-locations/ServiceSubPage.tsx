@@ -8,6 +8,7 @@
 
 import { useRef } from "react";
 import Link from "next/link";
+import { IllustrativeBadge, IllustrativeResultsNotice } from "@/components/site/IllustrativeResults";
 import { motion, useScroll, useTransform } from "framer-motion";
 import {
   ArrowUpRight,
@@ -397,16 +398,18 @@ const ResultsSection = ({ content }: { content: SubPageContent }) => (
       className="absolute bottom-0 right-1/4 w-[500px] h-[400px] rounded-full bg-[#FF2E86]/10 blur-[160px] pointer-events-none"
     />
     <div className="container max-w-6xl relative">
-      <SectionLabel n="06" t="Client results" />
+      <SectionLabel n="06" t="Illustrative results" />
       <Reveal>
-        <h2 className="font-display text-4xl md:text-7xl font-bold leading-[0.95] tracking-tight mb-12 max-w-4xl">
+        <h2 className="font-display text-4xl md:text-7xl font-bold leading-[0.95] tracking-tight mb-6 max-w-4xl">
           {content.results.title}
         </h2>
+        <IllustrativeResultsNotice className="mb-12" />
       </Reveal>
       <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
         {content.results.items.map((item, idx) => (
           <Reveal key={item.title} delay={idx * 0.08}>
             <div className="flex flex-col h-full rounded-3xl border border-white/10 bg-white/[0.03] p-8 hover:border-[#FF2E86]/40 transition">
+              <IllustrativeBadge className="mb-4 self-start" />
               <h3 className="font-display text-2xl mb-6">{item.title}</h3>
               <div className="space-y-5 text-sm md:text-base leading-relaxed">
                 <p>
@@ -432,9 +435,11 @@ const ResultsSection = ({ content }: { content: SubPageContent }) => (
           </Reveal>
         ))}
       </div>
-      <Reveal delay={0.2}>
-        <p className="mt-8 text-xs opacity-50 italic">{content.results.note}</p>
-      </Reveal>
+      {content.results.note && (
+        <Reveal delay={0.2}>
+          <p className="mt-8 text-xs opacity-50 italic">{content.results.note}</p>
+        </Reveal>
+      )}
     </div>
   </section>
 );

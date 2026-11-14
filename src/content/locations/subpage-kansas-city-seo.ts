@@ -213,7 +213,7 @@ export const kansasCitySeoSubPage: SubPageContent = {
     items: [],
   },
   results: {
-    title: "Kansas City SEO Company — Client Case Studies",
+    title: "Kansas City SEO Company — Example Case Studies",
     items: [
       {
         title: "Local Contracting Company",
@@ -244,7 +244,7 @@ export const kansasCitySeoSubPage: SubPageContent = {
       },
     ],
     note:
-      "(Client names available on request; results vary by industry, competition, and starting point.)",
+      "(Results vary by industry, competition, and starting point.)",
   },
   faqs: [
     {

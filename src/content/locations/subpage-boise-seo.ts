@@ -262,7 +262,7 @@ export const boiseSeoSubPage: BoiseSubPageContent = {
     ],
   },
   results: {
-    title: "Real SEO Results for Boise Businesses",
+    title: "Example SEO Results for Boise Businesses",
     items: [
       {
         title: "Local Home Services Company in Boise",
@@ -292,7 +292,7 @@ export const boiseSeoSubPage: BoiseSubPageContent = {
           "The website gained stronger organic visibility and improved rankings across important product categories, creating more opportunities to generate sales through search.",
       },
     ],
-    note: "Replace the placeholders with verified client names, timelines, and metrics before publishing.",
+    note: "",
   },
   realResults: {
     title: "SEO Results That Focus on Business Growth",

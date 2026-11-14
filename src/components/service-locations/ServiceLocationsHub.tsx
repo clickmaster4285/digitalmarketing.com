@@ -260,7 +260,7 @@ const Hero = ({
             {[
               { k: `${cityCount}+`, v: "Cities served" },
               { k: "9", v: "Core services" },
-              { k: "500+", v: "Clients nationwide" },
+              { k: "3,500+", v: "Clients nationwide" },
               { k: "10+", v: "Years of growth" },
             ].map((s) => (
               <div key={s.v}>

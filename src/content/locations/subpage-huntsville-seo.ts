@@ -143,7 +143,7 @@ export const huntsvilleSeoSubPage: SubPageContent = {
     ],
   },
   results: {
-    title: "Case Studies — Real Results for Huntsville Businesses",
+    title: "Case Studies — Example Results for Huntsville Businesses",
     items: [
       {
         title: "Local Auto Repair Shop",
@@ -171,7 +171,7 @@ export const huntsvilleSeoSubPage: SubPageContent = {
         result: "Doubled organic form submissions year-over-year.",
       },
     ],
-    note: "Full case studies with detailed metrics available on request.",
+    note: "",
   },
   realResults: {
     title: "Leads and Revenue — Not Just Rankings",

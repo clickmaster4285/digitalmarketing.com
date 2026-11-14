@@ -50,8 +50,9 @@ async function baseMetadata({ params }: Params): Promise<Metadata> {
   const svc = getMainService(services);
 
   if (services === "search-engine-optimization" && city === "seo-services-usa") {
+    // The bare hero text ("SEO Services USA") is too short for a page title.
     const title = normalizeMetadataText(
-      `${SeoServicesUsaContent.hero.title} ${SeoServicesUsaContent.hero.titleHighlight}`,
+      `${SeoServicesUsaContent.hero.title} ${SeoServicesUsaContent.hero.titleHighlight} | Rank Higher Across the US`,
       60,
     );
     const description = normalizeMetadataText(

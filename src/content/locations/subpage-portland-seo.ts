@@ -189,7 +189,7 @@ export const portlandSeoSubPage: SubPageContent = {
     ],
   },
   results: {
-    title: "Real Portland SEO Projects & Outcomes",
+    title: "Example Portland SEO Projects & Outcomes",
     items: [
       {
         title: "Local Contracting Company",
@@ -220,7 +220,7 @@ export const portlandSeoSubPage: SubPageContent = {
       },
     ],
     note:
-      "(Client names available on request; results vary by industry, competition, and starting point.)",
+      "(Results vary by industry, competition, and starting point.)",
   },
   stats: {
     title: "What SEO Actually Costs in Portland",

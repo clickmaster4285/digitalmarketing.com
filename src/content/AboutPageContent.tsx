@@ -54,7 +54,7 @@ const reasons = [
 
 const stats = [
   { value: 10, suffix: "+", label: "Years in Business" },
-  { value: 100, suffix: "+", label: "Clients Served" },
+  { value: 3500, suffix: "+", label: "Client Accounts Served" },
   { value: 5, suffix: "", label: "Ad Platforms Managed" },
   { value: 5, suffix: "", label: "Core Services, One Team" },
 ];
@@ -85,7 +85,7 @@ const processSteps = [
 const marqueeItems = [
   "Full-Service Digital Marketing",
   "10+ Years of Experience",
-  "100+ Clients Served",
+  "3,500+ Client Accounts Served",
   "Google · Meta · LinkedIn · TikTok · Amazon",
   "Custom Strategies, Not Templates",
 ];
@@ -170,7 +170,7 @@ function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
 
   return (
     <span ref={ref} className="tabular-nums" data-counter="true">
-      {display}
+      {display.toLocaleString("en-US")}
       {suffix}
     </span>
   );
@@ -454,7 +454,7 @@ export const AboutPageContent = () => {
           </div>
           <div className="md:col-span-7 space-y-4">
             <motion.p variants={fadeInUp} className="text-lg text-muted-foreground leading-relaxed">
-              Over the past 10+ years, we've managed campaigns for 100+ clients across a wide range
+              Over the past 10+ years, we've managed campaigns for 3,500+ client accounts across a wide range
               of industries. Our team includes certified specialists, so every strategy we build is
               backed by real, up-to-date platform knowledge  not guesswork.
             </motion.p>

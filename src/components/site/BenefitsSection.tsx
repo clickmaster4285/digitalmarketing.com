@@ -340,7 +340,7 @@ export default function BenefitsSection() {
           </div>
           
           <p className="mt-4 text-xs text-muted-foreground/60">
-            Join 200+ businesses already growing with Clickmasters
+            Join 3,500+ client accounts already growing with Clickmasters
           </p>
         </motion.div>
       </div>

@@ -11,6 +11,7 @@ import { getRelatedProducts } from "@/content/product/relatedProducts";
 import { CmsPageRenderer } from "@/components/cms/CmsPageRenderer";
 import { cmsPageMetadata, getCmsPage } from "@/lib/cms";
 import { applyEditedPageSeo } from "@/lib/pageEdits.server";
+import { normalizeMetadataText } from "@/lib/serviceMetadata";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -36,13 +37,18 @@ async function baseMetadata({ params }: PageProps): Promise<Metadata> {
     return cmsPage ? cmsPageMetadata(cmsPage) : { title: "Product Not Found" };
   }
 
+  // Taglines are ~65 chars (flagged as too short by crawlers); the overview is
+  // the fuller summary, trimmed to the usual 155-char snippet length.
+  const description =
+    normalizeMetadataText(product.overview, 155) || product.tagline;
+
   return {
     title: productTitle(product.name),
-    description: product.tagline,
+    description,
     alternates: { canonical: `/products/${product.slug}` },
     openGraph: {
       title: product.name,
-      description: product.tagline,
+      description,
       type: "website",
     },
   };

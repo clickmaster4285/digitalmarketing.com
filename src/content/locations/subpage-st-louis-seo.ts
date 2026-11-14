@@ -173,7 +173,7 @@ export const stLouisSeoSubPage: SubPageContent = {
     ],
   },
   results: {
-    title: "Real Results From Real St. Louis Clients",
+    title: "Example Results for St. Louis Businesses",
     items: [
       {
         title: "Local Service Business",

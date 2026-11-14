@@ -269,7 +269,7 @@ export const charlotteSeoSubPage: CharlotteSubPageContent = {
     ],
   },
   results: {
-    title: "Real Charlotte SEO Results",
+    title: "Example Charlotte SEO Results",
     items: [
       {
         title: "Charlotte Home Services Business",
@@ -299,7 +299,7 @@ export const charlotteSeoSubPage: CharlotteSubPageContent = {
           "Service pages began gaining first-page visibility for valuable Charlotte search terms, bringing in more qualified organic traffic and enquiries.",
       },
     ],
-    note: "(Client names available on request, shared only with permission.)",
+    note: "",
   },
   realResults: {
     title: "What Makes Our SEO Services Different?",

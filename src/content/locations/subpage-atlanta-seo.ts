@@ -257,7 +257,7 @@ export const atlantaSeoSubPage: SubPageContent = {
     ],
   },
   results: {
-    title: "Real Results for Atlanta Businesses",
+    title: "Example Results for Atlanta Businesses",
     items: [
       {
         title: "Local Home Services Company",
@@ -287,7 +287,7 @@ export const atlantaSeoSubPage: SubPageContent = {
           "New practice-area pages began ranking on page one for competitive local search terms within the first several months.",
       },
     ],
-    note: "(Specific client names available on request — shared with permission.)",
+    note: "",
   },
   realResults: {
     title: "Real SEO Results for Atlanta Businesses",

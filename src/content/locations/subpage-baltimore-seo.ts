@@ -224,7 +224,7 @@ export const baltimoreSeoSubPage: BaltimoreSubPageContent = {
     ],
   },
   results: {
-    title: "Real Baltimore & Maryland SEO Results",
+    title: "Example Baltimore & Maryland SEO Results",
     items: [
       {
         title: "Regional Home Services Company",
@@ -254,7 +254,7 @@ export const baltimoreSeoSubPage: BaltimoreSubPageContent = {
           "New pages reached page one for competitive local terms within the first several months of the campaign.",
       },
     ],
-    note: "(Client names available on request, shared only with permission.)",
+    note: "",
   },
   realResults: {
     title: "What Businesses Can Expect From Our Baltimore SEO Services",

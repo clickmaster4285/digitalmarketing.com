@@ -152,8 +152,8 @@ export default function LocationWhyChoose({
                 <div className="relative p-6 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm">
                   <div className="flex items-center justify-between">
                     <div>
-                      <div className="text-3xl font-display font-bold text-white">500+</div>
-                      <div className="text-sm text-white/60">Businesses Grown</div>
+                      <div className="text-3xl font-display font-bold text-white">3,500+</div>
+                      <div className="text-sm text-white/60">Businesses Served</div>
                     </div>
                     <div className="w-12 h-12 rounded-full bg-[#FF3D77]/10 flex items-center justify-center">
                       <Users className="w-6 h-6 text-[#FF3D77]" />
