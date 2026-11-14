@@ -67,6 +67,7 @@ const getServiceHref = (groupTitle: string, serviceHref?: string) => {
   return `/${groupSlug}/${slug}`;
 };
 
+/*
 // ─── Products Data ──────────────────────────────────────────────────────────
 // 10 UI Kit products shown in the Products dropdown
 const products: { name: string; desc: string; icon: any; href: string; badge?: string }[] = [
@@ -141,6 +142,7 @@ const products: { name: string; desc: string; icon: any; href: string; badge?: s
     badge: "UI Kit",
   },
 ];
+*/
 
 // ─── Location Data ──────────────────────────────────────────────────────────
 const locations: { name: string; desc: string; icon: any; href: string }[] = [
@@ -207,7 +209,7 @@ const links: {
   href?: string;
 }[] = [
   { label: "Services", hasMenu: true, menuType: "services" },
-  { label: "Products", hasMenu: true, menuType: "products" },
+  // { label: "Products", hasMenu: true, menuType: "products" },
   { label: "Locations", hasMenu: true, menuType: "locations" },
   { label: "Solutions", hasMenu: false, href: "/solutions" },
   { label: "About", hasMenu: false, href: "/about" },
@@ -232,7 +234,7 @@ const MegaMenu = ({
   const [activeGroup, setActiveGroup] = useState(0);
   const [mounted, setMounted] = useState(false);
   const [hoveredLocation, setHoveredLocation] = useState<string | null>(null);
-  const [hoveredProduct, setHoveredProduct] = useState<string | null>(null);
+  // const [hoveredProduct, setHoveredProduct] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
@@ -243,8 +245,9 @@ const MegaMenu = ({
   const router = useRouter();
 
   const isLocations = menuType === "locations";
-  const isProducts = menuType === "products";
-  const menuData = isLocations ? locations : isProducts ? products : groups;
+  // const isProducts = menuType === "products";
+  // const menuData = isLocations ? locations : isProducts ? products : groups;
+  const menuData = isLocations ? locations : groups;
 
   // Filter locations based on search
   const filteredLocations = isLocations
@@ -256,13 +259,12 @@ const MegaMenu = ({
         .sort((a, b) => a.name.localeCompare(b.name))
     : [];
 
-  // Filter products based on search (for products menu)
-  const filteredProducts = isProducts
-    ? products.filter(p =>
-        p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.desc.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    : [];
+  // const filteredProducts = isProducts
+  //   ? products.filter(p =>
+  //       p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //       p.desc.toLowerCase().includes(searchQuery.toLowerCase())
+  //     )
+  //   : [];
 
   // Prevent scroll when menu is open
   useEffect(() => {
@@ -368,10 +370,10 @@ const MegaMenu = ({
             )}
 
             <div className="relative z-10 p-4">
-              {/* === PRODUCTS MENU === */}
+              {/* Temporarily disabled Products menu:
               {isProducts ? (
                 <div className="space-y-2 p-1">
-                  {/* Header */}
+                  // Header
                   <div className="flex items-center justify-between px-2 py-1">
                     <div>
                       <span className="text-sm font-semibold">UI Kits & Products</span>
@@ -385,7 +387,7 @@ const MegaMenu = ({
                     </span>
                   </div>
 
-                  {/* Products grid - 2 columns */}
+                  // Products grid - 2 columns
                   <div className="grid grid-cols-2 gap-2 pt-1">
                     {filteredProducts.length > 0 ? (
                       filteredProducts.map((p, index) => {
@@ -403,7 +405,7 @@ const MegaMenu = ({
                             onMouseLeave={() => setHoveredProduct(null)}
                             className="group relative rounded-xl p-3 bg-muted/10 hover:bg-muted/30 transition-all duration-300 border border-transparent hover:border-border/60 hover:shadow-md cursor-pointer overflow-hidden flex items-start gap-3"
                           >
-                            {/* Hover glow ring */}
+                            // Hover glow ring
                             {isHovered && (
                               <motion.div
                                 layoutId="product-ring"
@@ -415,7 +417,7 @@ const MegaMenu = ({
                               />
                             )}
 
-                            {/* Icon */}
+                            // Icon
                             <motion.div
                               className="relative shrink-0 w-10 h-10 rounded-lg bg-gradient-to-br from-foreground/15 to-foreground/5 flex items-center justify-center group-hover:from-foreground group-hover:to-foreground/80 group-hover:text-background transition-all duration-400 overflow-hidden"
                               whileHover={{ scale: 1.08, rotate: [0, -3, 3, 0] }}
@@ -425,7 +427,7 @@ const MegaMenu = ({
                               <motion.div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
                             </motion.div>
 
-                            {/* Product info */}
+                            // Product info
                             <div className="relative z-10 min-w-0 flex-1">
                               <div className="flex items-start justify-between gap-2">
                                 <span className="text-sm font-semibold truncate group-hover:text-foreground">
@@ -442,7 +444,7 @@ const MegaMenu = ({
                               </div>
                             </div>
 
-                            {/* Arrow on hover */}
+                            // Arrow on hover
                             <motion.div
                               className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300"
                               initial={{ x: -5, opacity: 0 }}
@@ -464,7 +466,7 @@ const MegaMenu = ({
                     )}
                   </div>
 
-                  {/* Footer CTA */}
+                  // Footer CTA
                   <div className="flex items-center justify-between pt-2 border-t border-border/60 mt-1">
                     <a
                       href="/products"
@@ -480,9 +482,9 @@ const MegaMenu = ({
                     </a>
                   </div>
                 </div>
-              ) : (
-                /* === SERVICES / LOCATIONS MENU (existing layout) === */
-                <div className="grid grid-cols-12 gap-4">
+              )} */}
+              {/* === SERVICES / LOCATIONS MENU (existing layout) === */}
+              <div className="grid grid-cols-12 gap-4">
                   {/* Category rail for services only */}
                   {!isLocations && (
                     <div className="col-span-3 rounded-2xl bg-foreground/10 p-3 flex flex-col gap-1">
@@ -699,7 +701,6 @@ const MegaMenu = ({
                     )}
                   </div>
                 </div>
-              )}
             </div>
           </div>
         </motion.div>
@@ -715,7 +716,7 @@ const MegaMenu = ({
 const MobileDrawer = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
   const [expandedGroup, setExpandedGroup] = useState<number | null>(null);
   const [expandedLocations, setExpandedLocations] = useState(false);
-  const [expandedProducts, setExpandedProducts] = useState(false);
+  // const [expandedProducts, setExpandedProducts] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -758,9 +759,9 @@ const MobileDrawer = ({ open, onClose }: { open: boolean; onClose: () => void })
     setExpandedLocations(prev => !prev);
   };
 
-  const toggleProducts = () => {
-    setExpandedProducts(prev => !prev);
-  };
+  // const toggleProducts = () => {
+  //   setExpandedProducts(prev => !prev);
+  // };
 
   const drawerContent = (
     <AnimatePresence>
@@ -824,7 +825,7 @@ const MobileDrawer = ({ open, onClose }: { open: boolean; onClose: () => void })
               <div className="mx-4 my-2 border-t border-border" />
 
               {/* Products accordion */}
-              <div className="px-4 pb-2">
+              {/* <div className="px-4 pb-2">
                 <button
                   onClick={toggleProducts}
                   className="w-full flex items-center justify-between text-sm font-medium px-3 py-3 rounded-xl hover:bg-muted/70 transition-colors"
@@ -874,7 +875,7 @@ const MobileDrawer = ({ open, onClose }: { open: boolean; onClose: () => void })
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>
+              </div> */}
 
               {/* Divider */}
               <div className="mx-4 my-2 border-t border-border" />
