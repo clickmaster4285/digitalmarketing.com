@@ -293,7 +293,7 @@ export const EcommerceDevContent = {
     company: "Clickmasters Digital Marketing",
     url: "https://clickmastersdigitalmarketing.com",
     email: "marketing@clickmastersdigitalmarketing.com",
-    regions: "Serving businesses in USA · UK · UAE · Pakistan · Canada · Australia",
+    regions: "businesses in USA · UK · UAE · Pakistan · Canada · Australia",
     author: "Amjad Khan CEO, Clickmasters Digital Marketing | E-commerce development specialist | 10+ years",
   },schema: {
   Service: {

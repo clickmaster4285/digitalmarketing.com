@@ -151,7 +151,7 @@ export const knoxvilleSeoSubPage: SubPageContent = {
     ],
   },
   results: {
-    title: "Real Knoxville Case Studies",
+    title: "Example Knoxville Case Studies",
     items: [
       {
         title: "HVAC & Home Services Company",

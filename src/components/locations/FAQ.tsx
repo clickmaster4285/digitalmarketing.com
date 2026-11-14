@@ -307,7 +307,7 @@ export default function LocationFAQ({ items }: LocationFAQProps) {
                   </div>
                   <div className="flex items-center gap-2">
                     <Users className="w-4 h-4 text-[#6C5CE7]" />
-                    <span className="text-sm font-medium text-foreground">500+</span>
+                    <span className="text-sm font-medium text-foreground">3,500+</span>
                     <span className="text-xs text-muted-foreground">clients</span>
                   </div>
                 </div>

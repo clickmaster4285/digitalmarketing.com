@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
+import { IllustrativeBadge, IllustrativeResultsNotice, IllustrativeStatsCaption } from "@/components/site/IllustrativeResults";
 import {
   SeoServicesContent,
   SocialMediaMarketingContent,
@@ -123,6 +124,7 @@ const Hero = ({ content }: { content: any }) => {
               </div>
             ))}
           </div>
+          {heroContent.stats?.length ? <IllustrativeStatsCaption className="mt-6" /> : null}
         </Reveal>
       </motion.div>
     </section>
@@ -444,14 +446,16 @@ const Cases = ({ content }: { content: any }) => {
   return (
     <section className="relative bg-[#0a0a0a] text-white py-24">
       <div className="container max-w-6xl">
-        <SectionLabel n="07" t="Client results" />
+        <SectionLabel n="07" t="Illustrative results" />
         <Reveal>
-          <h2 className="font-display text-4xl md:text-7xl font-bold leading-[0.95] tracking-tight mb-10">Client results that matter</h2>
+          <h2 className="font-display text-4xl md:text-7xl font-bold leading-[0.95] tracking-tight mb-6">Example results that matter</h2>
+          <IllustrativeResultsNotice className="mb-10" />
         </Reveal>
         <div className="space-y-8">
           {cases.map((item: any, idx: number) => (
             <Reveal key={item.title || idx} delay={idx * 0.08}>
               <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-8 md:p-10">
+                <IllustrativeBadge className="mb-4" />
                 <p className="text-[10px] uppercase tracking-[0.35em] opacity-60 mb-4">{item.tag}</p>
                 <p className="font-display text-5xl text-[#FF2E86] leading-none mb-4">{item.metric}</p>
                 <p className="text-sm uppercase tracking-[0.35em] opacity-60 mb-4">{item.sub}</p>

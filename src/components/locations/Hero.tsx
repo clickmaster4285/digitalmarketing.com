@@ -141,7 +141,7 @@ export default function LocationHero({
               className="flex flex-wrap items-center gap-6 mt-10 pt-6 border-t border-border"
             >
               <div className="flex items-center gap-2">
-                <span className="text-2xl font-display font-bold text-foreground">500+</span>
+                <span className="text-2xl font-display font-bold text-foreground">3,500+</span>
                 <span className="text-sm text-muted-foreground">Clients Served</span>
               </div>
               <div className="w-px h-8 bg-border" />
@@ -197,11 +197,11 @@ export default function LocationHero({
             {[
               `📍 Serving ${locationName} & Surrounding Areas`,
               `⭐ 4.9/5 Average Client Rating`,
-              `🚀 500+ Businesses Successfully Grown`,
+              `🚀 3,500+ Businesses Served`,
               `🏆 Award-Winning Digital Marketing Agency`,
               `📍 Serving ${locationName} & Surrounding Areas`,
               `⭐ 4.9/5 Average Client Rating`,
-              `🚀 500+ Businesses Successfully Grown`,
+              `🚀 3,500+ Businesses Served`,
               `🏆 Award-Winning Digital Marketing Agency`,
             ].map((text, index) => (
               <span

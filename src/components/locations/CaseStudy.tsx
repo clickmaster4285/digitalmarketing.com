@@ -3,6 +3,7 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import { IllustrativeBadge, IllustrativeResultsNotice } from "@/components/site/IllustrativeResults";
 import {
   Award,
   Clock,
@@ -99,7 +100,7 @@ export default function LocationCaseStudies({
           >
             <span className="w-1.5 h-1.5 rounded-full bg-[#FF3D77] animate-pulse" />
             <span className="text-xs font-medium uppercase tracking-wider text-white/70">
-              Success Stories
+              Illustrative Examples
             </span>
           </motion.div>
 
@@ -118,6 +119,7 @@ export default function LocationCaseStudies({
             custom={2}
             className="w-20 h-1 bg-gradient-to-r from-[#FF3D77] to-[#6C5CE7] rounded-full mx-auto"
           />
+          <IllustrativeResultsNotice className="mx-auto mt-8" />
         </motion.div>
 
         {/* Case Studies Grid - Full Width Hero Cards */}
@@ -150,6 +152,7 @@ export default function LocationCaseStudies({
                         </span>
                       </div>
                       <div>
+                        <IllustrativeBadge className="mb-2" />
                         <h3 className="text-2xl font-display font-bold text-white group-hover:text-[#FF3D77] transition-colors duration-300">
                           {item.title}
                         </h3>

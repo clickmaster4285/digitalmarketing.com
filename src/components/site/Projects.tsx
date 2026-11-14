@@ -8,6 +8,7 @@ import p2 from "@/assets/project-2.jpg";
 import p3 from "@/assets/project-3.jpg";
 import p4 from "@/assets/project-4.jpg";
 import { ExternalLink } from "lucide-react";
+import { IllustrativeBadge, IllustrativeResultsNotice } from "@/components/site/IllustrativeResults";
 
 const projects = [
   {
@@ -111,6 +112,7 @@ const ProjectCard = ({ p, i }: { p: (typeof projects)[0]; i: number }) => {
       <div className="p-5 md:p-8">
           <div className="flex justify-between items-start gap-4 mb-5">
             <div>
+              <IllustrativeBadge tone="light" className="mb-3" />
               <h3 className="font-display text-3xl leading-tight">
                 {p.title}
               </h3>
@@ -171,19 +173,18 @@ export const Projects = () => {
       <div className="flex items-end justify-between mb-20 flex-wrap gap-6">
       <div className="text-center md:text-left">
           <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-4">
-            Case Studies
+            Illustrative Case Studies
           </p>
 
           <h2 className="font-display text-5xl md:text-7xl leading-[1.05] max-w-5xl">
-            Real Results From a Real <em>Digital Marketing Company</em>.
+            Example Results From a <em>Digital Marketing Company</em>.
           </h2>
 
           <p className="mt-6 text-muted-foreground text-lg max-w-3xl leading-relaxed">
-            Real Results From a Real Digital Marketing Company We don't ask
-            you to take our word for it. Here are four real examples of how our
-            digital marketing agency has helped US businesses achieve
-            transformational, measurable growth.
+            Here are four examples of how our digital marketing approach can
+            help US businesses work toward measurable growth.
           </p>
+          <IllustrativeResultsNotice tone="light" className="mt-6" />
         </div>
       </div>
 
@@ -222,7 +223,7 @@ export const Projects = () => {
     </p>
 
     <h3 className="font-display text-4xl md:text-6xl leading-[1.05] mb-6 text-balance">
-      Ready to get results like <em>these businesses?</em>
+      Ready to work toward results like <em>these?</em>
     </h3>
 
     <p className="text-muted-foreground text-lg md:text-xl leading-relaxed mb-10 max-w-2xl mx-auto text-balance">

@@ -276,7 +276,7 @@ export const bostonSeoSubPage: BostonSubPageContent = {
     ],
   },
   results: {
-    title: "Real Results From Real Boston Clients",
+    title: "Example Results for Boston Businesses",
     items: [
       {
         title: "A Home Services Company Serving Greater Boston",
@@ -306,7 +306,7 @@ export const bostonSeoSubPage: BostonSubPageContent = {
           "Grew organic traffic share and improved rankings across top product categories.",
       },
     ],
-    note: "(Client names available on request, shared only with permission.)",
+    note: "",
   },
   realResults: {
     title: "What We Track",

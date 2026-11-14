@@ -244,7 +244,7 @@ industries: {
       },
     ],
     note:
-      "Real Jacksonville-area projects and the results our seo services jacksonville work produced. (Client names available on request; results vary by industry, competition, and starting point.)",
+      "Example Jacksonville-area scenarios showing the kind of results our seo services jacksonville work aims for. (Results vary by industry, competition, and starting point.)",
   },
 stats: {
     title: "How Much Do SEO Services Cost in Jacksonville?",

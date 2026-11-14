@@ -172,7 +172,7 @@ export const tulsaSeoSubPage: SubPageContent = {
     ],
   },
   results: {
-    title: "Real Tulsa Case Studies",
+    title: "Example Tulsa Case Studies",
     items: [
       {
         title: "Home Services Contractor",

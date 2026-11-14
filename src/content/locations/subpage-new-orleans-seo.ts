@@ -202,7 +202,7 @@ export const newOrleansSeoSubPage: SubPageContent = {
     ],
   },
   results: {
-    title: "New Orleans SEO Case Studies & Real Outcomes",
+    title: "New Orleans SEO Case Studies & Example Outcomes",
     items: [
       {
         title: "Local Contracting Company",
@@ -233,7 +233,7 @@ export const newOrleansSeoSubPage: SubPageContent = {
       },
     ],
     note:
-      "(Client names available on request; results vary by industry, competition, and starting point.)",
+      "(Results vary by industry, competition, and starting point.)",
   },
   faqs: [
     {

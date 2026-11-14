@@ -196,7 +196,7 @@ export const sacramentoSeoSubPage: SubPageContent = {
     ],
   },
   results: {
-    title: "Sacramento SEO Case Studies & Real Client Results",
+    title: "Sacramento SEO Case Studies & Example Results",
     items: [
       {
         title: "Local Contracting Company",
@@ -227,7 +227,7 @@ export const sacramentoSeoSubPage: SubPageContent = {
       },
     ],
     note:
-      "(Client names available on request; results vary by industry, competition, and starting point.)",
+      "(Results vary by industry, competition, and starting point.)",
   },
   stats: {
     title: "SEO Pricing in Sacramento",

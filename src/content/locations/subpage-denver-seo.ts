@@ -208,7 +208,7 @@ export const denverSeoSubPage: SubPageContent = {
           "Outcome: Product pages gained visibility for relevant commercial searches and created additional organic sales opportunities.",
       },
     ],
-    note: "(Client details are shared only with permission.)",
+    note: "",
   },
   realResults: {
     title: "What You Can Expect From Our Denver SEO Services",

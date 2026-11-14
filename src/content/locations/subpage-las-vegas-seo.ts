@@ -239,7 +239,7 @@ export const lasVegasSeoSubPage: SubPageContent = {
       },
     ],
     note:
-      "Explore real Las Vegas SEO campaigns and see how strategic optimization, local SEO, content, and technical improvements can help businesses achieve stronger search performance. (Client names available on request; results vary by industry, competition, and starting point.)",
+      "Explore example Las Vegas SEO campaigns and see how strategic optimization, local SEO, content, and technical improvements can help businesses achieve stronger search performance. (Results vary by industry, competition, and starting point.)",
   },
   faqs: [
     {

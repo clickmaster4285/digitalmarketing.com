@@ -160,7 +160,7 @@ export default function LocationCTA({
               {/* Trust indicators */}
               <div className="flex items-center gap-6 mt-8 pt-6 border-t border-white/10">
                 <div className="flex items-center gap-2">
-                  <span className="text-2xl font-display font-bold text-white">500+</span>
+                  <span className="text-2xl font-display font-bold text-white">3,500+</span>
                   <span className="text-xs text-white/40">Clients</span>
                 </div>
                 <div className="w-px h-8 bg-white/10" />

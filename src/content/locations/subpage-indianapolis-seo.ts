@@ -162,7 +162,7 @@ export const indianapolisSeoSubPage: SubPageContent = {
     ],
   },
   results: {
-    title: "Real Results From Our Indianapolis SEO Agency",
+    title: "Example Results From Our Indianapolis SEO Agency",
     items: [
       {
         title: "Local Service Business",
@@ -190,7 +190,7 @@ export const indianapolisSeoSubPage: SubPageContent = {
         result: "Steady month-over-month traffic growth returned.",
       },
     ],
-    note: "Detailed case studies with metrics available on request.",
+    note: "",
   },
   realResults: {
     title: "Everything Handled by One Indianapolis Team",

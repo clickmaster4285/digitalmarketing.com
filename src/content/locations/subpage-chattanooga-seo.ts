@@ -149,7 +149,7 @@ export const chattanoogaSeoSubPage: SubPageContent = {
     ],
   },
   results: {
-    title: "Real Chattanooga SEO Results",
+    title: "Example Chattanooga SEO Results",
     items: [
       {
         title: "Regional Home Services Company",
@@ -179,7 +179,7 @@ export const chattanoogaSeoSubPage: SubPageContent = {
           "Result: New pages reached page one for competitive local terms within the first several months of the campaign.",
       },
     ],
-    note: "(Client names available on request, shared only with permission.)",
+    note: "",
   },
   realResults: {
     title: "What Businesses Can Expect From Our Chattanooga SEO Services",

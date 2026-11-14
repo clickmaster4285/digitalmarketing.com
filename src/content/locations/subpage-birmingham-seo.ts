@@ -224,7 +224,7 @@ export const birminghamSeoSubPage: BirminghamSubPageContent = {
     ],
   },
   results: {
-    title: "Real Birmingham Results",
+    title: "Example Birmingham Results",
     items: [
       {
         title: "Over the Mountain Home Services Company",
@@ -254,7 +254,7 @@ export const birminghamSeoSubPage: BirminghamSubPageContent = {
           "New pages reached page one for competitive local terms within the first several months of the campaign.",
       },
     ],
-    note: "(Client names available on request, shared only with permission.)",
+    note: "",
   },
   realResults: {
     title: "What Birmingham Clients Typically See",

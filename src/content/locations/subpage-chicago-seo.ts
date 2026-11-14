@@ -194,7 +194,7 @@ export const chicagoSeoSubPage: SubPageContent = {
           "Both search visibility and time-on-site improved noticeably.",
       },
     ],
-    note: "(Client names available on request, shared only with permission.)",
+    note: "",
   },
   realResults: {
     title: "Results You Can Expect",

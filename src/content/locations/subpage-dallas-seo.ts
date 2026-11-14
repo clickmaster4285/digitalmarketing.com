@@ -146,7 +146,7 @@ export const dallasSeoSubPage: SubPageContent = {
     ],
   },
   results: {
-    title: "Real Dallas & DFW SEO Results",
+    title: "Example Dallas & DFW SEO Results",
     items: [
       {
         title: "Regional Home Services Company",
@@ -176,7 +176,7 @@ export const dallasSeoSubPage: SubPageContent = {
           "Result: New pages reached page one for competitive local search terms within the first several months of the campaign.",
       },
     ],
-    note: "(Client names available on request, shared only with permission.)",
+    note: "",
   },
   realResults: {
     title: "What Businesses Can Expect From Our SEO Services in Dallas",

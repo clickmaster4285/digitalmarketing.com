@@ -15,9 +15,13 @@ import {
  * exactly as it would without the ERP.
  */
 
-// Short TTL so CRM edits reach the site within seconds even without the
-// revalidate webhook; POST /api/cms/revalidate makes them instant.
-const REVALIDATE_SECONDS = 5;
+// This fetch's TTL becomes the ISR revalidate window of every page. At 5s
+// nearly every request (e.g. each crawler hit) served a STALE page and
+// triggered a background re-render plus ERP calls, competing for CPU with
+// page responses and image optimization. Visitors still get edits live via
+// <ErpPageEdits /> polling (no-store), and POST /api/cms/revalidate makes
+// server HTML update instantly; without the webhook it lags at most 60s.
+const REVALIDATE_SECONDS = 60;
 const TIMEOUT_MS = 3000;
 const FAILURE_TTL_MS = 15_000;
 

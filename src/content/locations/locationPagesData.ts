@@ -5079,7 +5079,7 @@ items: [
 },
 
 caseStudies: {
-title: "Client Success With Our SEO Services",
+title: "Example Outcomes From Our SEO Services",
 
 
 items: [
@@ -5715,7 +5715,7 @@ buttonLink: "/contact",
   },
 
   caseStudies: {
-    title: "SEO Success Stories From Seattle Businesses",
+    title: "Example SEO Success Stories for Seattle Businesses",
 
     items: [
       {
@@ -6172,7 +6172,7 @@ packagesSection: {
     ],
   },
   caseStudies: {
-    title: "Results From San Diego Businesses We've Worked With",
+    title: "Example Results for San Diego Businesses",
     items: [
       {
         title: "Home Services Company, Santee",
@@ -6463,7 +6463,7 @@ packagesSection: {
     ],
   },
   caseStudies: {
-    title: "Results From San Francisco Businesses We've Worked With",
+    title: "Example Results for San Francisco Businesses",
     items: [
       {
         title: "SaaS Startup, SoMa",
@@ -6738,7 +6738,7 @@ packagesSection: {
     ],
   },
   caseStudies: {
-    title: "Results From San Antonio Businesses We've Worked With",
+    title: "Example Results for San Antonio Businesses",
     items: [
       {
         title: "Construction Company, North San Antonio",
@@ -7389,7 +7389,7 @@ packagesSection: {
   },
 
   caseStudies: {
-    title: "Case Studies and Proven Results",
+    title: "Case Studies and Example Results",
 
     items: [
       {
@@ -8033,7 +8033,7 @@ toolsSection: {
     ],
   },
   caseStudies: {
-    title: "Client Results From Across Los Angeles",
+    title: "Example Results From Across Los Angeles",
     items: [
       {
         title: "Personal Injury Law Firm, Century City",
@@ -8300,7 +8300,7 @@ toolsSection: {
     ],
   },
   caseStudies: {
-    title: "Client Results From Across Greater Las Vegas",
+    title: "Example Results From Across Greater Las Vegas",
     items: [
       {
         title: "Boutique Real Estate Agency, Summerlin",
@@ -8557,7 +8557,7 @@ toolsSection: {
     ],
   },
   caseStudies: {
-    title: "Client Results Across the Baltimore Area",
+    title: "Example Results Across the Baltimore Area",
     items: [
       {
         title: "Roofing Contractor, Glen Burnie",
@@ -8818,7 +8818,7 @@ toolsSection: {
     ],
   },
   caseStudies: {
-    title: "Client Results From Across Nashville",
+    title: "Example Results From Across Nashville",
     items: [
       {
         title: "HVAC Company, Murfreesboro",
@@ -9073,7 +9073,7 @@ toolsSection: {
     ],
   },
   caseStudies: {
-    title: "Client Results Across the Twin Cities",
+    title: "Example Results Across the Twin Cities",
     items: [
       {
         title: "Home Services Company, Maple Grove",
@@ -10328,7 +10328,7 @@ toolsSection: {
     ],
   },
   caseStudies: {
-    title: "Real Results for Philadelphia Businesses",
+    title: "Example Results for Philadelphia Businesses",
     items: [
       {
         title: "Home Service Business, Northeast Philadelphia",
@@ -10592,7 +10592,7 @@ toolsSection: {
     ],
   },
   caseStudies: {
-    title: "Case Studies From Pittsburgh Businesses",
+    title: "Example Case Studies for Pittsburgh Businesses",
     items: [
       {
         title: "Home Services Company, Cranberry Township",
@@ -10955,7 +10955,7 @@ toolsSection: {
   },
 
   caseStudies: {
-    title: "SEO Campaign Results That Drive Real Growth",
+    title: "Example SEO Campaign Results",
 
     items: [
       {
@@ -11340,7 +11340,7 @@ areasServed: {
     ],
   },
   caseStudies: {
-    title: "Cincinnati Case Studies and Client Growth Examples",
+    title: "Cincinnati Case Studies and Growth Examples",
     items: [
       {
         title: "Local Search Visibility Improvement",
@@ -11611,7 +11611,7 @@ areasServed: {
     ],
   },
   caseStudies: {
-    title: "Louisville Businesses We've Helped Grow",
+    title: "Example Growth Scenarios for Louisville Businesses",
     items: [
       {
         title: "Electrical Contractor, East Louisville",
@@ -11874,7 +11874,7 @@ areasServed: {
     ],
   },
   caseStudies: {
-    title: "Real Results From Memphis Marketing Campaigns",
+    title: "Example Results From Memphis Marketing Campaigns",
     items: [
       {
         title: "Home Services Company, Bartlett",
@@ -12162,7 +12162,7 @@ areasServed: {
     ],
   },
   caseStudies: {
-    title: "Results From Real Albuquerque Businesses",
+    title: "Example Results for Albuquerque Businesses",
     items: [
       {
         title: "Westside Home Services Company",
@@ -12465,7 +12465,7 @@ areasServed: {
     ],
   },
   caseStudies: {
-    title: "Results From Boise Area Businesses",
+    title: "Example Results for Boise Area Businesses",
     items: [
       {
         title: "Home Services Company, Meridian",
@@ -13295,7 +13295,7 @@ areasServed: {
     ],
   },
   caseStudies: {
-    title: "Case Studies From Omaha Clients",
+    title: "Omaha Case Study Examples",
     items: [
       {
         title: "Home Services Company, West Omaha",
@@ -13585,7 +13585,7 @@ areasServed: {
     ],
   },
   caseStudies: {
-    title: "Recent Digital Marketing Work in Charlotte",
+    title: "Example Digital Marketing Work in Charlotte",
     items: [
       {
         title: "Local SEO for a Home Service Business",

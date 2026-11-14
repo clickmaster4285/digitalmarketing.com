@@ -177,7 +177,7 @@ export const miamiSeoSubPage: SubPageContent = {
     ],
   },
   results: {
-    title: "Clients working with our seo agency miami typically see:",
+    title: "What businesses working with our seo agency miami can work toward:",
     items: [
       {
         title: "Case Study — Local Contracting Company",
@@ -208,7 +208,7 @@ export const miamiSeoSubPage: SubPageContent = {
       },
     ],
     note:
-      "(Client names available on request; results vary by industry, competition, and starting point.)",
+      "(Results vary by industry, competition, and starting point.)",
   },
   whyChoose: {
     title: "10+ years of hands-on SEO experience across many industries",

@@ -193,7 +193,7 @@ export const minneapolisSeoSubPage: SubPageContent = {
     ],
   },
   results: {
-    title: "Minneapolis SEO Case Studies & Client Results",
+    title: "Minneapolis SEO Case Studies & Example Results",
     items: [
       {
         title: "Local Contracting Company",
@@ -224,7 +224,7 @@ export const minneapolisSeoSubPage: SubPageContent = {
       },
     ],
     note:
-      "(Client names available on request; results vary by industry, competition, and starting point.)",
+      "(Results vary by industry, competition, and starting point.)",
   },
   faqs: [
     {

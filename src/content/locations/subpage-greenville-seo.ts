@@ -153,7 +153,7 @@ export const greenvilleSeoSubPage: SubPageContent = {
     ],
   },
   results: {
-    title: "Real Results for Greenville & South Carolina Businesses",
+    title: "Example Results for Greenville & South Carolina Businesses",
     items: [
       {
         title: "Local Home Services Company",
@@ -181,7 +181,7 @@ export const greenvilleSeoSubPage: SubPageContent = {
           "The firm saw consistent month-over-month growth in qualified organic leads.",
       },
     ],
-    note: "Client names available on request; results vary by industry, competition, and starting point.",
+    note: "Results vary by industry, competition, and starting point.",
   },
   realResults: {
     title: "Rankings, Traffic, and Leads That Turn Into Real Revenue",
