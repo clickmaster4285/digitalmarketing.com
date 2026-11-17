@@ -5,6 +5,7 @@ import g2 from "@/assets/gif-2.jpg";
 import g3 from "@/assets/gif-3.jpg";
 import g4 from "@/assets/gif-4.jpg";
 import { ExternalLink } from "lucide-react";
+import { SectionTag } from "@/components/site/SectionTag";
 
 const gifs = [
   {
@@ -45,7 +46,7 @@ export const Jiffz = () => (
   <section className="py-32 container">
     <div className="grid md:grid-cols-12 gap-10 items-end mb-16">
       <div className="md:col-span-7">
-        <p className="text-xs uppercase tracking-[0.25em] mb-4"> Results </p>
+        <SectionTag className="mb-4">Results</SectionTag>
         <h2 className="font-display text-5xl md:text-7xl leading-[1.05] text-balance">
           Results <em>Our Clients </em>Actually Get
         </h2>

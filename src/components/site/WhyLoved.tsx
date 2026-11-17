@@ -42,7 +42,7 @@ export const WhyLoved = () => {
     <section ref={ref} className="relative bg-[#0a0a0a] text-white py-32 overflow-hidden">
       {/* moody radial glow */}
       <div className="pointer-events-none absolute inset-0 opacity-60"
-        style={{ background: "radial-gradient(ellipse at 50% 40%, rgba(180,40,120,0.45), transparent 60%)" }} />
+        style={{ background: "radial-gradient(ellipse at 50% 40%, rgba(238,111,63,0.35), transparent 60%)" }} />
 
       {/* huge background headline */}
       <div className="relative">
@@ -94,8 +94,8 @@ export const WhyLoved = () => {
         ))}
       </div>
 
-      {/* pink marquee strip */}
-      <div className="relative mt-16 bg-[#FF2E86] py-5 overflow-hidden border-y border-white/10">
+      {/* brand marquee strip */}
+      <div className="relative mt-16 bg-brand py-5 overflow-hidden border-y border-white/10">
         <div className="marquee whitespace-nowrap font-display text-3xl md:text-4xl text-white">
           <span className="px-6">{marqueeText.repeat(6)}</span>
           <span className="px-6">{marqueeText.repeat(6)}</span>

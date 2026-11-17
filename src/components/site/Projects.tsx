@@ -9,6 +9,7 @@ import p3 from "@/assets/project-3.jpg";
 import p4 from "@/assets/project-4.jpg";
 import { ExternalLink } from "lucide-react";
 import { IllustrativeBadge, IllustrativeResultsNotice } from "@/components/site/IllustrativeResults";
+import { SectionTag } from "@/components/site/SectionTag";
 
 const projects = [
   {
@@ -172,9 +173,7 @@ export const Projects = () => {
     <section id="solutions" className="py-24 md:py-32 container px-4 md:px-0">
       <div className="flex items-end justify-between mb-20 flex-wrap gap-6">
       <div className="text-center md:text-left">
-          <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-4">
-            Illustrative Case Studies
-          </p>
+          <SectionTag className="mb-4">Illustrative Case Studies</SectionTag>
 
           <h2 className="font-display text-5xl md:text-7xl leading-[1.05] max-w-5xl">
             Example Results From a <em>Digital Marketing Company</em>.

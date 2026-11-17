@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { SectionTag } from "@/components/site/SectionTag";
 
 const solutions = [
   { 
@@ -80,9 +81,7 @@ export const Solutions = ({
     <section id="industries" className="py-32 container">
       <div className="grid md:grid-cols-12 gap-12 mb-20">
         <div className="md:col-span-4">
-          <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-4">
-            Industries We Serve
-          </p>
+          <SectionTag className="mb-4">Industries We Serve</SectionTag>
         </div>
 
         <div className="md:col-span-8">

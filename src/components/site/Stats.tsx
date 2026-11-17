@@ -41,7 +41,7 @@ export const Stats = () => (
       transition={{ duration: 0.7 }}
       className="font-display text-5xl md:text-7xl mb-20"
     >
-      <em className="text-[#FF3B47]">Our</em> story, by numbers
+      <em className="text-brand">Our</em> story, by numbers
     </motion.h2>
 
     <div className="grid grid-cols-2 md:grid-cols-5 gap-y-14 gap-x-6 border-y border-border py-16">
@@ -56,7 +56,7 @@ export const Stats = () => (
         >
           <div className="font-display text-6xl md:text-7xl flex items-start leading-none">
             <Counter to={s.n} pad={s.pad} />
-            <span className="text-[#FF3B47] text-3xl md:text-4xl ml-1 mt-2">{s.s}</span>
+            <span className="text-brand text-3xl md:text-4xl ml-1 mt-2">{s.s}</span>
           </div>
           <div className="text-sm text-muted-foreground mt-4">{s.l}</div>
         </motion.div>
@@ -79,7 +79,7 @@ export const Stats = () => (
       </motion.div>
       <div className="font-display text-5xl md:text-7xl flex items-start leading-none">
         <Counter to={32628} />
-        <span className="text-[#FF3B47] text-3xl md:text-4xl ml-2 mt-2">+</span>
+        <span className="text-brand text-3xl md:text-4xl ml-2 mt-2">+</span>
       </div>
       <div className="text-sm text-muted-foreground">Coffees<br />Consumed</div>
     </motion.div>

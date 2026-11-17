@@ -4,7 +4,6 @@ import { motion, useInView, type Variants } from "framer-motion";
 import { useRef, useState } from "react";
 import { 
   ArrowRight,
-  Sparkles,
   Building2,
   Users,
   Wrench,
@@ -17,8 +16,8 @@ import {
   Target,
   ChevronRight,
   Circle,
-  Hexagon
 } from "lucide-react";
+import { SectionTag } from "@/components/site/SectionTag";
 
 const AUDIENCES = [
   { 
@@ -213,10 +212,8 @@ export default function WhoIsThisFor() {
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
             transition={{ delay: 0.05 }}
-            className="inline-flex items-center gap-3 rounded-full border border-border/50 bg-background/50 px-5 py-2 text-xs backdrop-blur-sm"
           >
-            <Sparkles className="h-3 w-3 text-foreground/60" />
-            <span className="tracking-[0.15em] text-muted-foreground">Who We Serve</span>
+            <SectionTag>Who We Serve</SectionTag>
           </motion.div>
 
           <motion.h2
@@ -290,11 +287,6 @@ export default function WhoIsThisFor() {
               }}
               className={`group relative rounded-xl border ${audience.border} ${audience.hoverBorder} ${audience.bg} p-5 transition-all duration-300 ${audience.glow}`}
             >
-              {/* Visual accent - hexagon shape */}
-              <div className="absolute -top-3 -right-3 opacity-10">
-                <Hexagon className="h-10 w-10" />
-              </div>
-
               {/* Icon with gradient ring */}
               <div className="relative mb-4 flex h-12 w-12 items-center justify-center rounded-lg border border-border/30 bg-background/50 transition-all duration-300 group-hover:scale-110">
                 <div className={`absolute inset-0 rounded-lg bg-gradient-to-br ${audience.color} opacity-0 transition-opacity duration-300 group-hover:opacity-10`} />
@@ -336,7 +328,7 @@ export default function WhoIsThisFor() {
           className="mt-12 flex flex-col items-center gap-6 rounded-2xl border border-border/50 bg-background/30 p-8 backdrop-blur-sm"
         >
           <div className="text-center">
-            <p className="text-sm text-muted-foreground/80 leading-relaxed max-w-2xl">
+            <p className="font-display italic text-2xl md:text-4xl text-foreground leading-snug max-w-6xl text-balance">
               Whether you need a digital marketing company for small business growth or an experienced B2B digital marketing agency for enterprise lead generation, we tailor our approach to your industry and goals.
             </p>
           </div>

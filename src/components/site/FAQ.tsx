@@ -2,6 +2,7 @@
 import { motion } from "framer-motion";
 import { ExternalLink } from "lucide-react";
 import { useState } from "react";
+import { SectionTag } from "@/components/site/SectionTag";
 
 const faqs = [
   {
@@ -32,7 +33,7 @@ export const FAQ = () => {
     <section className="py-32 container">
       <div className="grid md:grid-cols-12 gap-12">
         <div className="md:col-span-4">
-          <p className="text-xs uppercase tracking-[0.25em] mb-4"> FAQ</p>
+          <SectionTag className="mb-4">FAQ</SectionTag>
           <h2 className="font-display text-5xl md:text-6xl leading-[1.05]">
             Frequently Asked <em>Questions</em>
           </h2>

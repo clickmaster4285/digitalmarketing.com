@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { SectionTag } from "@/components/site/SectionTag";
 
 const items = [
   {
@@ -56,7 +57,7 @@ export const Testimonials = ({
   return (
   <section   id="testimonials" className="py-32 container">
     <div className="mb-20 max-w-3xl">
-      <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-6"> What our clients says</p>
+      <SectionTag className="mb-6">What Our Clients Say</SectionTag>
       <Heading className="font-display text-5xl md:text-7xl leading-[1.05] text-balance">
   What Business Owners Say About <em>Our Digital Marketing Agency</em>
       </Heading>
@@ -81,12 +82,9 @@ export const Testimonials = ({
             {t.q}
           </blockquote>
           <hr className="border-zinc-900/15 mb-5" />
-          <figcaption className="flex items-center gap-3 text-sm">
-            <span className="w-9 h-9 rounded-full bg-zinc-900/10" />
-            <span>
-              <div className="font-medium">{t.a}</div>
-              <div className="opacity-60">{t.r}</div>
-            </span>
+          <figcaption className="text-sm">
+            <div className="font-medium">{t.a}</div>
+            <div className="opacity-60">{t.r}</div>
           </figcaption>
         </motion.figure>
       ))}

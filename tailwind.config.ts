@@ -14,6 +14,11 @@ export default {
     },
     extend: {
       colors: {
+        // ClickMasters brand orange
+        brand: {
+          DEFAULT: "#EE6F3F",
+          dark: "#D85A2B",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
