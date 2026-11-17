@@ -11,9 +11,9 @@ import {
   FileText,
   Target,
   ArrowRight,
-  Sparkles,
   CheckCircle2
 } from "lucide-react";
+import { SectionTag } from "@/components/site/SectionTag";
 
 const BENEFITS = [
   {
@@ -171,10 +171,9 @@ export default function BenefitsSection() {
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
             transition={{ delay: 0.05 }}
-            className="mb-6 inline-flex items-center gap-3 rounded-full border border-border/50 bg-background/50 px-5 py-2 text-xs backdrop-blur-sm"
+            className="mb-6"
           >
-            <Sparkles className="h-3 w-3 text-foreground/60" />
-            <span className="tracking-[0.15em] text-muted-foreground">Why Choose Clickmasters</span>
+            <SectionTag>Why Choose Clickmasters</SectionTag>
           </motion.div>
 
           <motion.div

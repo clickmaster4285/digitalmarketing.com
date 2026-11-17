@@ -4,7 +4,9 @@ import { motion, useInView, useScroll, useTransform, useSpring } from "framer-mo
 import { useRef } from "react";
 import Image from "next/image";
 import ceoImg from "@/assets/ceo.webp";
-import { ExternalLink } from "lucide-react";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+import { SectionTag } from "@/components/site/SectionTag";
 
 const FlipCard = ({
   delay = 0,
@@ -91,17 +93,19 @@ export const CeoCube = () => {
         <motion.div className="mb-12 md:mb-16" style={{ y: headingY }}>
           <div className="flex items-end justify-between">
             <div>
-              <p className="text-[10px] uppercase tracking-[0.4em] opacity-60 mb-3">
-                [ Meet the CEO ]
-              </p>
+              <SectionTag tone="dark" className="mb-4">Meet the CEO</SectionTag>
               <h2 className="font-display text-4xl md:text-6xl font-bold leading-[0.95]">
-                Amjad
+                Amjad Khan
                 <span className="block text-white/90"> in his words.</span>
               </h2>
             </div>
-            <div className="hidden md:grid w-10 h-10 rounded-full bg-white place-items-center text-black">
-              &#x2197;
-            </div>
+            <Link
+              href="/about"
+              aria-label="Learn more about Clickmasters and our CEO"
+              className="hidden md:grid w-12 h-12 rounded-full bg-white place-items-center text-black transition-colors duration-300 hover:bg-brand hover:text-white"
+            >
+              <ArrowUpRight className="w-5 h-5" />
+            </Link>
           </div>
         </motion.div>
 
@@ -114,20 +118,15 @@ export const CeoCube = () => {
           >
             <Image
               src={ceoImg}
-              alt="Amjad, CEO"
+              alt="Amjad Khan, Founder & CEO of Clickmasters"
               fill
               className="absolute inset-0 w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-6 flex items-end justify-between">
-              <div>
-                <p className="text-[10px] uppercase tracking-[0.3em] opacity-70">Founder & CEO</p>
-                <p className="font-display text-2xl mt-1">Amjad</p>
-              </div>
-              <span className="text-[10px] uppercase tracking-[0.3em] opacity-70">[ Lumos ]</span>
+            <div className="absolute bottom-0 left-0 right-0 p-6">
+              <p className="text-[10px] uppercase tracking-[0.3em] opacity-70">Founder & CEO</p>
+              <p className="font-display text-2xl mt-1">Amjad Khan</p>
             </div>
-            <span className="absolute top-3 left-3 text-[10px] tracking-[0.3em] opacity-70">[ 01 ]</span>
-            <span className="absolute top-3 right-3 text-[10px] tracking-[0.3em] opacity-70">[ A ]</span>
           </motion.div>
 
           {/* RIGHT 3 flipping cards */}
@@ -136,14 +135,11 @@ export const CeoCube = () => {
               delay={0.1}
               front={
                 <div className="w-full h-full bg-[#141414] p-5 flex flex-col justify-between">
-                  <div className="flex items-center justify-between text-[10px] tracking-[0.3em] opacity-60">
-                    <span>[ 01 ] Quote</span>
-                    <span>&#x21bb; flip</span>
-                  </div>
+                  <span className="text-[10px] uppercase tracking-[0.3em] opacity-60">01 &mdash; Quote</span>
                   <p className="font-display text-base md:text-lg leading-snug">
                     "I understand the responsibility that falls on my shoulders each day."
                   </p>
-                  <span className="text-[10px] uppercase tracking-[0.3em] opacity-60">&mdash; Amjad</span>
+                  <span className="text-[10px] uppercase tracking-[0.3em] opacity-60">&mdash; Amjad Khan</span>
                 </div>
               }
               back={
@@ -160,10 +156,7 @@ export const CeoCube = () => {
               delay={0.25}
               front={
                 <div className="w-full h-full bg-[#1a1a1a] p-5 flex flex-col justify-between">
-                  <div className="flex items-center justify-between text-[10px] tracking-[0.3em] opacity-60">
-                    <span>[ 02 ] Team</span>
-                    <span>&#x21bb; flip</span>
-                  </div>
+                  <span className="text-[10px] uppercase tracking-[0.3em] opacity-60">02 &mdash; Team</span>
                   <p className="text-sm leading-relaxed opacity-85">
                     Every member of our team is a true professional, fully trustworthy and dedicated to their craft.
                   </p>
@@ -185,36 +178,21 @@ export const CeoCube = () => {
               front={
                 <div className="w-full h-full bg-[#141414] p-5 flex items-center justify-between">
                   <div>
-                    <p className="text-[10px] uppercase tracking-[0.3em] opacity-60 mb-2">[ 03 ] Track record</p>
+                    <p className="text-[10px] uppercase tracking-[0.3em] opacity-60 mb-2">03 &mdash; Track record</p>
                     <p className="font-display text-2xl">12+ years</p>
                     <p className="text-xs opacity-60 mt-1">leading product teams</p>
                   </div>
-                  <span className="text-[10px] tracking-[0.3em] opacity-60">&#x21bb; flip</span>
                 </div>
               }
               back={
-                <div className="w-full h-full bg-white p-5 flex items-center justify-between text-black">
-                  <div>
-                    <p className="text-[10px] uppercase tracking-[0.3em] opacity-60 mb-2">&mdash; Promise</p>
-                    <p className="font-display text-lg text-black/90">Outstanding results, every engagement.</p>
-                  </div>
-                  <div className="w-10 h-10 rounded bg-black/10 grid place-items-center text-black/70">&#x2197;</div>
+                <div className="w-full h-full bg-white p-5 flex flex-col justify-center text-black">
+                  <p className="text-[10px] uppercase tracking-[0.3em] opacity-60 mb-2">&mdash; Promise</p>
+                  <p className="font-display text-lg text-black/90">Outstanding results, every engagement.</p>
                 </div>
               }
             />
           </div>
         </div>
-
-        {/* Bottom tagline */}
-        <motion.p
-          className="text-[10px] uppercase tracking-[0.4em] opacity-40 text-center mt-10"
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 0.4, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.5 }}
-        >
-          [ scroll &mdash; cards flip on view ]
-        </motion.p>
       </div>
 
 

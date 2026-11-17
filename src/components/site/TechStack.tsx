@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { SectionTag } from "@/components/site/SectionTag";
 
 const groups = [
   {
@@ -97,7 +98,7 @@ export const TechStack = () => (
   <section id="stack" className="py-32 container">
     <div className="grid md:grid-cols-12 gap-12 mb-20">
       <div className="md:col-span-5">
-        <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-4"> Our stack</p>
+        <SectionTag className="mb-4">Our Stack</SectionTag>
         <h2 className="font-display text-5xl md:text-7xl leading-[1.05]">
           Modern tools, <em>Technologies We Use</em>.
         </h2>

@@ -92,12 +92,12 @@ export const Awards = () => {
     <section id="awards" ref={ref} className="relative" style={{ height: `${reasons.length * 100}vh` }}>
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col items-center justify-center">
         <h2 className="font-display text-5xl md:text-8xl text-center leading-[1.05] mb-4 px-6 z-10 pointer-events-none">
-          {"Why Choose Clickmasters as Your "}
-          <em className="text-[#FF3B47]">Digital Marketing</em>
-          <br />Company
+          Why Choose Clickmasters as Your
+          <br />
+          <em className="text-brand">Digital Marketing</em> Company
         </h2>
 
-        <p className="text-center max-w-2xl mx-auto text-lg md:text-base text-muted-foreground mb-12 px-6 z-10 pointer-events-none">
+        <p className="text-center max-w-5xl mx-auto text-base md:text-lg text-muted-foreground mb-12 px-6 z-10 pointer-events-none text-balance">
           We combine cross-channel expertise, transparent reporting, and dedicated account management with no cookie-cutter packages. Every strategy is custom-built around your business, not a template.
         </p>
 

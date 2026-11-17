@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
+import logoWhite from "@/assets/logo-white.webp";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -47,7 +49,8 @@ const socialLinks = [
   {
     label: "Instagram",
     href: "https://www.instagram.com/clickmastersus/",
-    path: "M12 2.2c3.2 0 3.6 0 4.9.1 1.2 0 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.9.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c0 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.9.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2 0-1.8-.2-2.2-.4a3.8 3.8 0 01-1.4-.9 3.8 3.8 0 01-.9-1.4c-.2-.4-.4-1-.4-2.2-.1-1.3-.1-1.7-.1-4.9s0-3.6.1-4.9c0-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.9-.7 1.4-.9.7-.3 1.6-.5 2.8-.6 1.3-.1 1.7-.1 5-.1zm0 0C8.7 0 8.3 0 7 .1 5.8.1 4.9.3 4.2.6c-.8.3-1.5.7-2.1 1.4C1.4 2.6 1 3.3.7 4.1.3 4.9.1 5.7.1 7 0 8.3 0 8.7 0 12s0 3.7.1 5c.1 1.2.3 2.1.6 2.8.3.8.7 1.5 1.4 2.1.7.7 1.4 1.1 2.1 1.4.7.3 1.6.5 2.8.6 1.3.1 1.7.1 5 .1s3.7 0 5-.1c1.2-.1 2.1-.3 2.8-.6.8-.3 1.5-.7 2.1-1.4.7-.7 1.1-1.4 1.4-2.1.3-.7.5-1.6.6-2.8.1-1.3.1-1.7.1-5s0-3.7-.1-5c-.1-1.2-.3-2.1-.6-2.8a5.8 5.8 0 00-1.4-2.1A5.8 5.8 0 0019.8.7c-.7-.3-1.6-.5-2.8-.6C15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 100 12.4 6.2 6.2 0 000-12.4zm6.4-1.4a1.4 1.4 0 100 2.9 1.4 1.4 0 000-2.9z",
+    // Rounded-square camera outline + lens + flash dot (drawn with even-odd fill)
+    path: "M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9a5.5 5.5 0 0 1-5.5 5.5h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2zM7.6 4A3.6 3.6 0 0 0 4 7.6v8.8A3.6 3.6 0 0 0 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6A3.6 3.6 0 0 0 16.4 4zM12 7.2a4.8 4.8 0 1 0 0 9.6a4.8 4.8 0 1 0 0-9.6zM12 9a3 3 0 1 1 0 6a3 3 0 1 1 0-6zM17.3 5.5a1.2 1.2 0 1 0 0 2.4a1.2 1.2 0 1 0 0-2.4z",
   },
 ];
 
@@ -77,19 +80,18 @@ export default function Footer({ children }: { children?: ReactNode }) {
     <footer ref={footerRef} className="relative overflow-hidden bg-[#0a0a0a] text-neutral-300 antialiased">
       <div className="h-px w-full bg-gradient-to-r from-transparent via-neutral-700/60 to-transparent" />
 
-      <div className="pointer-events-none absolute -top-40 right-1/4 h-80 w-80 rounded-full bg-[#FF2E86]/[0.06] blur-[140px]" />
-      <div className="pointer-events-none absolute -bottom-40 left-1/4 h-80 w-80 rounded-full bg-[#FF2E86]/[0.04] blur-[140px]" />
+      <div className="pointer-events-none absolute -top-40 right-1/4 h-80 w-80 rounded-full bg-brand/[0.06] blur-[140px]" />
+      <div className="pointer-events-none absolute -bottom-40 left-1/4 h-80 w-80 rounded-full bg-brand/[0.04] blur-[140px]" />
 
       <div className="relative mx-auto max-w-[1360px] px-5 sm:px-8 lg:px-12">
         {/* ───── CTA band ───── */}
         <div className="footer-item flex flex-col gap-6 border-b border-neutral-800/80 py-12 sm:flex-row sm:items-end sm:justify-between sm:py-16">
           <div>
-            <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[#FF2E86]">
+            <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.2em] text-brand">
               Get in touch
             </p>
-            <h2 className="font-display text-5xl leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-7xl">
-              Let&apos;s build
-              <span className="text-neutral-500"> something</span>
+            <h2 className="font-display text-5xl leading-[1.05] text-white sm:text-6xl lg:text-7xl">
+              Let&apos;s build <em className="text-neutral-400">something</em>
               <br />
               great together.
             </h2>
@@ -97,23 +99,18 @@ export default function Footer({ children }: { children?: ReactNode }) {
 
           <Link
             href="/contact"
-            className="group inline-flex items-center gap-3 self-start rounded-full border border-neutral-700 bg-neutral-900/60 px-6 py-3 text-sm font-medium text-white transition-all duration-300 hover:border-[#FF2E86] hover:bg-[#FF2E86] hover:text-black sm:self-auto"
+            className="group inline-flex items-center gap-3 self-start rounded-full border border-neutral-700 bg-neutral-900/60 px-6 py-3 text-sm font-medium text-white transition-all duration-300 hover:border-brand hover:bg-brand hover:text-white sm:self-auto"
           >
             Start a project
             <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 gap-x-8 gap-y-12 py-14 sm:gap-x-12 md:grid-cols-4 lg:gap-x-16">
+        <div className="grid grid-cols-2 gap-x-10 gap-y-12 py-14 md:grid-cols-[1.4fr_1fr_1fr_1fr] md:gap-x-12 lg:gap-x-16">
           {/* Brand + contact */}
           <div className="footer-item col-span-2 md:col-span-1">
-            <Link href="#home" className="mb-6 inline-flex items-center gap-2.5" aria-label="ClickMasters home">
-              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#FF2E86] text-sm font-bold text-black font-sans">
-                CM
-              </span>
-              <span className="font-display text-2xl leading-snug tracking-tight text-white">
-                ClickMasters
-              </span>
+            <Link href="/" className="mb-6 inline-flex items-center" aria-label="ClickMasters home">
+              <Image src={logoWhite} alt="ClickMasters" className="h-auto w-36" />
             </Link>
 
             <p className="mb-6 max-w-xs text-base leading-relaxed tracking-[0.01em] text-neutral-500">
@@ -122,19 +119,19 @@ export default function Footer({ children }: { children?: ReactNode }) {
 
             <div className="space-y-4">
               <a href="mailto:sales@clickmastersdigitalmarketing.com" className="group flex items-start gap-3 text-sm leading-relaxed tracking-[0.01em] text-neutral-400 transition-colors hover:text-white">
-                <Mail className="mt-0.5 h-4 w-4 shrink-0 text-neutral-600 transition-colors group-hover:text-[#FF2E86]" />
+                <Mail className="mt-0.5 h-4 w-4 shrink-0 text-neutral-600 transition-colors group-hover:text-brand" />
                 <span className="break-all">sales@clickmastersdigitalmarketing.com</span>
               </a>
               <a href="tel:+447988576086" className="group flex items-start gap-3 text-sm leading-relaxed tracking-[0.01em] text-neutral-400 transition-colors hover:text-white">
-                <Phone className="mt-0.5 h-4 w-4 shrink-0 text-neutral-600 transition-colors group-hover:text-[#FF2E86]" />
+                <Phone className="mt-0.5 h-4 w-4 shrink-0 text-neutral-600 transition-colors group-hover:text-brand" />
                 <span>+44 7988 576086 <span className="ml-2 font-sans text-xs text-neutral-600">UK</span></span>
               </a>
               <a href="tel:+13252024074" className="group flex items-start gap-3 text-sm leading-relaxed tracking-[0.01em] text-neutral-400 transition-colors hover:text-white">
-                <Phone className="mt-0.5 h-4 w-4 shrink-0 text-neutral-600 transition-colors group-hover:text-[#FF2E86]" />
+                <Phone className="mt-0.5 h-4 w-4 shrink-0 text-neutral-600 transition-colors group-hover:text-brand" />
                 <span>+1 325 202 4074 <span className="ml-2 font-sans text-xs text-neutral-600">US</span></span>
               </a>
               <a href="tel:+923325394285" className="group flex items-start gap-3 text-sm leading-relaxed tracking-[0.01em] text-neutral-400 transition-colors hover:text-white">
-                <Phone className="mt-0.5 h-4 w-4 shrink-0 text-neutral-600 transition-colors group-hover:text-[#FF2E86]" />
+                <Phone className="mt-0.5 h-4 w-4 shrink-0 text-neutral-600 transition-colors group-hover:text-brand" />
                 <span>+92 332 5394285 <span className="ml-2 font-sans text-xs text-neutral-600">PK</span></span>
               </a>
             </div>
@@ -151,7 +148,7 @@ export default function Footer({ children }: { children?: ReactNode }) {
                   <Link href={item.href} className="group inline-flex items-center gap-1.5 text-[15px] leading-relaxed tracking-[0.01em] text-neutral-400 transition-colors duration-200 hover:text-white">
                     <span className="relative">
                       {item.label}
-                      <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-[#FF2E86] transition-all duration-300 group-hover:w-full" />
+                      <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-brand transition-all duration-300 group-hover:w-full" />
                     </span>
                   </Link>
                 </li>
@@ -170,7 +167,7 @@ export default function Footer({ children }: { children?: ReactNode }) {
                   <Link href={item.href} className="group inline-flex items-center gap-1.5 text-[15px] leading-relaxed tracking-[0.01em] text-neutral-400 transition-colors duration-200 hover:text-white">
                     <span className="relative">
                       {item.label}
-                      <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-[#FF2E86] transition-all duration-300 group-hover:w-full" />
+                      <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-brand transition-all duration-300 group-hover:w-full" />
                     </span>
                   </Link>
                 </li>
@@ -187,7 +184,7 @@ export default function Footer({ children }: { children?: ReactNode }) {
               href="/locations"
               className="group inline-flex items-start gap-3 text-sm leading-relaxed text-neutral-400 transition-colors hover:text-white"
             >
-              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-neutral-600 transition-colors group-hover:text-[#FF2E86]" />
+              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-neutral-600 transition-colors group-hover:text-brand" />
               <span>Browse all cities we serve</span>
             </Link>
           </div>
@@ -221,7 +218,7 @@ export default function Footer({ children }: { children?: ReactNode }) {
             target="_blank"
             rel="noopener noreferrer"
             data-techbehemoths-verification
-            className="inline-flex items-center gap-1.5 text-[13px] leading-relaxed tracking-[0.01em] text-neutral-600 transition-colors hover:text-[#FF2E86]"
+            className="inline-flex items-center gap-1.5 text-[13px] leading-relaxed tracking-[0.01em] text-neutral-600 transition-colors hover:text-brand"
           >
             Verified on TechBehemoths
             <ArrowUpRight className="h-3 w-3" />
@@ -240,10 +237,10 @@ function SocialIcon({ label, href, path }: { label: string; href: string; path: 
       rel="noopener noreferrer"
       aria-label={`Visit ClickMasters on ${label}`}
       title={label}
-      className="inline-flex h-9 w-9 items-center justify-center rounded-full text-neutral-500 transition-all duration-200 hover:bg-neutral-800 hover:text-[#FF2E86] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF2E86]"
+      className="inline-flex h-9 w-9 items-center justify-center rounded-full text-neutral-500 transition-all duration-200 hover:bg-neutral-800 hover:text-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
     >
       <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className="h-[17px] w-[17px]">
-        <path d={path} />
+        <path d={path} fillRule="evenodd" clipRule="evenodd" />
       </svg>
     </a>
   );

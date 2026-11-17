@@ -3,6 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { CheckCircle, ArrowRight, Sparkles, Zap, Target, DollarSign } from "lucide-react";
+import { SectionTag } from "@/components/site/SectionTag";
 
 const features = [
   {
@@ -46,10 +47,9 @@ export const AffordableServices = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ delay: 0.2, duration: 0.7 }}
-              className="inline-flex items-center gap-2 rounded-full border border-border bg-background/70 backdrop-blur px-4 py-1.5 text-xs mb-6"
+              className="mb-6"
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-              Affordable Marketing Solutions
+              <SectionTag>Affordable Marketing Solutions</SectionTag>
             </motion.div>
 
             <motion.h2

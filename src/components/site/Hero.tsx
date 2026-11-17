@@ -5,6 +5,7 @@ import { useRef } from "react";
 import Image from "next/image";
 import sculpture from "@/assets/hero-sculpture.jpg";
 import { ExternalLink } from "lucide-react";
+import { SectionTag } from "@/components/site/SectionTag";
 
 const techs = [
   "SEO & Content Strategy",
@@ -15,15 +16,15 @@ const techs = [
   "Automation",
 ];
 
+// Floating tokens live only around the sculpture in the right-hand column,
+// so they never sit on top of the headline, body copy or CTAs.
 const floatIcons = [
-  { l: "⚛", cls: "top-[14%] left-[5%] float-a", color: "bg-[#61DAFB] text-zinc-900" },
-  { l: "TS", cls: "top-[58%] left-[8%] float-b", color: "bg-[#3178C6] text-white" },
-  { l: "▲", cls: "top-[26%] right-[6%] float-c", color: "bg-zinc-900 text-white" },
-  { l: "Py", cls: "bottom-[24%] right-[12%] float-a", color: "bg-[#FFD43B] text-zinc-900" },
-  { l: "◆", cls: "top-[10%] left-[42%] float-b", color: "bg-[#FF8FA3] text-zinc-900" },
-  { l: "JS", cls: "bottom-[30%] left-[36%] float-c", color: "bg-[#F7DF1E] text-zinc-900" },
-  { l: "GO", cls: "top-[40%] right-[28%] float-b", color: "bg-[#A8EFE0] text-zinc-900" },
-  { l: "✦", cls: "bottom-[12%] left-[12%] float-c", color: "bg-[#D9C2FF] text-zinc-900" },
+  { l: "⚛", cls: "-top-4 left-[6%] float-a", color: "bg-[#61DAFB] text-zinc-900" },
+  { l: "TS", cls: "top-[8%] right-0 float-b", color: "bg-[#3178C6] text-white" },
+  { l: "◆", cls: "top-[42%] right-[-1rem] float-c", color: "bg-[#FF8FA3] text-zinc-900" },
+  { l: "JS", cls: "bottom-[6%] right-[8%] float-a", color: "bg-[#F7DF1E] text-zinc-900" },
+  { l: "✦", cls: "bottom-[-1rem] left-[30%] float-b", color: "bg-[#D9C2FF] text-zinc-900" },
+  { l: "▲", cls: "top-[46%] left-[2%] float-c", color: "bg-zinc-900 text-white" },
 ];
 
 export const Hero = () => {
@@ -46,24 +47,12 @@ export const Hero = () => {
         </motion.span>
       </div>
 
-      {/* floating tokens */}
-      {floatIcons.map((f, i) => (
-        <div
-          key={i}
-          className={`absolute ${f.cls} ${f.color} hidden md:flex w-14 h-14 rounded-2xl items-center justify-center font-display text-xl shadow-[0_15px_35px_-10px_rgba(0,0,0,0.35)] border border-black/5 pointer-events-none z-10`}
-        >
-          {f.l}
-        </div>
-      ))}
-
       <motion.div style={{ opacity }} className="container relative z-20 px-4 md:px-0">
         <motion.div
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.7 }}
-          className="inline-flex items-center gap-2 rounded-full border border-border bg-background/70 backdrop-blur px-4 py-1.5 text-xs"
         >
-          <span className="w-1.5 h-1.5 rounded-full bg-foreground animate-pulse" />
-          Full-Service Digital Marketing Agency
+          <SectionTag>Full-Service Digital Marketing Agency</SectionTag>
         </motion.div>
 
         <div className="mt-10 grid lg:grid-cols-12 gap-10 items-center">
@@ -113,13 +102,26 @@ export const Hero = () => {
             </motion.div>
           </div>
 
-          <motion.div style={{ y, scale, rotate }} className="lg:col-span-5 relative">
-            <Image
-              src={sculpture}
-              alt="Abstract chrome sculpture representing creative digital marketing"
-              className="w-full h-auto select-none pointer-events-none drop-shadow-[0_30px_60px_rgba(0,0,0,0.25)]"
-            />
-          </motion.div>
+          <div className="lg:col-span-5 relative">
+            <motion.div style={{ y, scale, rotate }}>
+              <Image
+                src={sculpture}
+                alt="Abstract chrome sculpture representing creative digital marketing"
+                className="w-full h-auto rounded-[2rem] select-none pointer-events-none shadow-[0_30px_60px_-20px_rgba(0,0,0,0.25)]"
+              />
+            </motion.div>
+
+            {/* floating tokens: kept around the sculpture, away from the copy */}
+            {floatIcons.map((f, i) => (
+              <div
+                key={i}
+                aria-hidden
+                className={`absolute ${f.cls} ${f.color} hidden lg:flex w-14 h-14 rounded-2xl items-center justify-center font-display text-xl shadow-[0_15px_35px_-10px_rgba(0,0,0,0.35)] border border-black/5 pointer-events-none z-10`}
+              >
+                {f.l}
+              </div>
+            ))}
+          </div>
         </div>
       </motion.div>
 

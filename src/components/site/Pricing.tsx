@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ExternalLink } from "lucide-react";
+import { SectionTag } from "@/components/site/SectionTag";
 
 
 const plans = [
@@ -8,7 +9,6 @@ const plans = [
     p: "Start from $1000",
     d: "Perfect for local businesses & startups",
     bg: "#FFF8DC",
-    emoji: "🥉",
     f: [
       "Website SEO Audit & Optimization",
       "Google My Business Setup & Optimization",
@@ -23,7 +23,6 @@ const plans = [
     p: "Start from $2500",
     d: "Perfect for growing businesses ready to scale",
     bg: "#FFE0E6",
-    emoji: "🥈",
     featured: true,
     f: [
       "Everything in Starter Plus",
@@ -41,7 +40,6 @@ const plans = [
     p: "Start from $5000",
     d: "Custom solutions for large-scale businesses",
     bg: "#DFF7F0",
-    emoji: "🏆",
     f: [
       "Everything in Growth Plus",
       "Fully Custom Strategy & Execution Plan",
@@ -66,7 +64,7 @@ export const Pricing = ({
 
   return (
   <section id="pricing" className="py-32 container">
-    <p className="text-xs uppercase tracking-[0.25em] mb-4"> Pricing</p>
+    <SectionTag className="mb-4">Pricing</SectionTag>
     <Heading className="font-display text-5xl md:text-7xl leading-[1.05] mb-20 max-w-3xl">
       Our Digital Marketing Agency <em>Pricing </em> & Packages.
     </Heading>
@@ -82,9 +80,6 @@ export const Pricing = ({
           style={{ backgroundColor: p.bg }}
           className="relative rounded-[2rem] p-8 text-zinc-900 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.4)] overflow-hidden"
         >
-          <div className="absolute -top-6 -right-6 text-[8rem] leading-none opacity-20 select-none">
-            {p.emoji}
-          </div>
           {p.featured && (
             <div className="inline-block mb-4 rounded-full bg-zinc-900 text-white px-3 py-1 text-[10px] uppercase tracking-widest">
               Most loved

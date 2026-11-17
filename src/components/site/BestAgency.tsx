@@ -11,6 +11,7 @@ import {
 } from "framer-motion";
 import { useRef, useEffect, useState, type ReactNode, type MouseEvent, useMemo } from "react";
 import { ArrowRight, BarChart3, Target, Shield, TrendingUp } from "lucide-react";
+import { SectionTag } from "@/components/site/SectionTag";
 
 const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
 
@@ -338,10 +339,9 @@ export const BestAgencySection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ delay: 0.05, duration: 0.7 }}
-              className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-background/70 px-4 py-1.5 text-xs backdrop-blur"
+              className="mb-6"
             >
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-foreground" />
-              Trusted Digital Marketing Agency
+              <SectionTag>Trusted Digital Marketing Agency</SectionTag>
             </motion.div>
 
             <motion.h2

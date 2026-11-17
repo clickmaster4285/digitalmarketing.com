@@ -1,6 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useInView, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { SectionTag } from "@/components/site/SectionTag";
 
 const KEYWORDS = new Set(["import", "export", "const", "await", "from", "then"]);
 
@@ -69,6 +71,67 @@ export const product = await build({
 }).then(ship).then(scale);
 `;
 
+const CODE_LINES = code.split("\n");
+// Character offset at which each line begins (+1 per line for the newline).
+const LINE_STARTS = CODE_LINES.reduce<number[]>(
+  (acc, _line, i) => [...acc, i === 0 ? 0 : acc[i - 1] + CODE_LINES[i - 1].length + 1],
+  [],
+);
+const TYPE_DELAY_MS = 32; // per character
+const NEWLINE_DELAY_MS = 220; // pause at the end of each line
+const RESTART_DELAY_MS = 4500; // hold the finished snippet before re-typing
+
+/** Terminal body that types the snippet out character by character, then loops. */
+function TypedCode() {
+  const ref = useRef<HTMLPreElement>(null);
+  const inView = useInView(ref, { margin: "-80px" });
+  const reduceMotion = useReducedMotion();
+  const total = code.length;
+  const [typed, setTyped] = useState(0);
+
+  useEffect(() => {
+    if (reduceMotion) {
+      setTyped(total);
+      return;
+    }
+    if (!inView) return;
+
+    if (typed >= total) {
+      const t = setTimeout(() => setTyped(0), RESTART_DELAY_MS);
+      return () => clearTimeout(t);
+    }
+
+    const delay = code[typed] === "\n" ? NEWLINE_DELAY_MS : TYPE_DELAY_MS;
+    const t = setTimeout(() => setTyped((n) => n + 1), delay);
+    return () => clearTimeout(t);
+  }, [inView, typed, total, reduceMotion]);
+
+  // Cursor sits on the line currently being typed.
+  const cursorLine = LINE_STARTS.findIndex((start, i) => typed < start + CODE_LINES[i].length + 1);
+
+  return (
+    <pre ref={ref} className="p-6 md:p-8 text-sm md:text-[15px] leading-relaxed font-mono" aria-label={code}>
+      <code className="block whitespace-pre" aria-hidden>
+        {CODE_LINES.map((line, lineIndex) => {
+          const start = LINE_STARTS[lineIndex];
+          const visible = line.slice(0, Math.max(0, Math.min(line.length, typed - start)));
+          const showCursor = lineIndex === cursorLine;
+
+          return (
+            <div key={lineIndex} className="whitespace-nowrap min-h-[1.625em]">
+              <span className="inline-block w-6 text-zinc-600 select-none">{lineIndex + 1}</span>
+              {highlightLine(visible)}
+              {showCursor && (
+                <span className="ml-px inline-block h-[1.1em] w-[0.55em] translate-y-[0.2em] bg-brand animate-pulse" />
+              )}
+            </div>
+          );
+        })}
+      </code>
+    </pre>
+  );
+}
+
 const checks = [
   "Discovery & product strategy",
   "Design system & prototypes",
@@ -81,9 +144,11 @@ export const Workflow = () => (
   <section id="workflow" className="py-32 container px-4 md:px-6">
     <div className="grid lg:grid-cols-12 gap-12 items-center">
       <div className="lg:col-span-5">
-        <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-4"> How we ship</p>
+        <SectionTag className="mb-4">How We Ship</SectionTag>
         <h2 className="font-display text-5xl md:text-6xl leading-[1.05] mb-8">
-          From idea to <em>production</em> in weeks, not quarters.
+          From idea to <em>production</em>
+          <br />
+          in weeks, not quarters.
         </h2>
         <ul className="space-y-4">
           {checks.map((c, i) => (
@@ -118,23 +183,7 @@ export const Workflow = () => (
             <span className="w-3 h-3 rounded-full bg-[#28C840]" />
             <span className="ml-3 text-xs text-zinc-400 font-mono whitespace-nowrap">~/clickmasters/build.ts</span>
           </div>
-          <pre className="p-6 md:p-8 text-sm md:text-[15px] leading-relaxed font-mono">
-<code className="block whitespace-pre">
-{code.split("\n").map((line, lineIndex) => (
-  <motion.div
-    key={lineIndex}
-    initial={{ opacity: 0, x: -10 }}
-    whileInView={{ opacity: 1, x: 0 }}
-    viewport={{ once: true }}
-    transition={{ duration: 0.4, delay: 0.2 + lineIndex * 0.08 }}
-    className="whitespace-nowrap"
-  >
-    <span className="inline-block w-6 text-zinc-600 select-none">{lineIndex + 1}</span>
-    {highlightLine(line)}
-  </motion.div>
-))}
-</code>
-          </pre>
+          <TypedCode />
         </div>
       </motion.div>
     </div>

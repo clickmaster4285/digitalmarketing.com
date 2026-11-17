@@ -12,8 +12,9 @@ import {
   Globe,
   ChevronRight,
   Circle,
-  LocateFixed
 } from "lucide-react";
+import { SectionTag } from "@/components/site/SectionTag";
+import { StateMap } from "@/components/site/StateMap";
 
 const locations = [
   {
@@ -193,10 +194,8 @@ export default function LocationsSection() {
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
             transition={{ delay: 0.05 }}
-            className="inline-flex items-center gap-3 rounded-full border border-border/50 bg-background/50 px-5 py-2 text-xs backdrop-blur-sm"
           >
-            <LocateFixed className="h-3 w-3 text-foreground/60" />
-            <span className="tracking-[0.15em] text-muted-foreground">Where We Work</span>
+            <SectionTag>Where We Work</SectionTag>
           </motion.div>
 
           <motion.h2
@@ -254,9 +253,9 @@ export default function LocationsSection() {
                       transition={{ duration: 0.6 }}
                       className="relative flex-shrink-0"
                     >
-                      <div className={`absolute inset-0 rounded-full bg-gradient-to-r ${location.color} blur-md opacity-0 transition-opacity duration-500 group-hover:opacity-30`} />
-                      <div className="relative flex h-14 w-14 items-center justify-center rounded-full border border-border/30 bg-background/50 text-2xl transition-all duration-500 group-hover:scale-110">
-                        {location.emoji}
+                      <div className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${location.color} blur-md opacity-0 transition-opacity duration-500 group-hover:opacity-30`} />
+                      <div className="relative h-24 w-24 transition-transform duration-500 group-hover:scale-105">
+                        <StateMap state={location.state} city={location.city} className="block h-full w-full drop-shadow-[0_8px_14px_rgba(0,0,0,0.18)]" />
                       </div>
                     </motion.div>
 

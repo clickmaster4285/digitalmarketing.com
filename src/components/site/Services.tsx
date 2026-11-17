@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { ExternalLink } from "lucide-react";
 import servicesImg from "@/assets/services.webp";
 import Image from "next/image";
+import { SectionTag } from "@/components/site/SectionTag";
 
 const services = [
   {
@@ -68,9 +69,7 @@ export const Services = () => (
 
       {/* RIGHT SIDE TEXT */}
       <div className="md:col-span-8">
-        <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-4">
-          Services
-        </p>
+        <SectionTag className="mb-4">Services</SectionTag>
 
         <h2 className="font-display text-5xl md:text-7xl leading-[1.05] text-balance">
           Our <em>Digital Marketing</em> Services
@@ -90,14 +89,14 @@ export const Services = () => (
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.7, delay: i * 0.1 }}
-          className="group bg-background p-10 hover:bg-secondary transition-colors duration-500 relative overflow-hidden"
+          className="group bg-background p-10 hover:bg-zinc-900 transition-colors duration-500 relative overflow-hidden"
         >
           <div className="flex items-start justify-between mb-12">
-            <span className="text-sm text-muted-foreground">{s.n}</span>
-            <span className="text-2xl opacity-60 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 -translate-x-2 transition-all duration-500">↗</span>
+            <span className="text-sm text-muted-foreground transition-colors duration-500 group-hover:text-zinc-400">{s.n}</span>
+            <span className="text-2xl text-brand opacity-0 group-hover:opacity-100 group-hover:translate-x-0 -translate-x-2 transition-all duration-500">↗</span>
           </div>
-          <h3 className="font-display text-3xl md:text-4xl mb-4">{s.t}</h3>
-          <p className="text-muted-foreground max-w-md">{s.d}</p>
+          <h3 className="font-display text-3xl md:text-4xl mb-4 transition-colors duration-500 group-hover:text-white group-hover:font-bold">{s.t}</h3>
+          <p className="text-muted-foreground max-w-md transition-colors duration-500 group-hover:text-zinc-200">{s.d}</p>
         </motion.div>
       ))}
     </div>

@@ -1,12 +1,11 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { SectionTag } from "@/components/site/SectionTag";
 
 export const Contact = () => (
   <section id="contact" className="py-12 sm:py-20 container text-center relative px-4 sm:px-6">
-    <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-6 sm:mb-8">
-       Let's talk
-    </p>
+    <SectionTag className="mb-6 sm:mb-8">Let's Talk</SectionTag>
     
     <motion.h2
       initial={{ opacity: 0, y: 40 }}
@@ -15,14 +14,14 @@ export const Contact = () => (
       transition={{ duration: 1 }}
       className="font-display text-[clamp(2.5rem,10vw,12rem)] leading-[1.1] sm:leading-[0.9] text-balance"
     >
-      Got a <em>vision?</em>
+      Got a <em className="text-brand">vision?</em>
       <br />Let's build it.
     </motion.h2>
     
     {/* Email - Mobile optimized */}
 <Link
   href="/contact"
-  className="group mt-10 sm:mt-16 inline-flex items-center gap-2 sm:gap-3 rounded-full bg-background text-foreground px-6 sm:px-10 py-3 sm:py-5 text-sm sm:text-lg font-medium hover:scale-105 transition-transform break-all sm:break-normal"
+  className="group mt-10 sm:mt-16 inline-flex items-center gap-2 sm:gap-3 rounded-full bg-foreground text-background px-6 sm:px-10 py-3 sm:py-5 text-sm sm:text-lg font-medium shadow-[0_15px_35px_-15px_rgba(0,0,0,0.45)] hover:bg-brand hover:text-white hover:scale-105 transition-all break-all sm:break-normal"
 >
   sales@clickmastersdigitalmarketing.com
   <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 transition-transform group-hover:translate-x-1" />
