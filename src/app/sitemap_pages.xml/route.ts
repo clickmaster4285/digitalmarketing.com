@@ -1,6 +1,7 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import { getAllProducts } from '@/content/product/productContent';
+import { withoutErpNoindex } from "@/lib/sitemapFilters";
 
 const siteUrl = 'https://clickmastersdigitalmarketing.com';
 
@@ -80,7 +81,7 @@ export async function GET() {
     ...getAllProducts().map((product) => `/products/${product.slug}`),
   ];
   const lastMod = new Date().toISOString().split('T')[0];
-  const urls = routes.map((route) => buildUrlElement(`${siteUrl}${route}`, lastMod));
+  const urls = (await withoutErpNoindex(routes)).map((route) => buildUrlElement(`${siteUrl}${route}`, lastMod));
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join('\n')}\n</urlset>\n`;
 

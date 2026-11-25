@@ -1,4 +1,5 @@
 import { getAllLocationSlugs } from "@/content/locations/locationPagesData";
+import { withoutErpNoindex } from "@/lib/sitemapFilters";
 
 const siteUrl = "https://clickmastersdigitalmarketing.com";
 
@@ -29,7 +30,9 @@ export async function GET() {
   );
 
   // The /locations hub itself is listed once, in sitemap_pages.xml.
-  const urls = slugs.map((slug) => `${siteUrl}/locations/${slug}`).sort();
+  const urls = await withoutErpNoindex(
+    slugs.map((slug) => `${siteUrl}/locations/${slug}`).sort(),
+  );
 
   const xmlUrls = urls.map(
     (u) =>
