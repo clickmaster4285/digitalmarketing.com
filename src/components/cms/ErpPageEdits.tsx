@@ -26,8 +26,9 @@ const POLL_MS = 5_000;
 const ANTI_FLICKER_MS = 1500;
 
 type Cached<T> = { at: number; value: Promise<T>; settled?: T };
+type PageEditsData = { instructions: EditInstruction[]; schema: Record<string, unknown>[] };
 /** `undefined` = request failed (keep whatever is applied). */
-type EditsResult = EditInstruction[] | null | undefined;
+type EditsResult = PageEditsData | null | undefined;
 
 let pathsCache: Cached<Set<string>> | null = null;
 const editsCache = new Map<string, Cached<EditsResult>>();
@@ -66,7 +67,19 @@ function cached<T>(entry: Cached<T> | null | undefined, load: () => Promise<T>, 
   return next;
 }
 
+/**
+ * Seeds the edited-paths hint from the <head> script's server-rendered list,
+ * so the first client-side navigation to an edited page can hide <main>
+ * synchronously. Marked stale (`at: 0`), so the list is still fetched fresh.
+ */
+function seedEditedPaths() {
+  if (pathsCache || !Array.isArray(window.__erpEditedPaths)) return;
+  const hint = new Set(window.__erpEditedPaths.filter((p): p is string => typeof p === "string"));
+  pathsCache = { at: 0, settled: hint, value: Promise.resolve(hint) };
+}
+
 function editedPaths(): Cached<Set<string>> {
+  seedEditedPaths();
   pathsCache = cached(
     pathsCache,
     async () => {
@@ -79,20 +92,99 @@ function editedPaths(): Cached<Set<string>> {
   return pathsCache;
 }
 
+/** `{ edits }` body of /api/erp-edits?path= (and /api/cms/page-edits). */
+function parseEditsBody(value: unknown): PageEditsData | null {
+  const body = value as { edits?: { instructions?: unknown; schema?: unknown } | null } | null;
+  const instructions = body?.edits?.instructions;
+  if (!Array.isArray(instructions)) return null;
+  const schema = Array.isArray(body?.edits?.schema)
+    ? (body.edits.schema as unknown[]).filter(
+        (entry): entry is Record<string, unknown> =>
+          typeof entry === "object" && entry !== null && !Array.isArray(entry),
+      )
+    : [];
+  return { instructions: instructions as EditInstruction[], schema };
+}
+
+/** Like parseEditsBody, but `undefined` when the proxy says the ERP failed. */
+function editsResult(value: unknown): EditsResult {
+  if ((value as { failed?: unknown } | null)?.failed === true) return undefined;
+  return parseEditsBody(value);
+}
+
 function pageEdits(path: string): Promise<EditsResult> {
   const entry = cached<EditsResult>(
     editsCache.get(path),
-    async () => {
-      const body = (await fetchJson(
-        `/api/cms/page-edits?path=${encodeURIComponent(path)}`,
-      )) as { edits?: { instructions?: unknown } | null };
-      const instructions = body.edits?.instructions;
-      return Array.isArray(instructions) ? (instructions as EditInstruction[]) : null;
-    },
+    async () =>
+      editsResult(await fetchJson(`/api/cms/page-edits?path=${encodeURIComponent(path)}`)),
     undefined,
   );
   editsCache.set(path, entry);
   return entry.value;
+}
+
+declare global {
+  interface Window {
+    /** Edited paths from the server, set by the <head> script. */
+    __erpEditedPaths?: unknown[];
+    /** Set by the blocking <head> script (ErpAntiFlickerScript) on edited pages. */
+    __erpEditsPromise?: { path: string; promise: Promise<unknown> };
+  }
+}
+
+/**
+ * The edits request the <head> script started before hydration. Used once,
+ * and only for the path it was made for; later navigations fetch fresh.
+ * Resolves to `undefined` when the request failed (leave the page as is).
+ */
+function takeBootEdits(path: string): Promise<EditsResult> | null {
+  const boot = window.__erpEditsPromise;
+  if (!boot) return null;
+  delete window.__erpEditsPromise;
+  if (boot.path !== path) return null;
+  return boot.promise
+    .then((body) => (body === null ? undefined : editsResult(body)))
+    .catch(() => undefined);
+}
+
+/**
+ * Edits embedded in the route's own server HTML (ErpEditsData), read on the
+ * first load only. JSON data: parsed, never executed.
+ */
+function readEmbeddedEdits(path: string): PageEditsData | null {
+  const node = Array.from(
+    document.querySelectorAll<HTMLScriptElement>('script#erp-edits-data[type="application/json"]'),
+  ).find((script) => script.dataset.path === path);
+  if (!node?.textContent) return null;
+  try {
+    return parseEditsBody(JSON.parse(node.textContent));
+  } catch {
+    return null;
+  }
+}
+
+let firstLoad = true;
+
+/** Removes the first-paint hiding style added by the <head> script. */
+function removeAntiFlickerStyle() {
+  document.getElementById("erp-anti-flicker")?.remove();
+}
+
+/**
+ * The edited page's own JSON-LD (`seo.schema`), for this URL only. Added as
+ * ld+json scripts (data, never executed; set via textContent, not HTML).
+ * Returns a function that removes them again.
+ */
+function addSchema(schema: Record<string, unknown>[]): () => void {
+  const scripts = schema.map((entry) => {
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.setAttribute("data-erp-schema", "");
+    script.textContent = JSON.stringify(entry);
+    document.head.appendChild(script);
+    return script;
+  });
+  return () => scripts.forEach((script) => script.remove());
 }
 
 /** Hides <main> until edits apply (max 1.5s). Returns an idempotent reveal. */
@@ -129,35 +221,66 @@ export function ErpPageEdits() {
     let appliedKey = "";
 
     // Swaps the applied edits for `instructions` if they changed.
-    const apply = (instructions: EditsResult) => {
-      if (!active || instructions === undefined) return;
-      const key = instructions?.length ? JSON.stringify(instructions) : "";
+    const apply = (edits: EditsResult) => {
+      if (!active || edits === undefined) return;
+      const hasEdits = Boolean(edits && (edits.instructions.length || edits.schema.length));
+      const key = hasEdits ? JSON.stringify(edits) : "";
       if (key === appliedKey) return;
       revert?.();
       revert = null;
       appliedKey = key;
-      if (instructions?.length) revert = applyPageEdits(instructions);
+      if (edits && hasEdits) {
+        const revertDom = edits.instructions.length ? applyPageEdits(edits.instructions) : null;
+        const removeSchema = addSchema(edits.schema);
+        revert = () => {
+          removeSchema();
+          revertDom?.();
+        };
+      }
     };
 
-    const paths = editedPaths();
-    // Only hide when we already know (synchronously, before paint) that this
-    // route has edits; hiding on a first-load guess would flash every page.
-    if (paths.settled?.has(path)) reveal = hideMain();
+    const isFirstLoad = firstLoad;
+    firstLoad = false;
+    const boot = takeBootEdits(path);
+    const embedded = isFirstLoad ? readEmbeddedEdits(path) : null;
+    if (embedded) {
+      // Edits shipped in the page's own HTML: apply now, in the layout
+      // effect, before the browser paints. The <head> script's uncached
+      // request (if any) is the background check below.
+      apply(embedded);
+      removeAntiFlickerStyle();
+    }
+    const load = boot
+      ? // First load of an edited page: <main> is already hidden by the
+        // <head> script's CSS and the request is already in flight. The DOM
+        // is hydrated here, so the edits apply as soon as it resolves
+        // (apply() only swaps when the result differs).
+        (async () => {
+          apply(await boot);
+        })()
+      : embedded
+        ? Promise.resolve()
+      : (async () => {
+          const paths = editedPaths();
+          // Client-side navigation: only hide when we already know
+          // (synchronously, before paint) that this route has edits.
+          if (paths.settled?.has(path)) reveal = hideMain();
+          if (!(await paths.value).has(path)) return;
+          const edits = await pageEdits(path);
+          if (!active || !edits || (!edits.instructions.length && !edits.schema.length)) return;
+          // Wait for the new route's DOM to be committed before matching selectors.
+          await new Promise<void>((resolve) => {
+            frame = window.requestAnimationFrame(() => resolve());
+          });
+          if (!active) return;
+          reveal?.();
+          apply(edits);
+        })();
 
-    (async () => {
-      if (!(await paths.value).has(path)) return;
-      const instructions = await pageEdits(path);
-      if (!active || !instructions?.length) return;
-      // Wait for the new route's DOM to be committed before matching selectors.
-      await new Promise<void>((resolve) => {
-        frame = window.requestAnimationFrame(() => resolve());
-      });
-      if (!active) return;
-      reveal?.();
-      apply(instructions);
-    })()
+    load
       .catch((error) => devWarn("failed to apply page edits", error))
       .finally(() => {
+        removeAntiFlickerStyle();
         reveal?.();
         ready = true;
       });
@@ -180,6 +303,7 @@ export function ErpPageEdits() {
       window.removeEventListener("focus", refresh);
       document.removeEventListener("visibilitychange", refresh);
       window.cancelAnimationFrame(frame);
+      removeAntiFlickerStyle();
       reveal?.();
       revert?.();
       revert = null;

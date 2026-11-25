@@ -68,6 +68,8 @@ async function collectPageRoutes() {
     .filter((route) => !route.startsWith('/[') && !route.includes('[['))
     // Exclude sitemap routes - they should be in a separate API route
     .filter((route) => !route.includes('sitemap'))
+    // ERP editor live preview: noindex, token-only, never in a sitemap.
+    .filter((route) => route !== '/erp-preview')
     .sort();
 }
 

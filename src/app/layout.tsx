@@ -7,6 +7,7 @@ import Footer from "@/components/site/Footer";
 import FooterLocationDirectory from "@/components/site/FooterLocationDirectory";
 import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 import { ErpPageEdits } from "@/components/cms/ErpPageEdits";
+import { ErpAntiFlickerScript } from "@/components/cms/ErpAntiFlickerScript";
 import { organizationSchema, websiteSchema } from "@/lib/organizationSchema";
 
 const inter = localFont({
@@ -68,10 +69,14 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/* Blocking: hides edited pages' <main> before first paint. */}
+        <ErpAntiFlickerScript />
         <script
           dangerouslySetInnerHTML={{
             __html: `
               (function(w,d,s,l,i){
+                // No analytics in the ERP editor's live preview (its URL carries a token).
+                if (w.location.pathname.indexOf('/erp-preview') === 0) return;
                 w[l]=w[l]||[];
                 w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});
                 var f=d.getElementsByTagName(s)[0],

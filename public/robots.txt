@@ -1,3 +1,4 @@
 User-Agent: *
 Disallow: /api/
+Disallow: /erp-preview
 Sitemap: https://clickmastersdigitalmarketing.com/sitemap_index.xml
