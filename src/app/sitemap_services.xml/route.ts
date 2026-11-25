@@ -1,5 +1,6 @@
 import { getAllServicePaths } from "@/content/services/serviceCategories";
 import { SERVICES_WITH_CITY_PAGES } from "@/content/locations/serviceLocations";
+import { withoutErpNoindex } from "@/lib/sitemapFilters";
 
 const siteUrl = "https://clickmastersdigitalmarketing.com";
 
@@ -12,8 +13,7 @@ export async function GET() {
     ...SERVICES_WITH_CITY_PAGES.map((service) => `/${service}/locations`),
   ]);
 
-  const xmlUrls = Array.from(paths)
-    .sort()
+  const xmlUrls = (await withoutErpNoindex(Array.from(paths).sort()))
     .map(
       (path) =>
         `  <url>\n    <loc>${siteUrl}${path}</loc>\n    <lastmod>${lastMod}</lastmod>\n  </url>`,

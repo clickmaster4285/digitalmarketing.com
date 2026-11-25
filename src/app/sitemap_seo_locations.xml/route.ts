@@ -1,3 +1,4 @@
+import { withoutErpNoindex } from "@/lib/sitemapFilters";
 import {
   getAllCitySlugs,
   getServiceCityUrlSlug,
@@ -27,7 +28,7 @@ export async function GET() {
     urls.add(`${siteUrl}/${SEO_SERVICE}/locations/${subSlug}`);
   }
 
-  const sorted = Array.from(urls).sort();
+  const sorted = await withoutErpNoindex(Array.from(urls).sort());
   const xmlUrls = sorted.map(
     (u) => `  <url>\n    <loc>${u}</loc>\n    <lastmod>${lastMod}</lastmod>\n  </url>`
   );

@@ -275,3 +275,35 @@ describe("page edits: new ERP features", () => {
     ]);
   });
 });
+
+describe("sitemaps and ERP noindex", () => {
+  it("drops URLs the ERP marks noindex and keeps everything else", async () => {
+    const { withoutErpNoindex } = await import("./sitemapFilters");
+    vi.stubEnv("CMS_API_URL", "https://erp.example");
+    vi.stubEnv("CMS_SITE_DOMAIN", "example.com");
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue(
+        new Response(
+          JSON.stringify({
+            success: true,
+            data: {
+              pages: [
+                { slug: "/locations/digital-marketing-agency-albuquerque", noindex: true },
+                { slug: "/locations/digital-marketing-agency-boise", noindex: false },
+              ],
+            },
+          }),
+        ),
+      ),
+    );
+    const site = "https://clickmastersdigitalmarketing.com";
+    await expect(
+      withoutErpNoindex([
+        `${site}/locations/digital-marketing-agency-albuquerque`,
+        `${site}/locations/digital-marketing-agency-boise`,
+        "/about",
+      ]),
+    ).resolves.toEqual([`${site}/locations/digital-marketing-agency-boise`, "/about"]);
+  });
+});
