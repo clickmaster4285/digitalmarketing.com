@@ -1,9 +1,11 @@
 import {
   CLONE_ID_PATTERN,
   CLONE_SELECTOR_PREFIX,
+  safeEditImageUrl,
   sanitizeStyles,
   type EditInstruction,
 } from "./pageEdits";
+import { sanitizeRichHtml, type RichNode } from "./richText";
 
 /**
  * Applies ERP edit instructions to the live DOM, in the same order as the ERP
@@ -141,26 +143,316 @@ function settleAnimatedClone(clone: Element) {
 }
 
 const PROPAGATED_STYLES = new Set(["color", "text-decoration"]);
+const TABLE_CELL_STYLES =
+  /^(font-family|font-size|font-weight|font-style|line-height|letter-spacing|text-transform|text-align|border-color)$/;
+
+// Responsive variants and lazy-load attributes would bring a replaced image's
+// old file back, so they are updated too. Mirrors the ERP loader.
+const LAZY_SRC = [
+  "data-src", "data-lazy-src", "data-original", "data-lazy", "data-ll-src",
+  "data-orig-src", "data-pagespeed-lazy-src", "data-actualsrc", "data-echo",
+];
+const LAZY_SRCSET = ["data-srcset", "data-lazy-srcset", "data-ll-srcset"];
+const LAZY_BACKGROUND = [
+  "data-bg", "data-background", "data-bg-image", "data-background-image",
+  "data-lazy-background", "data-ll-bg",
+];
+
+const SLIDER_CLASS = /swiper|slick|carousel|owl-|splide|flickity|glide/i;
+const POSITIONED = /^(absolute|fixed|sticky)$/;
+
+// Sections added in the ERP editor: neutral layout that inherits the site's
+// fonts and colours. Mirrors INSERTED_SECTION_CSS in the ERP loader.
+const SECTION_STYLE_ID = "erp-section-style";
+const INSERTED_SECTION_CSS =
+  ".erp-section{box-sizing:border-box;width:100%;max-width:1200px;margin:48px auto;padding:0 20px}.erp-section>*:first-child{margin-top:0}.erp-section p{margin:0 0 12px}.erp-section h2,.erp-section h3,.erp-section h4{margin:24px 0 12px}.erp-section ul,.erp-section ol{margin:12px 0;padding-left:1.5em}.erp-section ul{list-style:disc}.erp-section ol{list-style:decimal}.erp-section img{display:block;max-width:100%;height:auto;margin:16px 0}.erp-section a{text-decoration:underline;text-underline-offset:3px}.erp-section table{width:100%;border-collapse:separate;border-spacing:0;margin:16px 0;border:1px solid rgba(127,127,127,.35);overflow:hidden}.erp-section th,.erp-section td{border:0 solid rgba(127,127,127,.35);border-right-width:1px;border-bottom-width:1px;padding:10px 12px;text-align:left;vertical-align:top}.erp-section tr>:last-child{border-right-width:0}.erp-section tr:last-child>*{border-bottom-width:0}.erp-section th{font-weight:600;background:rgba(127,127,127,.08)}.erp-section td p,.erp-section th p{margin:0}.erp-section.erp-layout-image-left,.erp-section.erp-layout-image-right{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:repeat(var(--erp-text-rows,1),auto) 1fr;column-gap:40px;align-items:start}.erp-layout-image-left>*{grid-column:2}.erp-layout-image-left>img:first-of-type{grid-column:1;grid-row:1/-1}.erp-layout-image-right>*{grid-column:1}.erp-layout-image-right>img:first-of-type{grid-column:2;grid-row:1/-1}.erp-layout-image-left>img:first-of-type,.erp-layout-image-right>img:first-of-type{width:100%;height:auto;margin:0;align-self:center}@media (max-width:767px){.erp-section.erp-layout-image-left,.erp-section.erp-layout-image-right{display:block}.erp-layout-image-left>img:first-of-type,.erp-layout-image-right>img:first-of-type{margin:16px 0}.erp-section img[style*=float]{float:none!important;width:100%!important}}";
+
+/** Builds DOM nodes from the sanitized tree: never innerHTML. */
+function buildNodes(doc: Document, nodes: RichNode[]): Node[] {
+  return nodes.map((node) => {
+    if (node.type === "text") return doc.createTextNode(node.value);
+    const element = doc.createElement(node.tag);
+    for (const [name, value] of Object.entries(node.attrs)) element.setAttribute(name, value);
+    element.append(...buildNodes(doc, node.children));
+    return element;
+  });
+}
+
+function computed(element: Element): CSSStyleDeclaration {
+  return element.ownerDocument.defaultView!.getComputedStyle(element);
+}
+
+type Gap = { node: StyledElement; child: Element; gap: number };
 
 export function applyPageEdits(
   instructions: EditInstruction[],
   root: Document = document,
 ): () => void {
   const styleSnapshots = new Map<StyledElement, string | null>();
+  const attrSnapshots = new Map<Element, Map<string, string | null>>();
   const childSnapshots = new Map<Element, Node[]>();
   const clones: Element[] = [];
+  const headNodes: Element[] = [];
   const moves: { element: Element; parent: Node; next: Node | null }[] = [];
+  const view = root.defaultView ?? window;
 
-  const setStyle = (element: Element, prop: string, value: string) => {
-    if (!hasStyle(element)) return;
-    if (!styleSnapshots.has(element)) {
+  const snapshotStyle = (element: Element) => {
+    if (hasStyle(element) && !styleSnapshots.has(element)) {
       styleSnapshots.set(element, element.getAttribute("style"));
     }
+  };
+  const setStyle = (element: Element, prop: string, value: string) => {
+    if (!hasStyle(element)) return;
+    snapshotStyle(element);
     element.style.setProperty(prop, value, "important");
+  };
+  const setAttr = (element: Element, name: string, value: string | null) => {
+    let snapshot = attrSnapshots.get(element);
+    if (!snapshot) {
+      snapshot = new Map();
+      attrSnapshots.set(element, snapshot);
+    }
+    if (!snapshot.has(name)) snapshot.set(name, element.getAttribute(name));
+    if (value === null) element.removeAttribute(name);
+    else element.setAttribute(name, value);
+  };
+  const replaceChildren = (element: Element, nodes: Node[]) => {
+    if (!childSnapshots.has(element)) childSnapshots.set(element, Array.from(element.childNodes));
+    element.replaceChildren(...nodes);
+  };
+
+  // ---- "Make room": changed text or added content may no longer fit a
+  // fixed-height box (e.g. a hero). Mirrors makeRoomForCopy in the ERP loader.
+  const coverBackground = (node: StyledElement) => {
+    const style = computed(node);
+    if (style.backgroundImage !== "none" && /^auto/.test(style.backgroundSize)) {
+      setStyle(node, "background-size", "cover");
+    }
+  };
+  const liftFixedHeight = (node: StyledElement) => {
+    if (node.style.getPropertyPriority("height") === "important" && node.style.height !== "auto") return;
+    const height = node.getBoundingClientRect().height;
+    const before = node.getAttribute("style");
+    node.style.setProperty("height", "auto", "important");
+    node.style.setProperty("max-height", "none", "important");
+    if (node.getBoundingClientRect().height <= height + 1) {
+      if (before === null) node.removeAttribute("style");
+      else node.setAttribute("style", before);
+      return;
+    }
+    if (!styleSnapshots.has(node)) styleSnapshots.set(node, before);
+    coverBackground(node);
+  };
+  const coveredTop = (node: Element, child: Element): number => {
+    const box = node.getBoundingClientRect();
+    const style = computed(node);
+    let covered = parseFloat(style.paddingTop) + parseFloat(style.borderTopWidth) || 0;
+    const y = box.top + 2;
+    if (y < 0 || y > view.innerHeight || !root.elementsFromPoint) return covered;
+    for (const at of [0.1, 0.5, 0.9]) {
+      for (const element of root.elementsFromPoint(box.left + box.width * at, y)) {
+        if (element.contains(node) || child.contains(element) || element.contains(child)) continue;
+        const rect = element.getBoundingClientRect();
+        if (rect.height >= box.height * 0.6 || rect.top > box.top + 2) continue;
+        for (let item: Element | null = element; item && item !== node; item = item.parentElement) {
+          if (POSITIONED.test(computed(item).position)) {
+            covered = Math.max(covered, rect.bottom - box.top);
+            break;
+          }
+        }
+      }
+    }
+    return covered;
+  };
+  const contentTop = (child: Element): number => {
+    let top = child.getBoundingClientRect().top;
+    for (let item = child.previousElementSibling; item; item = item.previousElementSibling) {
+      const rect = item.getBoundingClientRect();
+      if (rect.height && !POSITIONED.test(computed(item).position)) top = Math.min(top, rect.top);
+    }
+    return top;
+  };
+  const topGaps = (element: Element | null): Gap[] => {
+    const gaps: Gap[] = [];
+    if (!element) return gaps;
+    let child: Element = element;
+    let node = element.parentElement;
+    for (let depth = 0; node && node !== root.body && depth < 12; depth += 1) {
+      if (typeof node.className === "string" && SLIDER_CLASS.test(node.className)) break;
+      if (hasStyle(node)) {
+        const gap = contentTop(child) - node.getBoundingClientRect().top;
+        gaps.push({ node, child, gap: Math.min(gap, coveredTop(node, child) + 24) });
+      }
+      child = node;
+      node = node.parentElement;
+    }
+    return gaps;
+  };
+  const keepTopGaps = (gaps: Gap[]) => {
+    for (const { node, child, gap } of gaps) {
+      if (!node.isConnected || !node.contains(child)) continue;
+      if (node.style.getPropertyPriority("height") === "important" && node.style.height !== "auto") continue;
+      const lostNow = () => gap - (contentTop(child) - node.getBoundingClientRect().top);
+      let grew = false;
+      let factor = 1;
+      for (let tries = 0; tries < 4; tries += 1) {
+        const lost = lostNow();
+        const height = parseFloat(computed(node).height);
+        if (lost <= 1 || !Number.isFinite(height)) break;
+        const add = Math.ceil(lost * factor);
+        setStyle(node, "min-height", `${height + add}px`);
+        const moved = lost - lostNow();
+        if (moved <= 0.5) break;
+        grew = true;
+        factor = Math.min(add / moved, 4);
+      }
+      if (grew) coverBackground(node);
+    }
+  };
+  const makeRoomFor = (element: Element, gaps: Gap[]) => {
+    keepTopGaps(gaps);
+    if (
+      hasStyle(element) &&
+      element !== root.body &&
+      !/auto|scroll/.test(computed(element).overflowY) &&
+      element.scrollHeight > element.clientHeight + 1
+    ) {
+      liftFixedHeight(element);
+    }
+    let node = element.parentElement;
+    for (let depth = 0; node && node !== root.body && depth < 12; depth += 1) {
+      if (typeof node.className === "string" && SLIDER_CLASS.test(node.className)) break;
+      if (!hasStyle(node)) break;
+      const style = computed(node);
+      let box = node.getBoundingClientRect();
+      if (
+        style.display.includes("flex") &&
+        style.flexDirection.startsWith("row") &&
+        style.flexWrap === "nowrap" &&
+        element.getBoundingClientRect().right > box.right + 1
+      ) {
+        setStyle(node, "flex-wrap", "wrap");
+      }
+      const elementBox = element.getBoundingClientRect();
+      box = node.getBoundingClientRect();
+      if (elementBox.bottom > box.bottom + 1) liftFixedHeight(node);
+      if (elementBox.right > box.right + 1 && /hidden|clip/.test(style.overflowX)) {
+        setStyle(node, "width", "auto");
+        setStyle(node, "max-width", "none");
+      }
+      node = node.parentElement;
+    }
+  };
+
+  // ---- Element edits.
+  const applyImage = (instruction: Extract<EditInstruction, { kind: "edit" }>, element: Element) => {
+    const image = instruction.image;
+    if (image && element.tagName === "IMG") {
+      const src = image.src ? safeEditImageUrl(image.src) : undefined;
+      if (src) {
+        setAttr(element, "src", src);
+        setAttr(element, "srcset", null);
+        setAttr(element, "sizes", null);
+        for (const name of LAZY_SRC) if (element.hasAttribute(name)) setAttr(element, name, src);
+        for (const name of LAZY_SRCSET) if (element.hasAttribute(name)) setAttr(element, name, null);
+        // <source> nodes may be framework-owned: point them at the new file
+        // instead of removing them.
+        element.closest("picture")?.querySelectorAll("source").forEach((source) => {
+          setAttr(source, "srcset", src);
+          setAttr(source, "type", null);
+        });
+      }
+      if (typeof image.alt === "string") setAttr(element, "alt", image.alt);
+    }
+    const background = safeEditImageUrl(instruction.backgroundImage);
+    if (background) {
+      setStyle(element, "background-image", `url("${background}")`);
+      for (const name of LAZY_BACKGROUND) if (element.hasAttribute(name)) setAttr(element, name, null);
+    }
+  };
+
+  const changesText = (instruction: EditInstruction) =>
+    instruction.kind === "edit" && (instruction.text !== undefined || instruction.html !== undefined);
+
+  const applyEdit = (instruction: Extract<EditInstruction, { kind: "edit" }>, element: Element | null) => {
+    if (!element) return;
+    applyImage(instruction, element);
+
+    if (typeof instruction.html === "string") {
+      replaceChildren(element, buildNodes(root, sanitizeRichHtml(instruction.html)));
+    } else if (typeof instruction.text === "string") {
+      // Plain text: every line break shows as a new line.
+      const nodes: Node[] = [];
+      instruction.text.split("\n").forEach((line, index) => {
+        if (index) nodes.push(root.createElement("br"));
+        nodes.push(root.createTextNode(line));
+      });
+      replaceChildren(element, nodes);
+    }
+
+    // Re-sanitize: instructions may come from any caller.
+    const styles = sanitizeStyles(Object.fromEntries(instruction.styles));
+    const isTablePart = /^(TABLE|THEAD|TBODY|TFOOT|TR)$/.test(element.tagName);
+    for (const [prop, value] of styles) {
+      setStyle(element, prop, value);
+      // Colour/decoration also go on descendants so theme rules on inner
+      // links/spans cannot override them; table text styles go on its cells.
+      if (PROPAGATED_STYLES.has(prop)) {
+        element.querySelectorAll("*").forEach((child) => setStyle(child, prop, value));
+      } else if (isTablePart && TABLE_CELL_STYLES.test(prop)) {
+        element.querySelectorAll("th,td").forEach((cell) => setStyle(cell, prop, value));
+      }
+    }
+  };
+
+  // ---- Inserted sections.
+  const addSectionStyle = () => {
+    if (root.getElementById(SECTION_STYLE_ID)) return;
+    const style = root.createElement("style");
+    style.id = SECTION_STYLE_ID;
+    style.textContent = INSERTED_SECTION_CSS;
+    root.head.appendChild(style);
+    headNodes.push(style);
+  };
+  const insertSection = (instruction: Extract<EditInstruction, { kind: "insert" }>, element: Element) => {
+    addSectionStyle();
+    const section = root.createElement("section");
+    section.className = "erp-section";
+    section.setAttribute("data-erp-clone", instruction.id);
+    section.append(...buildNodes(root, sanitizeRichHtml(instruction.html)));
+    if (instruction.layout) section.classList.add(`erp-layout-${instruction.layout}`);
+    const textRows = section.children.length - (section.querySelector(":scope > img") ? 1 : 0);
+    section.style.setProperty("--erp-text-rows", String(Math.max(textRows, 1)));
+    const gaps = topGaps(element);
+    if (instruction.position === "before") element.before(section);
+    else element.after(section);
+    clones.push(section);
+    grow.push([section, gaps]);
+
+    // The website's typography for this section (values passed the style
+    // allow-list, which excludes braces and semicolons).
+    const scope = `.erp-section[data-erp-clone="${instruction.id}"]`;
+    const css = instruction.theme
+      .map(([tag, styles]) => {
+        const clean = sanitizeStyles(Object.fromEntries(styles));
+        return clean.length
+          ? `${scope} ${tag}{${clean.map(([prop, value]) => `${prop}:${value}`).join(";")}}`
+          : "";
+      })
+      .join("");
+    if (css) {
+      const themeStyle = root.createElement("style");
+      themeStyle.setAttribute("data-erp-theme", instruction.id);
+      themeStyle.textContent =
+        css +
+        `${scope} th p,${scope} td p,${scope} li p{font-family:inherit;font-size:inherit;font-weight:inherit;font-style:inherit;line-height:inherit;letter-spacing:inherit;text-transform:inherit;color:inherit}`;
+      root.head.appendChild(themeStyle);
+      headNodes.push(themeStyle);
+    }
   };
 
   // Pass 1: resolve every plain selector against the original DOM, before
-  // any duplicate shifts :nth-of-type positions.
+  // any copy/insert/move shifts :nth-of-type positions.
   const plainSelectors = instructions.flatMap((instruction) =>
     [instruction.selector, instruction.kind === "move" ? instruction.target : ""].filter(
       (selector) => selector && !isCloneSelector(selector),
@@ -178,57 +470,31 @@ export function applyPageEdits(
     }
   }
 
-  // Duplicates, in order. Clones are not framework-owned.
-  for (const instruction of instructions) {
-    if (instruction.kind !== "duplicate") continue;
+  const grow: [Element, Gap[]][] = [];
+  const gapsFor = new Map<EditInstruction, Gap[]>();
+  const edits = instructions.filter(
+    (instruction): instruction is Extract<EditInstruction, { kind: "edit" }> => instruction.kind === "edit",
+  );
+
+  // Layout before the text changes, to keep heroes from growing upwards.
+  for (const instruction of edits) {
     const element = resolved.get(instruction);
-    if (!element || !element.parentNode || !CLONE_ID_PATTERN.test(instruction.id)) continue;
-    if (query(root, `[data-erp-clone="${instruction.id}"]`)) continue;
-    const clone = element.cloneNode(true) as Element;
-    clone.setAttribute("data-erp-clone", instruction.id);
-    settleAnimatedClone(clone);
-    element.after(clone);
-    clones.push(clone);
+    if (element && changesText(instruction)) gapsFor.set(instruction, topGaps(element));
   }
 
-  // Pass 2: copy selectors, now that clones carry their attributes.
-  for (const instruction of instructions) {
-    if (isCloneSelector(instruction.selector)) {
-      resolved.set(instruction, query(root, instruction.selector));
-    }
-    if (instruction.kind === "move" && isCloneSelector(instruction.target)) {
-      targets.set(instruction, query(root, instruction.target));
-    }
+  // Text/design/image edits on the original page.
+  for (const instruction of edits) {
+    if (!isCloneSelector(instruction.selector)) applyEdit(instruction, resolved.get(instruction) ?? null);
   }
 
-  // Element edits, in order.
+  // Copies, inserted sections, moves and removes, in order. Copy selectors
+  // are looked up when used: after the copy has been made.
   for (const instruction of instructions) {
-    if (instruction.kind !== "edit") continue;
-    const element = resolved.get(instruction);
-    if (!element) continue;
-
-    if (typeof instruction.text === "string") {
-      if (!childSnapshots.has(element)) {
-        childSnapshots.set(element, Array.from(element.childNodes));
-      }
-      element.textContent = instruction.text;
-    }
-
-    // Re-sanitize: instructions may come from any caller.
-    const styles = sanitizeStyles(Object.fromEntries(instruction.styles));
-    for (const [prop, value] of styles) {
-      setStyle(element, prop, value);
-      if (PROPAGATED_STYLES.has(prop)) {
-        element.querySelectorAll("*").forEach((child) => setStyle(child, prop, value));
-      }
-    }
-  }
-
-  // Moves and removes, in order.
-  for (const instruction of instructions) {
-    if (instruction.kind !== "move" && instruction.kind !== "remove") continue;
-    const element = resolved.get(instruction);
-    if (!element || !element.isConnected) continue;
+    if (instruction.kind === "edit") continue;
+    const element = isCloneSelector(instruction.selector)
+      ? query(root, instruction.selector)
+      : resolved.get(instruction);
+    if (!element || !element.isConnected || !element.parentNode) continue;
 
     if (instruction.kind === "remove") {
       // Hide instead of element.remove(): the node may be React-owned.
@@ -236,21 +502,72 @@ export function applyPageEdits(
       continue;
     }
 
-    const target = targets.get(instruction);
+    if (instruction.kind === "duplicate" || instruction.kind === "insert") {
+      if (!CLONE_ID_PATTERN.test(instruction.id)) continue;
+      // Already applied (e.g. edits ran twice): don't add a second copy.
+      if (query(root, `[data-erp-clone="${instruction.id}"]`)) continue;
+      if (instruction.kind === "insert") {
+        insertSection(instruction, element);
+        continue;
+      }
+      const clone = element.cloneNode(true) as Element;
+      clone.setAttribute("data-erp-clone", instruction.id);
+      settleAnimatedClone(clone);
+      const gaps = topGaps(element);
+      element.after(clone);
+      clones.push(clone);
+      grow.push([clone, gaps]);
+      continue;
+    }
+
+    const target = isCloneSelector(instruction.target)
+      ? query(root, instruction.target)
+      : targets.get(instruction);
     if (!target || !target.isConnected || target === element || element.contains(target)) {
       continue;
     }
-    const parent = element.parentNode;
-    if (!parent) continue;
-    moves.push({ element, parent, next: element.nextSibling });
+    moves.push({ element, parent: element.parentNode, next: element.nextSibling });
     if (instruction.position === "before") target.before(element);
     else target.after(element);
   }
 
+  // Text/design edits made on copies and inserted sections.
+  for (const instruction of edits) {
+    if (!isCloneSelector(instruction.selector)) continue;
+    const element = query(root, instruction.selector);
+    if (element && changesText(instruction)) gapsFor.set(instruction, topGaps(element));
+    applyEdit(instruction, element);
+    resolved.set(instruction, element);
+  }
+
+  for (const instruction of edits) {
+    if (!changesText(instruction)) continue;
+    const element = resolved.get(instruction);
+    if (element) grow.push([element, gapsFor.get(instruction) ?? []]);
+  }
+
   let reverted = false;
+  const makeRoom = () => {
+    if (reverted) return;
+    for (const [element, gaps] of grow) {
+      try {
+        if (element.isConnected) makeRoomFor(element, gaps);
+      } catch {
+        // Layout measurement is best effort.
+      }
+    }
+  };
+  makeRoom();
+  // Images and web fonts can finish later and make the content taller again.
+  if (grow.length) {
+    if (root.readyState !== "complete") view.addEventListener("load", makeRoom, { once: true });
+    root.fonts?.ready.then(makeRoom).catch(() => {});
+  }
+
   return () => {
     if (reverted) return;
     reverted = true;
+    view.removeEventListener("load", makeRoom);
 
     // Put moved nodes back, newest move first, while clones (possible
     // reference siblings) still exist.
@@ -262,10 +579,17 @@ export function applyPageEdits(
       }
     }
     for (const clone of clones) clone.remove();
+    for (const node of headNodes) node.remove();
     childSnapshots.forEach((children, element) => element.replaceChildren(...children));
     styleSnapshots.forEach((style, element) => {
       if (style === null) element.removeAttribute("style");
       else element.setAttribute("style", style);
+    });
+    attrSnapshots.forEach((snapshot, element) => {
+      snapshot.forEach((value, name) => {
+        if (value === null) element.removeAttribute(name);
+        else element.setAttribute(name, value);
+      });
     });
   };
 }

@@ -48,7 +48,7 @@ describe("CMS page integration", () => {
     expect(fetchMock).toHaveBeenCalledWith(
       "https://erp.example/public/clickmastersdigitalmarketing.com/pages/abc/xyz",
       expect.objectContaining({
-        next: { revalidate: 300 },
+        next: { revalidate: 300, tags: ["cms-page"] },
         signal: expect.any(AbortSignal),
       }),
     );

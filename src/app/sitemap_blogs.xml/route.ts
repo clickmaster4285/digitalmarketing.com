@@ -1,11 +1,9 @@
-import { NextResponse } from 'next/server';
+import { cmsUrlset, indexableCmsPages } from '@/lib/cmsSitemap';
+
+// Blog posts published in the ERP (Page Creation, pageType "blog").
+// Refreshed with the ERP page cache (tag "cms-page", see /api/erp-revalidate).
+export const revalidate = 300;
 
 export async function GET() {
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>\n`;
-
-  return new NextResponse(xml, {
-    headers: {
-      'Content-Type': 'application/xml; charset=utf-8',
-    },
-  });
+  return cmsUrlset(await indexableCmsPages((page) => page.pageType === 'blog'));
 }

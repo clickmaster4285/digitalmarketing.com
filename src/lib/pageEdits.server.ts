@@ -22,7 +22,9 @@ import {
 // <ErpPageEdits /> polling (no-store), and POST /api/cms/revalidate makes
 // server HTML update instantly; without the webhook it lags at most 60s.
 const REVALIDATE_SECONDS = 60;
-const TIMEOUT_MS = 3000;
+// The ERP's public API regularly takes 3-4 s; a 3 s timeout made every
+// request fail. Same budget as created pages (lib/cms.ts).
+const TIMEOUT_MS = 5000;
 const FAILURE_TTL_MS = 15_000;
 
 /** Next.js data-cache tag on every ERP request; see /api/cms/revalidate. */
@@ -115,11 +117,18 @@ function fetchErpJson(url: string, { live = false }: ErpFetchOptions = {}): Prom
   return value;
 }
 
+// Last successfully fetched list: a timed-out request must not make every
+// page rendered meanwhile forget which paths are edited (that page would then
+// be cached without the anti-flicker script).
+let lastEditedPages: EditedPageEntry[] | null = null;
+
 export async function getEditedPages(options?: ErpFetchOptions): Promise<EditedPageEntry[]> {
   const erp = erpBase();
   if (!erp) return [];
   const result = await fetchErpJson(`${erp.base}/public/${erp.domain}/edited-pages`, options);
-  return result ? parseEditedPagesList(result.body) : [];
+  if (!result) return lastEditedPages ?? [];
+  lastEditedPages = parseEditedPagesList(result.body);
+  return lastEditedPages;
 }
 
 export async function findEditedPage(
@@ -132,20 +141,32 @@ export async function findEditedPage(
   return pages.find((page) => page.path === normalized) ?? null;
 }
 
+/**
+ * Edits for one path. `failed` = the ERP could not be reached (as opposed to
+ * "this path has no published edits"), so callers keep what they have.
+ */
+export async function getPageEditsStatus(
+  path: string,
+  options?: ErpFetchOptions,
+): Promise<{ edits: PageEdits | null; failed: boolean }> {
+  const entry = await findEditedPage(path, options);
+  const erp = erpBase();
+  if (!entry || !erp) return { edits: null, failed: false };
+  const result = await fetchErpJson(
+    `${erp.base}/public/${erp.domain}/page-edits?path=${encodeURIComponent(entry.path)}`,
+    options,
+  );
+  if (!result) return { edits: null, failed: true };
+  if (result.status === 404) return { edits: null, failed: false };
+  return { edits: parsePageEdits(result.body), failed: false };
+}
+
 /** Edits for one path, or null. Checks the edited-pages list first. */
 export async function getPageEdits(
   path: string,
   options?: ErpFetchOptions,
 ): Promise<PageEdits | null> {
-  const entry = await findEditedPage(path, options);
-  const erp = erpBase();
-  if (!entry || !erp) return null;
-  const result = await fetchErpJson(
-    `${erp.base}/public/${erp.domain}/page-edits?path=${encodeURIComponent(entry.path)}`,
-    options,
-  );
-  if (!result || result.status === 404) return null;
-  return parsePageEdits(result.body);
+  return (await getPageEditsStatus(path, options)).edits;
 }
 
 /**
@@ -175,9 +196,7 @@ export async function applyEditedPageSeo(path: string, base: Metadata): Promise<
   const metadata: Metadata = { ...base };
   if (title) metadata.title = title;
   if (description) metadata.description = description;
-  if (seo.keywords) {
-    metadata.keywords = seo.keywords.split(",").map((k) => k.trim()).filter(Boolean);
-  }
+  if (seo.keywords?.length) metadata.keywords = seo.keywords;
   if (canonical) metadata.alternates = { ...base.alternates, canonical };
   if (robots) metadata.robots = robots;
   if (ogTitle || ogDescription || ogImage || canonical) {

@@ -7,9 +7,37 @@
 
 type JsonRecord = Record<string, unknown>;
 
+export interface ImageEdit {
+  /** New image URL (http/https only). */
+  src?: string;
+  alt?: string;
+}
+
+export type InsertLayout = "image-left" | "image-right";
+
 export type EditInstruction =
-  | { kind: "edit"; selector: string; text?: string; styles: [string, string][] }
+  | {
+      kind: "edit";
+      selector: string;
+      text?: string;
+      /** Rich text; sanitized again (allow-list) by the browser applier. */
+      html?: string;
+      styles: [string, string][];
+      image?: ImageEdit;
+      backgroundImage?: string;
+    }
   | { kind: "duplicate"; selector: string; id: string }
+  | {
+      kind: "insert";
+      selector: string;
+      id: string;
+      position: "before" | "after";
+      /** New section content; sanitized again (allow-list) by the applier. */
+      html: string;
+      layout?: InsertLayout;
+      /** The website's typography per tag (h1-h4, p, li, th, td). */
+      theme: [string, [string, string][]][];
+    }
   | { kind: "move"; selector: string; target: string; position: "before" | "after" }
   | { kind: "remove"; selector: string };
 
@@ -18,7 +46,7 @@ export interface PageEditsSeo {
   description?: string;
   canonicalUrl?: string;
   robots?: string;
-  keywords?: string;
+  keywords?: string[];
   ogTitle?: string;
   ogDescription?: string;
   ogImage?: string;
@@ -27,6 +55,8 @@ export interface PageEditsSeo {
 export interface PageEdits {
   instructions: EditInstruction[];
   seo: PageEditsSeo;
+  /** JSON-LD objects for this URL only (`seo.schema`). */
+  schema: JsonRecord[];
   version?: number;
 }
 
@@ -36,10 +66,15 @@ export interface EditedPageEntry {
 }
 
 export const CLONE_SELECTOR_PREFIX = "[data-erp-clone=";
-export const CLONE_ID_PATTERN = /^[A-Za-z0-9-]+$/;
+export const CLONE_ID_PATTERN = /^[A-Za-z0-9-]{1,64}$/;
 
 const MAX_SELECTOR_LENGTH = 2000;
 const MAX_TEXT_LENGTH = 20000;
+const MAX_HTML_LENGTH = 100_000;
+const MAX_SCHEMA_ENTRIES = 20;
+const MAX_SCHEMA_BYTES = 100_000;
+const THEME_TAGS = new Set(["h1", "h2", "h3", "h4", "p", "li", "th", "td"]);
+const SAFE_IMAGE_URL = /^https?:\/\/[^\s"'()<>\\]+$/i;
 const MAX_INSTRUCTIONS = 1000;
 
 const ALLOWED_STYLE_PROPERTIES = new Set([
@@ -114,25 +149,62 @@ export function sanitizeStyles(value: unknown): [string, string][] {
   return styles;
 }
 
+/** Absolute http(s) image URL without characters that could break CSS url(). */
+export function safeEditImageUrl(value: unknown): string | undefined {
+  return typeof value === "string" && value.length <= 2000 && SAFE_IMAGE_URL.test(value.trim())
+    ? value.trim()
+    : undefined;
+}
+
+function imageEdit(value: unknown): ImageEdit | undefined {
+  if (!isRecord(value)) return undefined;
+  const src = safeEditImageUrl(value.src);
+  const alt = typeof value.alt === "string" ? value.alt.slice(0, 500) : undefined;
+  return src || alt !== undefined ? { ...(src ? { src } : {}), ...(alt !== undefined ? { alt } : {}) } : undefined;
+}
+
+function sanitizeTheme(value: unknown): [string, [string, string][]][] {
+  if (!isRecord(value)) return [];
+  return Object.entries(value).flatMap(([tag, styles]): [string, [string, string][]][] => {
+    const key = tag.toLowerCase();
+    if (!THEME_TAGS.has(key)) return [];
+    const clean = sanitizeStyles(styles);
+    return clean.length ? [[key, clean]] : [];
+  });
+}
+
+function htmlString(value: unknown): string | undefined {
+  return typeof value === "string" && value.length <= MAX_HTML_LENGTH ? value : undefined;
+}
+
 function validSelector(value: unknown): string | undefined {
   const selector = nonEmptyString(value);
   return selector && selector.length <= MAX_SELECTOR_LENGTH ? selector : undefined;
 }
 
-function editInstruction(
-  selectorValue: unknown,
-  textValue: unknown,
-  stylesValue: unknown,
-): EditInstruction | null {
-  const selector = validSelector(selectorValue);
+function editInstruction(source: JsonRecord, stylesValue: unknown): EditInstruction | null {
+  const selector = validSelector(source.selector);
   if (!selector) return null;
   const text =
-    typeof textValue === "string" && textValue.length <= MAX_TEXT_LENGTH
-      ? textValue
+    typeof source.text === "string" && source.text.length <= MAX_TEXT_LENGTH
+      ? source.text
       : undefined;
+  const html = htmlString(source.html);
   const styles = sanitizeStyles(stylesValue);
-  if (text === undefined && styles.length === 0) return null;
-  return { kind: "edit", selector, text, styles };
+  const image = imageEdit(source.image);
+  const backgroundImage = safeEditImageUrl(source.backgroundImage);
+  if (text === undefined && html === undefined && styles.length === 0 && !image && !backgroundImage) {
+    return null;
+  }
+  return {
+    kind: "edit",
+    selector,
+    ...(text !== undefined ? { text } : {}),
+    ...(html !== undefined ? { html } : {}),
+    styles,
+    ...(image ? { image } : {}),
+    ...(backgroundImage ? { backgroundImage } : {}),
+  };
 }
 
 function operationInstruction(
@@ -154,6 +226,22 @@ function operationInstruction(
     }
     case "remove":
       return { kind: "remove", selector };
+    case "insert": {
+      const id = typeof op.id === "string" ? op.id : "";
+      const html = htmlString(op.html);
+      if (!CLONE_ID_PATTERN.test(id) || html === undefined) return null;
+      const layout =
+        op.layout === "image-left" || op.layout === "image-right" ? op.layout : undefined;
+      return {
+        kind: "insert",
+        selector,
+        id,
+        position: op.position === "before" ? "before" : "after",
+        html,
+        ...(layout ? { layout } : {}),
+        theme: sanitizeTheme(op.theme),
+      };
+    }
     default:
       return null;
   }
@@ -161,6 +249,7 @@ function operationInstruction(
 
 const SECTION_TYPE_ACTIONS: Record<string, string> = {
   sectionDuplicate: "duplicate",
+  sectionInsert: "insert",
   sectionMove: "move",
   sectionRemove: "remove",
 };
@@ -180,11 +269,11 @@ function instructionsFromSections(sections: unknown[]): EditInstruction[] {
       if (section.hidden === true || !isRecord(section.content)) return [];
       const type = section.type;
       if (type === "elementEdit") {
-        const edit = editInstruction(
-          section.content.selector,
-          section.content.text,
-          section.styles ?? section.content.styles,
-        );
+        const styles =
+          isRecord(section.styles) && Object.keys(section.styles).length
+            ? section.styles
+            : section.content.styles;
+        const edit = editInstruction(section.content, styles);
         return edit ? [edit] : [];
       }
       const action = typeof type === "string" ? SECTION_TYPE_ACTIONS[type] : undefined;
@@ -199,7 +288,7 @@ function instructionsFromFlat(data: JsonRecord): EditInstruction[] {
   const operations = Array.isArray(data.operations) ? data.operations : [];
   const edits = patches.filter(isRecord).flatMap((patch) => {
     if (patch.hidden === true) return [];
-    const edit = editInstruction(patch.selector, patch.text, patch.styles);
+    const edit = editInstruction(patch, patch.styles);
     return edit ? [edit] : [];
   });
   const ops = operations.filter(isRecord).flatMap((op) => {
@@ -210,6 +299,31 @@ function instructionsFromFlat(data: JsonRecord): EditInstruction[] {
   return [...edits, ...ops];
 }
 
+function parseKeywords(value: unknown): string[] | undefined {
+  const raw = Array.isArray(value) ? value : typeof value === "string" ? value.split(",") : [];
+  const keywords = raw
+    .filter((keyword): keyword is string => typeof keyword === "string")
+    .map((keyword) => keyword.trim())
+    .filter((keyword) => keyword && keyword.length <= 100)
+    .slice(0, 30);
+  return keywords.length ? keywords : undefined;
+}
+
+function parseSchema(rawSeo: unknown): JsonRecord[] {
+  const raw = isRecord(rawSeo) ? rawSeo.schema : undefined;
+  const list = Array.isArray(raw) ? raw : isRecord(raw) ? [raw] : [];
+  return list
+    .filter(isRecord)
+    .filter((entry) => {
+      try {
+        return JSON.stringify(entry).length <= MAX_SCHEMA_BYTES;
+      } catch {
+        return false;
+      }
+    })
+    .slice(0, MAX_SCHEMA_ENTRIES);
+}
+
 function parseSeo(rawSeo: unknown, title: unknown): PageEditsSeo {
   const seo = isRecord(rawSeo) ? rawSeo : {};
   const openGraph = isRecord(seo.openGraph) ? seo.openGraph : {};
@@ -218,7 +332,7 @@ function parseSeo(rawSeo: unknown, title: unknown): PageEditsSeo {
     description: nonEmptyString(seo.metaDescription) ?? nonEmptyString(seo.description),
     canonicalUrl: nonEmptyString(seo.canonicalUrl),
     robots: nonEmptyString(seo.robots),
-    keywords: nonEmptyString(seo.keywords),
+    keywords: parseKeywords(seo.keywords) ?? parseKeywords(seo.focusKeyword),
     ogTitle: nonEmptyString(seo.ogTitle) ?? nonEmptyString(openGraph.title),
     ogDescription: nonEmptyString(seo.ogDescription) ?? nonEmptyString(openGraph.description),
     ogImage: nonEmptyString(seo.ogImage) ?? nonEmptyString(openGraph.image),
@@ -241,6 +355,7 @@ export function parsePageEdits(payload: unknown): PageEdits | null {
   return {
     instructions: instructions.slice(0, MAX_INSTRUCTIONS),
     seo: parseSeo(source.seo, source.title),
+    schema: parseSchema(source.seo),
     version: typeof source.version === "number" ? source.version : undefined,
   };
 }

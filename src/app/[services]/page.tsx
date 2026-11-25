@@ -5,6 +5,7 @@ import { isMainServiceSlug, MAIN_SERVICES } from "@/content/locations/serviceLoc
 import { cmsPageMetadata, getCmsPage } from "@/lib/cms";
 import ServiceLandingClient from "./ServiceLandingClient";
 import { applyEditedPageSeo } from "@/lib/pageEdits.server";
+import { ErpEditsData } from "@/components/cms/ErpEditsData";
 
 type PageProps = {
   params: Promise<{ services: string }>;
@@ -27,7 +28,12 @@ export default async function Page({ params }: PageProps) {
   const { services } = await params;
 
   if (isMainServiceSlug(services)) {
-    return <ServiceLandingClient />;
+    return (
+      <>
+        <ServiceLandingClient />
+        <ErpEditsData path={`/${services}`} />
+      </>
+    );
   }
 
   const page = await getCmsPage(services);

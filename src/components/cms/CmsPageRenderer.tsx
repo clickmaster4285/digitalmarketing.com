@@ -1,6 +1,8 @@
 import React from "react";
 import Image from "next/image";
-import type { CmsPage, CmsSection } from "@/lib/cms";
+import { cmsPageSchema, serializeJsonLd, type CmsPage, type CmsSection } from "../../lib/cms";
+import { hasRichContent, looksLikeHtml, sanitizeRichHtml } from "../../lib/richText";
+import { CmsRichText } from "./CmsRichText";
 
 type Content = Record<string, unknown>;
 
@@ -103,11 +105,43 @@ function SectionHeading({ content }: { content: Content }) {
   );
 }
 
-function CmsSectionView({ section }: { section: CmsSection }) {
+/** HTML fields go through the rich-text sanitizer; plain text keeps its line breaks. */
+function RichOrPlain({ value, className }: { value: unknown; className: string }) {
+  if (looksLikeHtml(value)) {
+    return hasRichContent(sanitizeRichHtml(value)) ? (
+      <CmsRichText html={value} className={className} />
+    ) : null;
+  }
+  const plain = text(value).trim();
+  return plain ? <p className={`whitespace-pre-line ${className}`}>{plain}</p> : null;
+}
+
+function formatDate(value: unknown): string {
+  const raw = text(value);
+  if (!raw) return "";
+  const date = new Date(raw);
+  return Number.isNaN(date.getTime())
+    ? raw
+    : date.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" });
+}
+
+/** ERP `settings.background` hint -> the site's own section variants. */
+function sectionTone(settings: Content): string {
+  const background = text(settings.background);
+  if (background === "dark" || background === "gradient") return "bg-[#0a0a0a] text-white";
+  if (background === "muted") return "bg-muted";
+  return "";
+}
+
+function CmsSectionView({ section, page }: { section: CmsSection; page: CmsPage }) {
   const { type, content, settings = {} } = section;
   const heading = text(content.heading);
-  const body = plainText(content.body ?? content.bodyHtml);
-  const image = safeImage(content.image ?? content.backgroundImage);
+  const body = plainText(content.body ?? content.bodyHtml ?? content.description);
+  const image = safeImage(
+    content.image ??
+      content.backgroundImage ??
+      (type === "hero" && page.pageType === "blog" ? page.featuredImage : undefined),
+  );
   const primaryUrl = content.primaryUrl ?? content.primaryLink;
   const primaryLabel =
     content.primaryLabel ?? content.primaryButton ?? content.buttonLabel;
@@ -115,9 +149,11 @@ function CmsSectionView({ section }: { section: CmsSection }) {
   const secondaryLabel =
     content.secondaryLabel ?? content.secondaryButton;
   const sectionClass =
-    settings.width === "wide"
+    settings.width === "wide" || settings.width === "superWide" || settings.width === "full"
       ? "container max-w-7xl"
-      : "container max-w-5xl";
+      : settings.width === "narrow"
+        ? "container max-w-3xl"
+        : "container max-w-5xl";
   const splitHero = type === "hero" && settings.layout === "split";
 
   if (["header", "navbar", "footer"].includes(type)) return null;
@@ -186,34 +222,30 @@ function CmsSectionView({ section }: { section: CmsSection }) {
   }
 
   if (type === "text" || type === "richText" || type === "customContent") {
+    const isArticle = page.pageType === "blog";
     return (
-      <section className="py-16 md:py-24">
-        <div className={sectionClass}>
+      <section className={`py-16 md:py-24 ${sectionTone(settings)}`}>
+        <div className={isArticle && settings.width !== "wide" ? "container max-w-3xl" : sectionClass}>
           <SectionHeading content={content} />
-          {body && (
-            <p className="mt-8 whitespace-pre-line text-base leading-8 opacity-75 md:text-lg">
-              {body}
-            </p>
-          )}
+          <RichOrPlain
+            value={content.bodyHtml ?? content.body ?? content.html}
+            className="mt-8 text-base leading-8 md:text-lg"
+          />
         </div>
       </section>
     );
   }
 
   if (type === "image" || type === "imageText" || type === "author") {
-    const bio = plainText(content.bioHtml ?? body);
+    const bio = content.bioHtml ?? content.bodyHtml ?? content.body;
     const name = text(content.name);
     const role = text(content.role);
     return (
-      <section className="py-16 md:py-24">
-        <div className={`${sectionClass} grid items-center gap-10 md:grid-cols-2`}>
+      <section className={`py-16 md:py-24 ${sectionTone(settings)}`}>
+        <div className={`${sectionClass} grid items-center gap-10 ${image ? "md:grid-cols-2" : ""}`}>
           <div>
             <SectionHeading content={content} />
-            {bio && (
-              <p className="mt-6 whitespace-pre-line leading-8 opacity-75">
-                {bio}
-              </p>
-            )}
+            <RichOrPlain value={bio} className="mt-6 leading-8" />
             {name && (
               <p className="mt-5 font-medium">{name}</p>
             )}
@@ -288,9 +320,13 @@ function CmsSectionView({ section }: { section: CmsSection }) {
     ].includes(type)
   ) {
     const list = items(content);
-    const columns = type === "testimonials" || type === "team" ? "md:grid-cols-3" : "md:grid-cols-2";
+    const columns =
+      type === "testimonials" || type === "team" || type === "blogPosts" || type === "relatedPosts"
+        ? "md:grid-cols-3"
+        : "md:grid-cols-2";
+    if (list.length === 0 && (type === "blogPosts" || type === "relatedPosts")) return null;
     return (
-      <section className="py-16 md:py-24">
+      <section className={`py-16 md:py-24 ${sectionTone(settings)}`}>
         <div className={sectionClass}>
           <SectionHeading content={content} />
           <div className={`mt-10 grid gap-5 ${columns}`}>
@@ -309,7 +345,7 @@ function CmsSectionView({ section }: { section: CmsSection }) {
                   item.caption ??
                   item.bio,
               );
-              const date = text(item.date);
+              const date = formatDate(item.date ?? item.publishedAt);
               const role = text(item.role);
               const featureList =
                 typeof item.features === "string"
@@ -378,7 +414,7 @@ function CmsSectionView({ section }: { section: CmsSection }) {
 
   if (type === "faq") {
     return (
-      <section className="py-16 md:py-24">
+      <section className={`py-16 md:py-24 ${sectionTone(settings)}`}>
         <div className={sectionClass}>
           <SectionHeading content={content} />
           <div className="mt-8 divide-y divide-foreground/10">
@@ -387,9 +423,7 @@ function CmsSectionView({ section }: { section: CmsSection }) {
                 <summary className="cursor-pointer font-medium">
                   {text(item.question ?? item.q)}
                 </summary>
-                <p className="mt-3 whitespace-pre-line leading-7 opacity-70">
-                  {plainText(item.answer ?? item.a)}
-                </p>
+                <RichOrPlain value={item.answer ?? item.a} className="mt-3 leading-7 opacity-80" />
               </details>
             ))}
           </div>
@@ -455,15 +489,36 @@ function CmsSectionView({ section }: { section: CmsSection }) {
   return null;
 }
 
+/** One ld+json script per `seo.schema` object, for this page only. */
+export function CmsPageJsonLd({ page }: { page: CmsPage }) {
+  return (
+    <>
+      {cmsPageSchema(page).map((entry, index) => (
+        <script
+          key={index}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(entry) }}
+        />
+      ))}
+    </>
+  );
+}
+
 export function CmsPageRenderer({ page }: { page: CmsPage }) {
   return (
+    <>
+    <CmsPageJsonLd page={page} />
     <main>
       {page.sections.map((section, index) => {
         const defaults = page.design?.sectionDefaults?.[section.type];
         const defaultSettings = isContent(defaults) ? defaults : {};
+        const manualItems =
+          section.content.mode === "manual" &&
+          Array.isArray(section.content.items) &&
+          section.content.items.length > 0;
         const content =
           ["blogPosts", "relatedPosts"].includes(section.type) &&
-          !Array.isArray(section.content.items) &&
+          !manualItems &&
           page.context?.posts
             ? {
                 ...section.content,
@@ -478,6 +533,7 @@ export function CmsPageRenderer({ page }: { page: CmsPage }) {
         return (
           <CmsSectionView
             key={section.id || `${section.type}-${index}`}
+            page={page}
             section={{
               ...section,
               content,
@@ -487,5 +543,6 @@ export function CmsPageRenderer({ page }: { page: CmsPage }) {
         );
       })}
     </main>
+    </>
   );
 }

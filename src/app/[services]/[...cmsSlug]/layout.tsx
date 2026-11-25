@@ -106,6 +106,7 @@ import { WebsiteMaintenanceContent } from "@/content/services/WebsiteMaintenance
 import { AdaComplianceContent } from "@/content/services/AdaComplianceContent";
 import { CustomSoftwareContent } from "@/content/services/CustomSoftwareContent";
 import { applyEditedPageSeo } from "@/lib/pageEdits.server";
+import { ErpEditsData } from "@/components/cms/ErpEditsData";
 
 // Content registry - must match page.tsx
 const contentRegistry: Record<string, any> = {
@@ -263,10 +264,19 @@ export async function generateMetadata(
   );
 }
 
-export default function SubServicesLayout({
+export default async function SubServicesLayout({
   children,
+  params,
 }: {
   children: React.ReactNode;
+  params: Promise<{ services: string; cmsSlug: string[] }>;
 }) {
-  return <>{children}</>;
+  const { services, cmsSlug } = await params;
+  return (
+    <>
+      {children}
+      {/* The page's embedded ERP edits, if it has any (no DOM wrapper). */}
+      <ErpEditsData path={`/${[services, ...cmsSlug].join("/")}`} />
+    </>
+  );
 }
