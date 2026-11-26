@@ -100,6 +100,24 @@
     --input: 0 0% 88%;
     --ring: 0 0% 6%;
   }
+
+  /* Sections hard-coded to a white background (e.g. location pages) must use
+     the light colours, or the dark theme's white text vanishes on them. */
+  .dark section.bg-white {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 6%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 6%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 6%;
+    --secondary: 0 0% 94%;
+    --secondary-foreground: 0 0% 6%;
+    --muted: 0 0% 94%;
+    --muted-foreground: 0 0% 40%;
+    --border: 0 0% 88%;
+    --input: 0 0% 88%;
+    --ring: 0 0% 6%;
+  }
 }
 
 @layer base {

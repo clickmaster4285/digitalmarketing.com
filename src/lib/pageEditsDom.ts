@@ -165,7 +165,7 @@ const POSITIONED = /^(absolute|fixed|sticky)$/;
 // fonts and colours. Mirrors INSERTED_SECTION_CSS in the ERP loader.
 const SECTION_STYLE_ID = "erp-section-style";
 const INSERTED_SECTION_CSS =
-  ".erp-section{box-sizing:border-box;width:100%;max-width:1200px;margin:48px auto;padding:0 20px}.erp-section>*:first-child{margin-top:0}.erp-section p{margin:0 0 12px}.erp-section h2,.erp-section h3,.erp-section h4{margin:24px 0 12px}.erp-section ul,.erp-section ol{margin:12px 0;padding-left:1.5em}.erp-section ul{list-style:disc}.erp-section ol{list-style:decimal}.erp-section img{display:block;max-width:100%;height:auto;margin:16px 0}.erp-section a{text-decoration:underline;text-underline-offset:3px}.erp-section table{width:100%;border-collapse:separate;border-spacing:0;margin:16px 0;border:1px solid rgba(127,127,127,.35);overflow:hidden}.erp-section th,.erp-section td{border:0 solid rgba(127,127,127,.35);border-right-width:1px;border-bottom-width:1px;padding:10px 12px;text-align:left;vertical-align:top}.erp-section tr>:last-child{border-right-width:0}.erp-section tr:last-child>*{border-bottom-width:0}.erp-section th{font-weight:600;background:rgba(127,127,127,.08)}.erp-section td p,.erp-section th p{margin:0}.erp-section.erp-layout-image-left,.erp-section.erp-layout-image-right{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:repeat(var(--erp-text-rows,1),auto) 1fr;column-gap:40px;align-items:start}.erp-layout-image-left>*{grid-column:2}.erp-layout-image-left>img:first-of-type{grid-column:1;grid-row:1/-1}.erp-layout-image-right>*{grid-column:1}.erp-layout-image-right>img:first-of-type{grid-column:2;grid-row:1/-1}.erp-layout-image-left>img:first-of-type,.erp-layout-image-right>img:first-of-type{width:100%;height:auto;margin:0;align-self:center}@media (max-width:767px){.erp-section.erp-layout-image-left,.erp-section.erp-layout-image-right{display:block}.erp-layout-image-left>img:first-of-type,.erp-layout-image-right>img:first-of-type{margin:16px 0}.erp-section img[style*=float]{float:none!important;width:100%!important}}";
+  ".erp-section{box-sizing:border-box;width:100%;max-width:1200px;margin:48px auto;padding:0 20px}.erp-section>*:first-child{margin-top:0}.erp-section p{margin:0 0 12px}.erp-section h2,.erp-section h3,.erp-section h4{margin:24px 0 12px}.erp-section ul,.erp-section ol{margin:12px 0;padding-left:1.5em}.erp-section ul{list-style:disc}.erp-section ol{list-style:decimal}.erp-section img{display:block;max-width:100%;height:auto;margin:16px 0}.erp-section a{text-decoration:underline;text-underline-offset:3px}.erp-section table{width:100%;border-collapse:separate;border-spacing:0;margin:16px 0;border:1px solid rgba(127,127,127,.35);overflow:hidden}.erp-section th,.erp-section td{border:0 solid rgba(127,127,127,.35);border-right-width:1px;border-bottom-width:1px;padding:10px 12px;text-align:left;vertical-align:top}.erp-section tr>:last-child{border-right-width:0}.erp-section tr:last-child>*{border-bottom-width:0}.erp-section th{font-weight:600;background:rgba(127,127,127,.08)}.erp-section td p,.erp-section th p{margin:0}.erp-section.erp-layout-image-left,.erp-section.erp-layout-image-right{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:repeat(var(--erp-text-rows,1),auto) 1fr;column-gap:40px;align-items:start}.erp-layout-image-left>*{grid-column:2}.erp-layout-image-left>img:first-of-type{grid-column:1;grid-row:1/-1}.erp-layout-image-right>*{grid-column:1}.erp-layout-image-right>img:first-of-type{grid-column:2;grid-row:1/-1}.erp-layout-image-left>img:first-of-type,.erp-layout-image-right>img:first-of-type{width:100%;height:auto;margin:0;align-self:center}.erp-section .erp-section{margin:16px 0;padding:0}@media (max-width:767px){.erp-section.erp-layout-image-left,.erp-section.erp-layout-image-right{display:block}.erp-layout-image-left>img:first-of-type,.erp-layout-image-right>img:first-of-type{margin:16px 0}.erp-section img[style*=float]{float:none!important;width:100%!important}}";
 
 /** Builds DOM nodes from the sanitized tree: never innerHTML. */
 function buildNodes(doc: Document, nodes: RichNode[]): Node[] {
@@ -288,25 +288,47 @@ export function applyPageEdits(
     }
     return gaps;
   };
+  // Height of each node before we first gave it a min-height, so repeated
+  // runs (load, fonts) never build on their own growth.
+  const baseHeights = new Map<StyledElement, number>();
   const keepTopGaps = (gaps: Gap[]) => {
     for (const { node, child, gap } of gaps) {
       if (!node.isConnected || !node.contains(child)) continue;
       if (node.style.getPropertyPriority("height") === "important" && node.style.height !== "auto") continue;
+      // Extra height only moves content down in a flex/grid box that centres
+      // or bottom-aligns it (heroes). In normal flow it just adds blank space.
+      if (!/flex|grid/.test(computed(node).display)) continue;
+      if (!baseHeights.has(node)) {
+        const ownMinHeight = node.style.getPropertyValue("min-height");
+        if (ownMinHeight) node.style.removeProperty("min-height");
+        baseHeights.set(node, node.getBoundingClientRect().height);
+        if (ownMinHeight) node.style.setProperty("min-height", ownMinHeight, "important");
+      }
+      const base = baseHeights.get(node) ?? 0;
+      // Never more than the lost gap twice over, and never more than a screen.
+      const limit = base + Math.min(Math.max(gap, 0) * 2, view.innerHeight);
       const lostNow = () => gap - (contentTop(child) - node.getBoundingClientRect().top);
+      const before = node.style.getPropertyValue("min-height");
       let grew = false;
       let factor = 1;
       for (let tries = 0; tries < 4; tries += 1) {
         const lost = lostNow();
         const height = parseFloat(computed(node).height);
         if (lost <= 1 || !Number.isFinite(height)) break;
-        const add = Math.ceil(lost * factor);
-        setStyle(node, "min-height", `${height + add}px`);
+        const next = Math.min(height + Math.ceil(lost * factor), limit);
+        if (next <= height + 0.5) break;
+        setStyle(node, "min-height", `${next}px`);
         const moved = lost - lostNow();
         if (moved <= 0.5) break;
         grew = true;
-        factor = Math.min(add / moved, 4);
+        factor = Math.min((next - height) / moved, 4);
       }
       if (grew) coverBackground(node);
+      else if (node.style.getPropertyValue("min-height") !== before) {
+        // It didn't help: don't leave the extra height behind.
+        if (before) node.style.setProperty("min-height", before, "important");
+        else node.style.removeProperty("min-height");
+      }
     }
   };
   const makeRoomFor = (element: Element, gaps: Gap[]) => {
@@ -545,6 +567,35 @@ export function applyPageEdits(
     const element = resolved.get(instruction);
     if (element) grow.push([element, gapsFor.get(instruction) ?? []]);
   }
+
+  // Sections emptied by removes (or inserted and then cleared in the editor)
+  // would still keep their padding/margins: blank bands across the page.
+  const showsNothing = (element: Element): boolean => {
+    if (!(element instanceof view.HTMLElement) || typeof element.innerText !== "string") return false;
+    if (element.innerText.trim()) return false;
+    return !Array.from(element.querySelectorAll("img,picture,video,iframe,canvas,svg,input,select,textarea")).some(
+      (media) => media.getClientRects().length > 0,
+    );
+  };
+  const emptied = new Set<Element>();
+  for (const instruction of instructions) {
+    if (instruction.kind !== "remove") continue;
+    const element = isCloneSelector(instruction.selector)
+      ? query(root, instruction.selector)
+      : resolved.get(instruction);
+    const section = element?.parentElement?.closest("section");
+    if (section && section.closest("main")) emptied.add(section);
+  }
+  clones.forEach((clone) => {
+    if (clone.classList.contains("erp-section")) emptied.add(clone);
+  });
+  emptied.forEach((section) => {
+    try {
+      if (section.isConnected && showsNothing(section)) setStyle(section, "display", "none");
+    } catch {
+      // Best effort.
+    }
+  });
 
   let reverted = false;
   const makeRoom = () => {
