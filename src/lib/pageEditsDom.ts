@@ -184,6 +184,251 @@ function computed(element: Element): CSSStyleDeclaration {
 
 type Gap = { node: StyledElement; child: Element; gap: number };
 
+// ---- ERP-inserted FAQs -> accordion. Looks like the location pages' FAQ.
+const FAQ_STYLE_ID = "erp-faq-style";
+const FAQ_CSS =
+  ".erp-faq{display:flex;flex-direction:column;gap:12px;margin:0 0 12px}" +
+  ".erp-faq-item{border:1px solid hsl(var(--border)/.6);border-radius:16px;transition:border-color .3s,background .3s,box-shadow .3s}" +
+  ".erp-faq-item:hover{border-color:rgba(255,61,119,.2)}" +
+  ".erp-faq-item[data-open]{border-color:rgba(255,61,119,.3);background:linear-gradient(to right,rgba(255,61,119,.04),rgba(108,92,231,.04));box-shadow:0 1px 2px rgba(0,0,0,.05)}" +
+  ".erp-faq-q{all:unset;box-sizing:border-box;width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px;cursor:pointer;text-align:left}" +
+  ".erp-faq-q:focus-visible{outline:2px solid #FF3D77;outline-offset:2px;border-radius:16px}" +
+  ".erp-faq-lead{display:flex;align-items:flex-start;gap:12px}" +
+  ".erp-faq-num{flex:none;width:24px;height:24px;border-radius:999px;border:1px solid hsl(var(--border)/.6);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:hsl(var(--muted-foreground))}" +
+  ".erp-faq-text{font-family:inherit;font-weight:500;font-size:15px;line-height:1.5;color:hsl(var(--foreground));transition:color .3s}" +
+  "@media (min-width:768px){.erp-faq-text{font-size:16px}}" +
+  ".erp-faq-item[data-open] .erp-faq-text{color:#FF3D77}" +
+  ".erp-faq-icon{position:relative;flex:none;width:32px;height:32px;border-radius:999px;background:hsl(var(--muted)/.2);color:hsl(var(--muted-foreground));transition:background .3s,color .3s,transform .3s cubic-bezier(.65,0,.35,1)}" +
+  ".erp-faq-item:hover .erp-faq-icon{background:rgba(255,61,119,.05)}" +
+  ".erp-faq-icon::before,.erp-faq-icon::after{content:\"\";position:absolute;left:50%;top:50%;width:12px;height:1.5px;border-radius:1px;background:currentColor;transform:translate(-50%,-50%)}" +
+  ".erp-faq-icon::after{transform:translate(-50%,-50%) rotate(90deg);transition:transform .3s cubic-bezier(.65,0,.35,1)}" +
+  ".erp-faq-item[data-open] .erp-faq-icon{background:rgba(255,61,119,.1);color:#FF3D77;transform:rotate(180deg)}" +
+  ".erp-faq-item[data-open] .erp-faq-icon::after{transform:translate(-50%,-50%) rotate(0deg)}" +
+  ".erp-faq-a{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .3s cubic-bezier(.65,0,.35,1),opacity .3s}" +
+  ".erp-faq-item[data-open] .erp-faq-a{grid-template-rows:1fr;opacity:1}" +
+  ".erp-faq-a-inner{overflow:hidden;min-height:0}" +
+  ".erp-faq-a-body{padding:8px 20px 20px 56px;font-size:14px;line-height:1.7;color:hsl(var(--muted-foreground))}" +
+  ".erp-faq-a-body>*{margin:0 0 10px!important}.erp-faq-a-body>:last-child{margin-bottom:0!important}" +
+  ".erp-faq-a-body ul{list-style:disc;padding-left:1.25em}.erp-faq-a-body ol{list-style:decimal;padding-left:1.25em}" +
+  ".erp-faq-a-body a{color:#FF3D77;text-decoration:underline;text-underline-offset:3px}" +
+  ".erp-faq-a-body strong,.erp-faq-a-body b{color:hsl(var(--foreground));font-weight:600}" +
+  ".erp-faq-a-body img{max-width:100%;height:auto;border-radius:12px}" +
+  "@media (max-width:640px){.erp-faq-a-body{padding-left:20px}}";
+
+const FAQ_CONTEXT = /frequently asked|\bfaqs?\b/i;
+const ANSWER_BLOCKS = new Set(["P", "UL", "OL", "TABLE", "BLOCKQUOTE", "FIGURE", "IMG", "PRE"]);
+
+/** Own text, without the text of inserts nested inside it. */
+const cleanText = (element: Element) => {
+  let source = element;
+  if (element.querySelector(".erp-section")) {
+    source = element.cloneNode(true) as Element;
+    source.querySelectorAll(".erp-section").forEach((nested) => nested.remove());
+  }
+  return (source.textContent ?? "").replace(/\s+/g, " ").trim();
+};
+/** "3. How long…" / "Q3) How long…" -> "How long…" (we number them ourselves). */
+const stripNumber = (question: string) => question.replace(/^(?:q\s*)?\d{1,2}\s*[.):\-–]\s*/i, "").trim();
+
+function isQuestion(element: Element): boolean {
+  const text = cleanText(element);
+  if (!text || text.length > 240) return false;
+  if (/^H[1-6]$/.test(element.tagName)) return true;
+  // A short paragraph that is entirely bold and ends with "?".
+  if (element.tagName !== "P" || !text.endsWith("?")) return false;
+  const bold = Array.from(element.querySelectorAll("strong,b"))
+    .map(cleanText)
+    .join(" ")
+    .replace(/\s+/g, " ")
+    .trim();
+  return bold.length >= text.length - 3;
+}
+
+const isHidden = (element: Element) =>
+  "style" in element && (element as HTMLElement).style.getPropertyValue("display") === "none";
+
+/** Headings and answer blocks of an inserted section, flattening nested inserts. */
+function collectBlocks(container: Element, out: Element[]) {
+  for (const child of Array.from(container.children)) {
+    if (isHidden(child)) continue;
+    if (child.classList.contains("erp-section") || child.classList.contains("erp-faq")) {
+      if (child.classList.contains("erp-section")) collectBlocks(child, out);
+      continue;
+    }
+    if (/^H[1-6]$/.test(child.tagName) || ANSWER_BLOCKS.has(child.tagName)) {
+      out.push(child);
+      // Inserts placed *inside* this block (e.g. after a span in a <p>).
+      child.querySelectorAll(".erp-section").forEach((nested) => {
+        if (nested.parentElement?.closest(".erp-section") === child.closest(".erp-section")) {
+          collectBlocks(nested, out);
+        }
+      });
+      continue;
+    }
+    collectBlocks(child, out);
+  }
+}
+
+/** Copy of an answer block without nested inserts or duplicate ids. */
+function answerCopy(block: Element): Element {
+  const copy = block.cloneNode(true) as Element;
+  copy.querySelectorAll(".erp-section").forEach((nested) => nested.remove());
+  copy.removeAttribute("id");
+  copy.querySelectorAll("[id]").forEach((node) => node.removeAttribute("id"));
+  return copy;
+}
+
+function inFaqSection(element: Element): Element | null {
+  const section = element.parentElement?.closest("section:not(.erp-section)");
+  if (!section) return null;
+  if (FAQ_CONTEXT.test(section.id) || FAQ_CONTEXT.test(String(section.className))) return section;
+  const labels = Array.from(section.querySelectorAll("h1,h2,h3,h4,p,span"))
+    .filter((node) => !node.closest(".erp-section"))
+    .slice(0, 15);
+  return labels.some((node) => FAQ_CONTEXT.test(cleanText(node).slice(0, 80))) ? section : null;
+}
+
+let faqCounter = 0;
+
+function buildFaqAccordions(
+  root: Document,
+  clones: Element[],
+  setStyle: (element: Element, prop: string, value: string) => void,
+  headNodes: Element[],
+) {
+  // Top-level inserted sections, grouped by the page section they sit in.
+  const groups = new Map<Element, Element[]>();
+  for (const clone of clones) {
+    if (!clone.isConnected || !clone.classList.contains("erp-section")) continue;
+    if (clone.parentElement?.closest(".erp-section") || isHidden(clone)) continue;
+    const faqSection = inFaqSection(clone);
+    const key = faqSection ?? clone;
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key)!.push(clone);
+  }
+
+  groups.forEach((sections, key) => {
+    const inFaq = key.tagName === "SECTION" && !key.classList.contains("erp-section");
+    sections.sort((a, b) => (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1));
+
+    const blocks: Element[] = [];
+    sections.forEach((section) => collectBlocks(section, blocks));
+
+    const items: { question: string; answer: Element[] }[] = [];
+    const intro: Element[] = [];
+    const seen = new Set<string>();
+    let current: { question: string; answer: Element[] } | null = null;
+    for (const block of blocks) {
+      if (isQuestion(block)) {
+        const question = stripNumber(cleanText(block));
+        const id = question.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+        if (seen.has(id)) {
+          current = null; // repeated question: drop it and its answer
+          continue;
+        }
+        seen.add(id);
+        current = { question, answer: [] };
+        items.push(current);
+      } else if (current) {
+        if (cleanText(block) || block.querySelector("img") || block.tagName === "IMG") current.answer.push(block);
+      } else if (seen.size === 0) {
+        intro.push(block);
+      }
+    }
+    const answered = items.filter((item) => item.answer.length > 0);
+    // Outside an FAQ section, only clear Q&A lists (2+ questions with "?") qualify.
+    const looksLikeFaq = inFaq
+      ? answered.length > 0
+      : answered.length >= 2 && answered.every((item) => item.question.endsWith("?"));
+    if (!looksLikeFaq) return;
+
+    if (!root.getElementById(FAQ_STYLE_ID)) {
+      const style = root.createElement("style");
+      style.id = FAQ_STYLE_ID;
+      style.textContent = FAQ_CSS;
+      root.head.appendChild(style);
+      headNodes.push(style);
+    }
+
+    // Continue the numbering of the page's own (still visible) FAQ items.
+    let offset = 0;
+    if (inFaq) {
+      offset = Array.from(key.querySelectorAll("button"))
+        .filter((button) => !button.closest(".erp-faq") && !button.closest(".erp-section"))
+        .filter((button) => !isHidden(button) && cleanText(button).endsWith("?")).length;
+    }
+
+    const list = root.createElement("div");
+    list.className = "erp-faq";
+    list.setAttribute("data-erp-faq", "");
+    if (intro.length) {
+      const introBox = root.createElement("div");
+      introBox.className = "erp-faq-a-body";
+      introBox.style.padding = "0 0 8px";
+      intro.forEach((block) => introBox.append(answerCopy(block)));
+      list.append(introBox);
+    }
+
+    const rows: HTMLElement[] = [];
+    const setOpen = (open: HTMLElement | null) => {
+      rows.forEach((row) => {
+        const isOpen = row === open;
+        row.toggleAttribute("data-open", isOpen);
+        row.querySelector("button")?.setAttribute("aria-expanded", String(isOpen));
+      });
+    };
+
+    answered.forEach((item, index) => {
+      const uid = `erp-faq-${++faqCounter}`;
+      const row = root.createElement("div");
+      row.className = "erp-faq-item";
+
+      const button = root.createElement("button");
+      button.type = "button";
+      button.className = "erp-faq-q";
+      button.id = `${uid}-q`;
+      button.setAttribute("aria-controls", `${uid}-a`);
+      const lead = root.createElement("span");
+      lead.className = "erp-faq-lead";
+      const number = root.createElement("span");
+      number.className = "erp-faq-num";
+      number.textContent = String(offset + index + 1);
+      const text = root.createElement("span");
+      text.className = "erp-faq-text";
+      text.textContent = item.question;
+      lead.append(number, text);
+      const icon = root.createElement("span");
+      icon.className = "erp-faq-icon";
+      icon.setAttribute("aria-hidden", "true");
+      button.append(lead, icon);
+      button.addEventListener("click", () => setOpen(row.hasAttribute("data-open") ? null : row));
+
+      const panel = root.createElement("div");
+      panel.className = "erp-faq-a";
+      panel.id = `${uid}-a`;
+      panel.setAttribute("role", "region");
+      panel.setAttribute("aria-labelledby", button.id);
+      const inner = root.createElement("div");
+      inner.className = "erp-faq-a-inner";
+      const body = root.createElement("div");
+      body.className = "erp-faq-a-body";
+      item.answer.forEach((block) => body.append(answerCopy(block)));
+      inner.append(body);
+      panel.append(inner);
+
+      row.append(button, panel);
+      rows.push(row);
+      list.append(row);
+    });
+    // Like the site's FAQ: the first answer starts open, unless the page's own items come first.
+    setOpen(offset === 0 ? rows[0] ?? null : null);
+
+    sections[0].before(list);
+    clones.push(list);
+    sections.forEach((section) => setStyle(section, "display", "none"));
+  });
+}
+
 export function applyPageEdits(
   instructions: EditInstruction[],
   root: Document = document,
@@ -596,6 +841,14 @@ export function applyPageEdits(
       // Best effort.
     }
   });
+
+  // FAQs typed into the ERP arrive as plain headings + paragraphs. Show them
+  // as the site's accordion instead (collapsed, + button, one open at a time).
+  try {
+    buildFaqAccordions(root, clones, setStyle, headNodes);
+  } catch {
+    // Best effort: the plain inserted content stays visible.
+  }
 
   let reverted = false;
   const makeRoom = () => {
