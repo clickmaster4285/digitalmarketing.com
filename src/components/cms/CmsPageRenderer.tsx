@@ -1,8 +1,9 @@
 import React from "react";
 import Image from "next/image";
 import { cmsPageSchema, serializeJsonLd, type CmsPage, type CmsSection } from "../../lib/cms";
-import { hasRichContent, looksLikeHtml, sanitizeRichHtml } from "../../lib/richText";
+import { hasRichContent, looksLikeHtml, sanitizeRichHtml, tidyPlainText } from "../../lib/richText";
 import { CmsRichText } from "./CmsRichText";
+import { CmsFaqAccordion } from "./CmsFaqAccordion";
 
 type Content = Record<string, unknown>;
 
@@ -105,6 +106,17 @@ function SectionHeading({ content }: { content: Content }) {
   );
 }
 
+/** Whether a CMS field has anything to show (HTML or plain text). */
+function hasValue(value: unknown): boolean {
+  if (looksLikeHtml(value)) return hasRichContent(sanitizeRichHtml(value));
+  return tidyPlainText(text(value)) !== "";
+}
+
+/** Whether the section heading block renders anything. */
+function hasHeading(content: Content): boolean {
+  return Boolean(text(content.eyebrow).trim() || text(content.heading).trim() || plainText(content.description));
+}
+
 /** HTML fields go through the rich-text sanitizer; plain text keeps its line breaks. */
 function RichOrPlain({ value, className }: { value: unknown; className: string }) {
   if (looksLikeHtml(value)) {
@@ -112,7 +124,7 @@ function RichOrPlain({ value, className }: { value: unknown; className: string }
       <CmsRichText html={value} className={className} />
     ) : null;
   }
-  const plain = text(value).trim();
+  const plain = tidyPlainText(text(value));
   return plain ? <p className={`whitespace-pre-line ${className}`}>{plain}</p> : null;
 }
 
@@ -223,6 +235,7 @@ function CmsSectionView({ section, page }: { section: CmsSection; page: CmsPage 
 
   if (type === "text" || type === "richText" || type === "customContent") {
     const isArticle = page.pageType === "blog";
+    if (!hasHeading(content) && !hasValue(content.bodyHtml ?? content.body ?? content.html)) return null;
     return (
       <section className={`py-16 md:py-24 ${sectionTone(settings)}`}>
         <div className={isArticle && settings.width !== "wide" ? "container max-w-3xl" : sectionClass}>
@@ -240,6 +253,8 @@ function CmsSectionView({ section, page }: { section: CmsSection; page: CmsPage 
     const bio = content.bioHtml ?? content.bodyHtml ?? content.body;
     const name = text(content.name);
     const role = text(content.role);
+    const hasButton = Boolean(safeLink(primaryUrl));
+    if (!image && !hasHeading(content) && !hasValue(bio) && !name && !role && !hasButton) return null;
     return (
       <section className={`py-16 md:py-24 ${sectionTone(settings)}`}>
         <div className={`${sectionClass} grid items-center gap-10 ${image ? "md:grid-cols-2" : ""}`}>
@@ -252,11 +267,13 @@ function CmsSectionView({ section, page }: { section: CmsSection; page: CmsPage 
             {role && (
               <p className="text-sm opacity-60">{role}</p>
             )}
-            <div className="mt-6">
-              <LinkButton href={primaryUrl}>
-                {primaryLabel || "Learn more"}
-              </LinkButton>
-            </div>
+            {hasButton && (
+              <div className="mt-6">
+                <LinkButton href={primaryUrl}>
+                  {primaryLabel || "Learn more"}
+                </LinkButton>
+              </div>
+            )}
           </div>
           {image && (
             <figure>
@@ -282,12 +299,14 @@ function CmsSectionView({ section, page }: { section: CmsSection; page: CmsPage 
   }
 
   if (type === "stats") {
+    const stats = items(content).filter((item) => text(item.value).trim() || text(item.label).trim());
+    if (stats.length === 0 && !hasHeading(content)) return null;
     return (
       <section className="bg-[#0a0a0a] py-16 text-white md:py-24">
         <div className={sectionClass}>
           <SectionHeading content={content} />
           <div className="mt-10 grid grid-cols-2 gap-6 md:grid-cols-4">
-            {items(content).map((item, index) => (
+            {stats.map((item, index) => (
               <div key={text(item.id) || index} className="border-t border-white/20 pt-5">
                 <p className="font-display text-4xl md:text-6xl">
                   {text(item.value)}
@@ -325,6 +344,7 @@ function CmsSectionView({ section, page }: { section: CmsSection; page: CmsPage 
         ? "md:grid-cols-3"
         : "md:grid-cols-2";
     if (list.length === 0 && (type === "blogPosts" || type === "relatedPosts")) return null;
+    if (list.length === 0 && !hasHeading(content)) return null;
     return (
       <section className={`py-16 md:py-24 ${sectionTone(settings)}`}>
         <div className={sectionClass}>
@@ -351,6 +371,10 @@ function CmsSectionView({ section, page }: { section: CmsSection; page: CmsPage 
                 typeof item.features === "string"
                   ? item.features.split(/\r?\n/).map((feature) => feature.trim()).filter(Boolean)
                   : [];
+              // A card with nothing in it is just an empty box.
+              if (!itemImage && !title && !date && !role && !description && !featureList.length && !value && !href) {
+                return null;
+              }
               return (
                 <article
                   key={text(item.id) || index}
@@ -374,7 +398,7 @@ function CmsSectionView({ section, page }: { section: CmsSection; page: CmsPage 
                   {role && <p className="mt-2 text-sm opacity-60">{role}</p>}
                   {description && (
                     <p className="mt-3 whitespace-pre-line text-sm leading-7 opacity-70">
-                      {description}
+                      {tidyPlainText(description)}
                     </p>
                   )}
                   {featureList.length > 0 && (
@@ -413,20 +437,24 @@ function CmsSectionView({ section, page }: { section: CmsSection; page: CmsPage 
   }
 
   if (type === "faq") {
+    const faqs = items(content)
+      .map((item, index) => ({
+        key: text(item.id) || String(index),
+        question: text(item.question ?? item.q).trim(),
+        answer: item.answer ?? item.a,
+      }))
+      .filter((item) => item.question);
+    if (faqs.length === 0) return null;
     return (
       <section className={`py-16 md:py-24 ${sectionTone(settings)}`}>
         <div className={sectionClass}>
           <SectionHeading content={content} />
-          <div className="mt-8 divide-y divide-foreground/10">
-            {items(content).map((item, index) => (
-              <details key={text(item.id) || index} className="py-5">
-                <summary className="cursor-pointer font-medium">
-                  {text(item.question ?? item.q)}
-                </summary>
-                <RichOrPlain value={item.answer ?? item.a} className="mt-3 leading-7 opacity-80" />
-              </details>
-            ))}
-          </div>
+          <CmsFaqAccordion
+            items={faqs.map((item) => ({
+              ...item,
+              answer: <RichOrPlain value={item.answer} className="" />,
+            }))}
+          />
         </div>
       </section>
     );
@@ -452,6 +480,16 @@ function CmsSectionView({ section, page }: { section: CmsSection; page: CmsPage 
   }
 
   if (type === "contact" || type === "cta") {
+    const ctaHref = primaryUrl ?? content.buttonUrl;
+    if (
+      !hasHeading(content) &&
+      !text(content.email).trim() &&
+      !text(content.phone).trim() &&
+      !text(content.address).trim() &&
+      !safeLink(ctaHref)
+    ) {
+      return null;
+    }
     return (
       <section className="bg-[#0a0a0a] py-16 text-white md:py-24">
         <div className={`${sectionClass} text-center`}>

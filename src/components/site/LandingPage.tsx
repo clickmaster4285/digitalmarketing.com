@@ -1,4 +1,5 @@
 "use client";
+import { useResetSectionThemeOnLeave } from "@/hooks/useResetSectionThemeOnLeave";
 
 import { useEffect, useState, useRef } from "react";
 import { useSmoothScroll } from "@/hooks/useSmoothScroll";
@@ -79,6 +80,8 @@ export default function LandingPage() {
   }, []);
 
   const t = themes[idx] ?? LIGHT;
+
+  useResetSectionThemeOnLeave();
 
   useEffect(() => {
     const root = document.documentElement;
