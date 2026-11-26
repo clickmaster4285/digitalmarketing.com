@@ -144,9 +144,56 @@ export function sanitizeStyles(value: unknown): [string, string][] {
     ) {
       continue;
     }
-    styles.push([prop, cssValue]);
+    const safeValue = withinLayoutLimits(prop, cssValue);
+    if (safeValue) styles.push([prop, safeValue]);
   }
   return styles;
+}
+
+/**
+ * Largest size (in px; em/rem count as 16px, vh/vw as 10px per unit) each
+ * property may get from an ERP edit. A typo like `margin: 2000px` or
+ * `font-size: 400px` would otherwise blow the page apart into blank screens.
+ */
+const MAX_PX: Record<string, number> = {
+  padding: 160,
+  margin: 160,
+  "font-size": 120,
+  "line-height": 160,
+  "letter-spacing": 24,
+  border: 24,
+  "border-width": 24,
+  width: 2400,
+  "max-width": 2400,
+};
+const UNIT_PX: Record<string, number> = { px: 1, em: 16, rem: 16, vh: 10, vw: 10, pt: 1.34 };
+
+/** Clamps sizes to MAX_PX and keeps opacity visible; `null` drops the style. */
+export function withinLayoutLimits(prop: string, value: string): string | null {
+  if (prop === "opacity") {
+    const amount = parseFloat(value);
+    if (!Number.isFinite(amount)) return null;
+    // Hiding is what "remove" edits are for; a faded-out section reads as a blank page.
+    return String(Math.min(1, Math.max(0.3, value.trim().endsWith("%") ? amount / 100 : amount)));
+  }
+  const max = MAX_PX[prop];
+  if (max === undefined) return value;
+  // calc()/clamp()/var() can't be checked here.
+  if (value.includes("(")) return null;
+  if (prop === "line-height" && /^\d*\.?\d+$/.test(value.trim())) {
+    return String(Math.min(4, parseFloat(value)));
+  }
+  return value.replace(/(-?\d*\.?\d+)(px|r?em|vh|vw|pt|%)?/g, (match, raw: string, unit?: string) => {
+    const amount = parseFloat(raw);
+    if (!Number.isFinite(amount) || !unit) return match;
+    if (unit === "%") {
+      const pctLimit = prop === "width" || prop === "max-width" ? 100 : prop === "padding" || prop === "margin" ? 10 : 400;
+      return `${Math.min(pctLimit, Math.max(-pctLimit, amount))}%`;
+    }
+    const limit = max / UNIT_PX[unit];
+    const clamped = Math.min(limit, Math.max(-limit, amount));
+    return `${Number(clamped.toFixed(2))}${unit}`;
+  });
 }
 
 /** Absolute http(s) image URL without characters that could break CSS url(). */

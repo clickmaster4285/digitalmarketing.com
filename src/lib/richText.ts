@@ -89,6 +89,13 @@ export function safeRichImage(value: string): string | null {
   }
 }
 
+/** Image margins above ~64px only open up empty gaps. */
+function tooLargeMargin(part: string): boolean {
+  const amount = parseFloat(part);
+  if (!Number.isFinite(amount)) return false;
+  return part.endsWith("px") ? amount > 64 : /r?em$/.test(part) ? amount > 4 : false;
+}
+
 /** The editor's image format/size: width, max-width, height, float, display, margin. */
 function imageStyle(value: string): string {
   const out: string[] = [];
@@ -105,7 +112,7 @@ function imageStyle(value: string): string {
     else if (
       /^margin(-(top|right|bottom|left))?$/.test(prop) &&
       val.split(/\s+/).length <= 4 &&
-      val.split(/\s+/).every((part) => LENGTH.test(part) && !part.endsWith("%"))
+      val.split(/\s+/).every((part) => LENGTH.test(part) && !part.endsWith("%") && !tooLargeMargin(part))
     ) {
       out.push(`${prop}: ${val}`);
     }
@@ -255,7 +262,103 @@ export function sanitizeRichHtml(input: unknown): RichNode[] {
     }
   }
   pushText(html.slice(last));
-  return normalizeTree(root.children);
+  return tidySpacing(normalizeTree(root.children));
+}
+
+/** Elements that are meaningful even with no text inside. */
+const KEEP_EMPTY = new Set(["br", "hr", "img", "col", "colgroup", "td", "th", "tr", "thead", "tbody", "tfoot"]);
+/** Text inside these keeps its exact whitespace. */
+const PRESERVE_WHITESPACE = new Set(["pre", "code"]);
+const MAX_CONSECUTIVE_BREAKS = 2;
+
+function isBreak(node: RichNode | undefined): boolean {
+  return node?.type === "element" && node.tag === "br";
+}
+
+function isBlank(node: RichNode): boolean {
+  return node.type === "text" && !node.value.replace(/[\s ​﻿]/g, "");
+}
+
+/** Whether a node shows anything (text, an image, a rule or a table cell). */
+function isVisible(node: RichNode): boolean {
+  if (node.type === "text") return !isBlank(node);
+  if (node.tag === "br") return false;
+  if (KEEP_EMPTY.has(node.tag)) return true;
+  return node.children.some(isVisible);
+}
+
+/**
+ * Removes the spacing junk editors leave behind, so a careless CMS entry
+ * cannot push the page apart with blank screens:
+ *  - empty paragraphs / headings / list items / wrappers (`<p>&nbsp;</p>`,
+ *    `<p><br></p>`, `<div></div>`), at any depth;
+ *  - runs of `<br>` (max two in a row) and `<br>` at the start/end of a block;
+ *  - repeated `<hr>`;
+ *  - long runs of spaces / non-breaking spaces in text.
+ */
+function tidySpacing(nodes: RichNode[], preserve = false): RichNode[] {
+  const out: RichNode[] = [];
+  for (const node of nodes) {
+    if (node.type === "text") {
+      if (preserve) {
+        out.push(node);
+        continue;
+      }
+      const value = node.value
+        .replace(/[​﻿]/g, "")
+        .replace(/[ \t ]* [ \t ]*/g, (run) => (run.length > 1 ? " " : run))
+        .replace(/\s{2,}/g, " ");
+      if (value) out.push({ type: "text", value });
+      continue;
+    }
+    const keepWhitespace = preserve || PRESERVE_WHITESPACE.has(node.tag);
+    const children = tidySpacing(node.children, keepWhitespace);
+    const cleaned = { ...node, children };
+    if (!KEEP_EMPTY.has(node.tag) && !children.some(isVisible)) {
+      // An empty inline tag between two words still separates them.
+      if (!BLOCK_TAGS.has(node.tag)) {
+        const prev = out[out.length - 1];
+        if (prev?.type === "text") {
+          if (!/\s$/.test(prev.value)) prev.value += " ";
+        } else if (prev) out.push({ type: "text", value: " " });
+      }
+      continue;
+    }
+    if (node.tag === "hr") {
+      const prev = [...out].reverse().find((n) => !isBlank(n));
+      if (prev?.type === "element" && prev.tag === "hr") continue;
+      if (!out.some(isVisible)) continue; // no leading rule
+    }
+    if (node.tag === "br") {
+      const prev = [...out].reverse().find((n) => !isBlank(n));
+      // A paragraph/heading/list already ends the line: a <br> after it is only a gap.
+      if (prev?.type === "element" && BLOCK_TAGS.has(prev.tag)) continue;
+      let run = 0;
+      for (let i = out.length - 1; i >= 0; i--) {
+        if (isBreak(out[i])) run++;
+        else if (!isBlank(out[i])) break;
+      }
+      if (run >= MAX_CONSECUTIVE_BREAKS) continue;
+    }
+    out.push(cleaned);
+  }
+  // No line breaks or blank text at the start or end of a block.
+  while (out.length && (isBreak(out[0]) || isBlank(out[0]))) out.shift();
+  while (out.length && (isBreak(out[out.length - 1]) || isBlank(out[out.length - 1]))) out.pop();
+  const lastVisible = out[out.length - 1];
+  if (lastVisible?.type === "element" && lastVisible.tag === "hr") out.pop();
+  return out;
+}
+
+/** Plain text from the CMS: no more than one blank line in a row, no padding lines. */
+export function tidyPlainText(value: string): string {
+  return value
+    .replace(/[​﻿]/g, "")
+    .replace(/ /g, " ")
+    .replace(/[ \t]+$/gm, "")
+    .replace(/[ \t]{2,}/g, " ")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
 }
 
 const BLOCK_TAGS = new Set([
