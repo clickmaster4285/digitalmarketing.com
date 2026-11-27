@@ -3,9 +3,10 @@ import {
   CLONE_SELECTOR_PREFIX,
   safeEditImageUrl,
   sanitizeStyles,
+  validateCustomCss,
   type EditInstruction,
 } from "./pageEdits";
-import { sanitizeRichHtml, type RichNode } from "./richText";
+import { SVG_TAGS, sanitizeRichHtml, type RichNode } from "./richText";
 
 /**
  * Applies ERP edit instructions to the live DOM, in the same order as the ERP
@@ -162,18 +163,58 @@ const SLIDER_CLASS = /swiper|slick|carousel|owl-|splide|flickity|glide/i;
 const POSITIONED = /^(absolute|fixed|sticky)$/;
 
 // Sections added in the ERP editor: neutral layout that inherits the site's
-// fonts and colours. Mirrors INSERTED_SECTION_CSS in the ERP loader.
+// fonts and colours, plus buttons (a.erp-btn), cards (.erp-cards > .erp-card)
+// and image-left/right layouts. Copied verbatim from addSectionStyle in the
+// ERP loader (GET /public/<domain>/page-edits.js): keep it in sync.
 const SECTION_STYLE_ID = "erp-section-style";
 const INSERTED_SECTION_CSS =
-  ".erp-section{box-sizing:border-box;width:100%;max-width:1200px;margin:48px auto;padding:0 20px}.erp-section>*:first-child{margin-top:0}.erp-section p{margin:0 0 12px}.erp-section h2,.erp-section h3,.erp-section h4{margin:24px 0 12px}.erp-section ul,.erp-section ol{margin:12px 0;padding-left:1.5em}.erp-section ul{list-style:disc}.erp-section ol{list-style:decimal}.erp-section img{display:block;max-width:100%;height:auto;margin:16px 0}.erp-section a{text-decoration:underline;text-underline-offset:3px}.erp-section table{width:100%;border-collapse:separate;border-spacing:0;margin:16px 0;border:1px solid rgba(127,127,127,.35);overflow:hidden}.erp-section th,.erp-section td{border:0 solid rgba(127,127,127,.35);border-right-width:1px;border-bottom-width:1px;padding:10px 12px;text-align:left;vertical-align:top}.erp-section tr>:last-child{border-right-width:0}.erp-section tr:last-child>*{border-bottom-width:0}.erp-section th{font-weight:600;background:rgba(127,127,127,.08)}.erp-section td p,.erp-section th p{margin:0}.erp-section.erp-layout-image-left,.erp-section.erp-layout-image-right{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:repeat(var(--erp-text-rows,1),auto) 1fr;column-gap:40px;align-items:start}.erp-layout-image-left>*{grid-column:2}.erp-layout-image-left>img:first-of-type{grid-column:1;grid-row:1/-1}.erp-layout-image-right>*{grid-column:1}.erp-layout-image-right>img:first-of-type{grid-column:2;grid-row:1/-1}.erp-layout-image-left>img:first-of-type,.erp-layout-image-right>img:first-of-type{width:100%;height:auto;margin:0;align-self:center}.erp-section .erp-section{margin:16px 0;padding:0}@media (max-width:767px){.erp-section.erp-layout-image-left,.erp-section.erp-layout-image-right{display:block}.erp-layout-image-left>img:first-of-type,.erp-layout-image-right>img:first-of-type{margin:16px 0}.erp-section img[style*=float]{float:none!important;width:100%!important}}";
+  ".erp-section{box-sizing:border-box;width:100%;max-width:1200px;margin:48px auto;padding:0 20px}.erp-section>*:first-child{margin-top:0}.erp-section p{margin:0 0 12px}.erp-section h2,.erp-section h3,.erp-section h4{margin:24px 0 12px}.erp-section ul,.erp-section ol{margin:12px 0;padding-left:1.5em}.erp-section ul{list-style:disc}.erp-section ol{list-style:decimal}.erp-section img{display:block;max-width:100%;height:auto;margin:16px 0}.erp-section table{width:100%;border-collapse:separate;border-spacing:0;margin:16px 0;border:1px solid rgba(127,127,127,.35);overflow:hidden}.erp-section th,.erp-section td{border:0 solid rgba(127,127,127,.35);border-right-width:1px;border-bottom-width:1px;padding:10px 12px;text-align:left;vertical-align:top}.erp-section tr>:last-child{border-right-width:0}.erp-section tr:last-child>*{border-bottom-width:0}.erp-section th{font-weight:600;background:rgba(127,127,127,.08)}.erp-section td p,.erp-section th p{margin:0}.erp-section a.erp-btn{display:inline-block;margin:8px 12px 8px 0;padding:12px 24px;border:2px solid var(--erp-btn-bg,#ea580c);border-radius:var(--erp-btn-radius,8px);background:var(--erp-btn-bg,#ea580c);color:var(--erp-btn-color,#fff);font-weight:600;line-height:1.2;text-decoration:none;cursor:pointer}.erp-section a.erp-btn:hover{opacity:.88}.erp-section a.erp-btn.erp-btn-outline{background:transparent;color:var(--erp-btn-bg,#ea580c)}.erp-section .erp-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;margin:24px 0}.erp-section .erp-card{box-sizing:border-box;padding:24px;border:1px solid rgba(127,127,127,.25);border-radius:12px;background:rgba(127,127,127,.04)}.erp-section .erp-card>*:first-child{margin-top:0}.erp-section .erp-card>*:last-child{margin-bottom:0}.erp-section .erp-card img{margin:0 0 16px;border-radius:8px}.erp-section.erp-layout-image-left,.erp-section.erp-layout-image-right{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:repeat(var(--erp-text-rows,1),auto) 1fr;column-gap:40px;align-items:start}.erp-layout-image-left>*{grid-column:2}.erp-layout-image-left>img:first-of-type{grid-column:1;grid-row:1/-1}.erp-layout-image-right>*{grid-column:1}.erp-layout-image-right>img:first-of-type{grid-column:2;grid-row:1/-1}.erp-layout-image-left>img:first-of-type,.erp-layout-image-right>img:first-of-type{width:100%;height:auto;margin:0;align-self:center}@media (max-width:767px){.erp-section.erp-layout-image-left,.erp-section.erp-layout-image-right{display:block}.erp-layout-image-left>img:first-of-type,.erp-layout-image-right>img:first-of-type{margin:16px 0}}";
+const BUTTON_VARIABLES: Record<string, string> = {
+  "background-color": "--erp-btn-bg",
+  color: "--erp-btn-color",
+  "border-radius": "--erp-btn-radius",
+};
+// This site's own additions (not in the ERP loader): underlined text links,
+// nested inserts without the outer spacing, and floated images full width on
+// phones.
+const SITE_SECTION_CSS =
+  ".erp-section:not(.erp-custom) a:not(.erp-btn){text-decoration:underline;text-underline-offset:3px}.erp-section .erp-section{margin:16px 0;padding:0}@media (max-width:767px){.erp-section img[style*=float]{float:none!important;width:100%!important}}";
+
+const SVG_NS = "http://www.w3.org/2000/svg";
+// The sanitizer reads names in lower case; SVG elements created with
+// createElementNS need their real (camelCase) names.
+const SVG_TAG_CASE: Record<string, string> = {
+  lineargradient: "linearGradient",
+  radialgradient: "radialGradient",
+  clippath: "clipPath",
+};
+const SVG_ATTR_CASE: Record<string, string> = {
+  viewbox: "viewBox",
+  preserveaspectratio: "preserveAspectRatio",
+  gradientunits: "gradientUnits",
+  gradienttransform: "gradientTransform",
+  spreadmethod: "spreadMethod",
+  clippathunits: "clipPathUnits",
+  maskunits: "maskUnits",
+  maskcontentunits: "maskContentUnits",
+};
 
 /** Builds DOM nodes from the sanitized tree: never innerHTML. */
-function buildNodes(doc: Document, nodes: RichNode[]): Node[] {
+function buildNodes(doc: Document, nodes: RichNode[], inSvg = false): Node[] {
   return nodes.map((node) => {
     if (node.type === "text") return doc.createTextNode(node.value);
+    const svg = inSvg || node.tag === "svg";
+    if (svg && SVG_TAGS.has(node.tag)) {
+      const element = doc.createElementNS(SVG_NS, SVG_TAG_CASE[node.tag] ?? node.tag);
+      for (const [name, value] of Object.entries(node.attrs)) {
+        if (name !== "xmlns") element.setAttribute(SVG_ATTR_CASE[name] ?? name, value);
+      }
+      element.append(...buildNodes(doc, node.children, true));
+      return element;
+    }
     const element = doc.createElement(node.tag);
     for (const [name, value] of Object.entries(node.attrs)) element.setAttribute(name, value);
-    element.append(...buildNodes(doc, node.children));
+    element.append(...buildNodes(doc, node.children, svg));
     return element;
   });
 }
@@ -301,6 +342,8 @@ function buildFaqAccordions(
   for (const clone of clones) {
     if (!clone.isConnected || !clone.classList.contains("erp-section")) continue;
     if (clone.parentElement?.closest(".erp-section") || isHidden(clone)) continue;
+    // Custom sections and cards are laid out on purpose: never an accordion.
+    if (clone.classList.contains("erp-custom") || clone.querySelector(".erp-cards,.erp-card")) continue;
     const faqSection = inFaqSection(clone);
     const key = faqSection ?? clone;
     if (!groups.has(key)) groups.set(key, []);
@@ -677,16 +720,17 @@ export function applyPageEdits(
     if (root.getElementById(SECTION_STYLE_ID)) return;
     const style = root.createElement("style");
     style.id = SECTION_STYLE_ID;
-    style.textContent = INSERTED_SECTION_CSS;
+    style.textContent = INSERTED_SECTION_CSS + SITE_SECTION_CSS;
     root.head.appendChild(style);
     headNodes.push(style);
   };
   const insertSection = (instruction: Extract<EditInstruction, { kind: "insert" }>, element: Element) => {
     addSectionStyle();
+    const custom = instruction.sectionKind === "custom";
     const section = root.createElement("section");
-    section.className = "erp-section";
+    section.className = custom ? "erp-section erp-custom" : "erp-section";
     section.setAttribute("data-erp-clone", instruction.id);
-    section.append(...buildNodes(root, sanitizeRichHtml(instruction.html)));
+    section.append(...buildNodes(root, sanitizeRichHtml(instruction.html, custom ? "custom" : "section")));
     if (instruction.layout) section.classList.add(`erp-layout-${instruction.layout}`);
     const textRows = section.children.length - (section.querySelector(":scope > img") ? 1 : 0);
     section.style.setProperty("--erp-text-rows", String(Math.max(textRows, 1)));
@@ -697,14 +741,26 @@ export function applyPageEdits(
     grow.push([section, gaps]);
 
     // The website's typography for this section (values passed the style
-    // allow-list, which excludes braces and semicolons).
+    // allow-list, which excludes braces and semicolons). Mirrors the theme
+    // CSS in the ERP loader.
     const scope = `.erp-section[data-erp-clone="${instruction.id}"]`;
+    const declarations = (styles: [string, string][]) =>
+      styles.map(([prop, value]) => `${prop}:${value}`).join(";");
     const css = instruction.theme
       .map(([tag, styles]) => {
         const clean = sanitizeStyles(Object.fromEntries(styles));
-        return clean.length
-          ? `${scope} ${tag}{${clean.map(([prop, value]) => `${prop}:${value}`).join(";")}}`
-          : "";
+        if (!clean.length) return "";
+        if (tag !== "btn") return `${scope} ${tag}{${declarations(clean)}}`;
+        // The site's button: colours and corners become the variables used by
+        // a.erp-btn; the other properties style a.erp-btn directly.
+        const variables = clean.flatMap(([prop, value]): [string, string][] =>
+          BUTTON_VARIABLES[prop] ? [[BUTTON_VARIABLES[prop], value]] : [],
+        );
+        const rest = clean.filter(([prop]) => !BUTTON_VARIABLES[prop]);
+        return (
+          (variables.length ? `${scope}{${declarations(variables)}}` : "") +
+          (rest.length ? `${scope} a.erp-btn{${declarations(rest)}}` : "")
+        );
       })
       .join("");
     if (css) {
@@ -715,6 +771,17 @@ export function applyPageEdits(
         `${scope} th p,${scope} td p,${scope} li p{font-family:inherit;font-size:inherit;font-weight:inherit;font-style:inherit;line-height:inherit;letter-spacing:inherit;text-transform:inherit;color:inherit}`;
       root.head.appendChild(themeStyle);
       headNodes.push(themeStyle);
+    }
+
+    // Custom sections: the section's own CSS, nested in its scope (`&` is the
+    // section), after the theme so it wins. Validated again here.
+    const customCss = custom ? validateCustomCss(instruction.css) : undefined;
+    if (customCss) {
+      const customStyle = root.createElement("style");
+      customStyle.setAttribute("data-erp-custom", instruction.id);
+      customStyle.textContent = `${scope}{${customCss}}`;
+      root.head.appendChild(customStyle);
+      headNodes.push(customStyle);
     }
   };
 
@@ -832,7 +899,8 @@ export function applyPageEdits(
     if (section && section.closest("main")) emptied.add(section);
   }
   clones.forEach((clone) => {
-    if (clone.classList.contains("erp-section")) emptied.add(clone);
+    // A custom section may be decoration only (a CSS background, a spacer).
+    if (clone.classList.contains("erp-section") && !clone.classList.contains("erp-custom")) emptied.add(clone);
   });
   emptied.forEach((section) => {
     try {

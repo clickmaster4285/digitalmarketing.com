@@ -23,6 +23,18 @@ function styleObject(style: string): React.CSSProperties {
   return out as React.CSSProperties;
 }
 
+/** ✓ / ✗ cells of comparison tables (shown in the success / muted colour). */
+export function checkMark(value: string): "yes" | "no" | null {
+  const mark = value.replace(/\s+/g, "");
+  if (/^[✓✔☑✅]$/u.test(mark)) return "yes";
+  if (/^[✗✘✕✖×❌]$/u.test(mark)) return "no";
+  return null;
+}
+
+function nodeText(nodes: RichNode[]): string {
+  return nodes.map((node) => (node.type === "text" ? node.value : nodeText(node.children))).join("");
+}
+
 function renderNodes(nodes: RichNode[], keyPrefix: string, demoteH1: boolean): React.ReactNode[] {
   return nodes.map((node, index) => {
     const key = `${keyPrefix}${index}`;
@@ -34,10 +46,21 @@ function renderNodes(nodes: RichNode[], keyPrefix: string, demoteH1: boolean): R
       if (name === "style") props.style = styleObject(value);
       else props[REACT_ATTR[name] ?? name] = value;
     }
+    if ((tag === "td" || tag === "th") && checkMark(nodeText(node.children))) {
+      props.className = `cms-mark-${checkMark(nodeText(node.children))}`;
+    }
     if (node.children.length === 0 && ["br", "hr", "img", "col"].includes(tag)) {
       return React.createElement(tag, props);
     }
-    return React.createElement(tag, props, ...renderNodes(node.children, `${key}-`, demoteH1));
+    const children = renderNodes(node.children, `${key}-`, demoteH1);
+    if (tag !== "table") return React.createElement(tag, props, ...children);
+    // Wide tables scroll sideways on phones instead of breaking the layout.
+    const { key: _key, ...tableProps } = props;
+    return (
+      <div key={key} className="cms-table-scroll">
+        {React.createElement(tag, tableProps, ...children)}
+      </div>
+    );
   });
 }
 

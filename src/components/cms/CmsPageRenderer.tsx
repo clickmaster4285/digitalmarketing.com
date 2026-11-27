@@ -4,6 +4,7 @@ import { cmsPageSchema, serializeJsonLd, type CmsPage, type CmsSection } from ".
 import { hasRichContent, looksLikeHtml, sanitizeRichHtml, tidyPlainText } from "../../lib/richText";
 import { CmsRichText } from "./CmsRichText";
 import { CmsFaqAccordion } from "./CmsFaqAccordion";
+import { CmsComparisonTable, parseComparisonTable } from "./CmsComparisonTable";
 
 type Content = Record<string, unknown>;
 
@@ -235,6 +236,19 @@ function CmsSectionView({ section, page }: { section: CmsSection; page: CmsPage 
 
   if (type === "text" || type === "richText" || type === "customContent") {
     const isArticle = page.pageType === "blog";
+    // ERP comparison / difference tables: structured table when valid,
+    // otherwise the bodyHtml below (also a styled, scrollable table).
+    const comparison = parseComparisonTable(content);
+    if (comparison) {
+      return (
+        <section className={`py-16 md:py-24 ${sectionTone(settings)}`}>
+          <CmsComparisonTable
+            data={comparison}
+            sectionClassName={isArticle && settings.width !== "wide" ? "container max-w-3xl" : sectionClass}
+          />
+        </section>
+      );
+    }
     if (!hasHeading(content) && !hasValue(content.bodyHtml ?? content.body ?? content.html)) return null;
     return (
       <section className={`py-16 md:py-24 ${sectionTone(settings)}`}>

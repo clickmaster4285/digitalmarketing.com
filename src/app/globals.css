@@ -239,21 +239,40 @@
     background: hsl(var(--foreground) / 0.05);
   }
   .cms-rich-text code { font-size: 0.9em; }
+  /* Tables (incl. ERP comparison / difference tables): wrapped in a
+     horizontally scrollable box so wide tables never break phone layouts. */
+  .cms-table-scroll {
+    margin: 1.5em 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid hsl(var(--foreground) / 0.12);
+    border-radius: 1rem;
+  }
   .cms-rich-text table {
     width: 100%;
-    margin: 1.5em 0;
+    min-width: 32rem;
     border-collapse: collapse;
-    display: block;
-    overflow-x: auto;
+    font-size: 0.95em;
   }
   .cms-rich-text th,
   .cms-rich-text td {
-    border: 1px solid hsl(var(--foreground) / 0.12);
-    padding: 0.6em 0.8em;
+    border-bottom: 1px solid hsl(var(--foreground) / 0.1);
+    padding: 0.85em 1.1em;
     text-align: left;
     vertical-align: top;
   }
-  .cms-rich-text th { font-weight: 600; background: hsl(var(--foreground) / 0.04); }
+  .cms-rich-text th + th,
+  .cms-rich-text th + td,
+  .cms-rich-text td + td,
+  .cms-rich-text td + th { border-left: 1px solid hsl(var(--foreground) / 0.08); }
+  .cms-rich-text tr:last-child > * { border-bottom: 0; }
+  .cms-rich-text thead th { font-weight: 600; background: hsl(var(--foreground) / 0.05); }
+  .cms-rich-text tbody tr:nth-child(even) { background: hsl(var(--foreground) / 0.025); }
+  /* Row-name column. */
+  .cms-rich-text tbody th,
+  .cms-rich-text tbody td:first-child { font-weight: 600; }
+  .cms-rich-text .cms-mark-yes { color: #16a34a; font-weight: 700; text-align: center; }
+  .cms-rich-text .cms-mark-no { color: hsl(var(--muted-foreground)); opacity: 0.7; text-align: center; }
   .cms-rich-text td p,
   .cms-rich-text th p { margin: 0; }
   @media (max-width: 767px) {

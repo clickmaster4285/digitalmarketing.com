@@ -12,6 +12,16 @@ export type RichNode =
   | { type: "text"; value: string }
   | { type: "element"; tag: string; attrs: Record<string, string>; children: RichNode[] };
 
+/**
+ * - `rich`: created-page rich text and `elementEdit.html`.
+ * - `section`: a section added in the ERP editor (`sectionInsert`): rich text
+ *   plus `a.erp-btn` buttons and `div.erp-cards` / `div.erp-card` cards.
+ * - `custom`: a custom section (`sectionInsert` with `kind: "custom"`): layout
+ *   tags, classes/ids/inline styles, buttons, video/audio, YouTube/Vimeo/Maps
+ *   iframes and inline SVG. Browser-only (built with createElement/NS).
+ */
+export type RichMode = "rich" | "section" | "custom";
+
 const MAX_HTML_LENGTH = 200_000;
 const MAX_DEPTH = 40;
 
@@ -24,13 +34,36 @@ const ALLOWED_TAGS = new Set([
   "table", "thead", "tbody", "tfoot", "tr", "th", "td", "caption", "colgroup", "col",
 ]);
 
-const VOID_TAGS = new Set(["br", "hr", "img", "col"]);
+/** Inline SVG (custom sections only). Lower-case, as the tokenizer reads them. */
+export const SVG_TAGS = new Set([
+  "svg", "g", "path", "circle", "ellipse", "rect", "line", "polyline", "polygon",
+  "defs", "lineargradient", "radialgradient", "stop", "symbol", "clippath", "mask",
+]);
+
+const CUSTOM_TAGS = new Set([
+  ...ALLOWED_TAGS,
+  "section", "article", "header", "footer", "aside", "nav", "main",
+  "abbr", "cite", "q", "kbd", "samp", "var", "time", "dfn", "bdi", "bdo", "wbr",
+  "dl", "dt", "dd", "picture", "source", "details", "summary",
+  "button", "video", "audio", "iframe",
+  ...SVG_TAGS,
+]);
+
+const VOID_TAGS = new Set(["br", "hr", "img", "col", "source", "wbr"]);
 
 /** Dropped together with everything inside them. */
 const DROP_WITH_CONTENT = new Set([
   "script", "style", "iframe", "object", "embed", "template", "noscript", "svg", "math",
   "textarea", "select", "option", "title", "head", "frame", "frameset", "applet", "audio", "video",
   "canvas", "form", "button", "input", "link", "meta", "base",
+]);
+
+/** Custom sections keep svg/iframe/media/buttons; everything else above still goes. */
+const CUSTOM_DROP_WITH_CONTENT = new Set([
+  "script", "style", "object", "embed", "template", "noscript", "math",
+  "textarea", "select", "option", "title", "head", "frame", "frameset", "applet",
+  "canvas", "form", "input", "link", "meta", "base", "use", "foreignobject",
+  "image", "feimage", "animate", "set", "animatemotion", "animatetransform", "pattern", "marker",
 ]);
 
 const TEXT_ALIGN = /^(left|right|center|justify|start|end)$/;
@@ -128,9 +161,195 @@ function blockStyle(value: string): string {
 
 const REL_TOKENS = new Set(["noopener", "noreferrer", "nofollow", "ugc", "sponsored", "external"]);
 
-function sanitizeAttrs(tag: string, raw: Record<string, string>): Record<string, string> | null {
+/** `font-size: <number>(px|em|rem|%)` (the ERP's text size), plus alignment. */
+function spanStyle(value: string): string {
+  const out: string[] = [];
+  const size = /(?:^|;)\s*font-size\s*:\s*(\d{1,3}(?:\.\d{1,3})?(?:px|em|rem|%))\s*(?:;|$)/i.exec(value);
+  if (size) out.push(`font-size: ${size[1].toLowerCase()}`);
+  const align = blockStyle(value);
+  if (align) out.push(align);
+  return out.join("; ");
+}
+
+const BUTTON_CLASSES = new Set(["erp-btn", "erp-btn erp-btn-outline"]);
+const CARD_CLASSES = new Set(["erp-cards", "erp-card"]);
+
+/** http(s) only (media, iframes, srcset candidates). */
+function httpUrl(value: string | undefined): string | null {
+  const src = (value ?? "").trim();
+  if (!src || src.length > 2000 || /[\s"'<>\\]/.test(src)) return null;
+  try {
+    const url = new URL(src);
+    return ["http:", "https:"].includes(url.protocol) && !url.username && !url.password ? src : null;
+  } catch {
+    return null;
+  }
+}
+
+/** YouTube / Vimeo / Google Maps embeds only. */
+export function safeEmbedUrl(value: string | undefined): string | null {
+  const src = httpUrl(value);
+  if (!src) return null;
+  const url = new URL(src);
+  if (url.protocol !== "https:" || url.port) return null;
+  const host = url.hostname.toLowerCase();
+  const path = url.pathname;
+  if (host === "www.youtube.com" && path.startsWith("/embed/")) return src;
+  if (host === "www.youtube-nocookie.com" && path.startsWith("/embed/")) return src;
+  if (host === "player.vimeo.com" && path.startsWith("/video/")) return src;
+  if (host === "www.google.com" && path.startsWith("/maps")) return src;
+  return null;
+}
+
+/** Declarations of a custom section's `style` attribute; unsafe ones are dropped. */
+export function sanitizeInlineStyle(value: string): string {
+  if (value.length > 4000) return "";
+  return value
+    .split(";")
+    .map((declaration) => declaration.trim())
+    .filter((declaration) => {
+      const colon = declaration.indexOf(":");
+      if (colon < 1) return false;
+      if (!/^(--[\w-]+|-?[a-z][a-z-]*)$/i.test(declaration.slice(0, colon).trim())) return false;
+      const lower = declaration.toLowerCase();
+      if (/expression|javascript:|behavior|-moz-binding|@import|[<>\\{}]/.test(lower)) return false;
+      // Every url() must load over https.
+      const urls = lower.match(/url\(/g)?.length ?? 0;
+      const httpsUrls = lower.match(/url\(\s*['"]?https:\/\//g)?.length ?? 0;
+      return urls === httpsUrls && !/image-set|src\(/.test(lower);
+    })
+    .join("; ");
+}
+
+const SVG_ATTRS = new Set([
+  "viewbox", "xmlns", "width", "height", "fill", "fill-opacity", "fill-rule", "clip-rule",
+  "stroke", "stroke-width", "stroke-linecap", "stroke-linejoin", "stroke-dasharray",
+  "stroke-dashoffset", "stroke-opacity", "stroke-miterlimit", "opacity", "d", "cx", "cy", "r",
+  "rx", "ry", "x", "y", "x1", "y1", "x2", "y2", "fx", "fy", "points", "transform", "offset",
+  "stop-color", "stop-opacity", "gradientunits", "gradienttransform", "spreadmethod",
+  "preserveaspectratio", "clip-path", "clippathunits", "mask", "maskunits", "maskcontentunits",
+  "vector-effect", "shape-rendering", "color", "display", "visibility", "focusable",
+]);
+
+/** Presentation values: no scripts or markup; url() only to an in-document #id. */
+function safeSvgValue(value: string): boolean {
+  if (value.length > 10_000 || /[<>\\]|javascript:|expression/i.test(value)) return false;
+  return !/url\(/i.test(value.replace(/url\(\s*['"]?#[\w-]+['"]?\s*\)/gi, ""));
+}
+
+const ID_VALUE = /^[A-Za-z][\w-]{0,63}$/;
+const DATA_ATTR = /^data-[a-z0-9_.-]{1,40}$/;
+const ARIA_ATTR = /^aria-[a-z]{2,30}$/;
+
+/** class, id, style, title, role, aria-*, data-* (never `data-erp-*`, used by the applier). */
+function globalAttrs(raw: Record<string, string>, attrs: Record<string, string>) {
+  for (const [name, value] of Object.entries(raw)) {
+    if (name === "class") {
+      const classes = value.split(/\s+/).filter((token) => /^[\w-]{1,64}$/.test(token)).slice(0, 30);
+      if (classes.length) attrs.class = classes.join(" ");
+    } else if (name === "id") {
+      if (ID_VALUE.test(value)) attrs.id = value;
+    } else if (name === "style") {
+      const style = sanitizeInlineStyle(value);
+      if (style) attrs.style = style;
+    } else if (name === "title" || name === "role") {
+      if (value) attrs[name] = value.slice(0, 300);
+    } else if ((ARIA_ATTR.test(name) || (DATA_ATTR.test(name) && !name.startsWith("data-erp"))) && value.length <= 500) {
+      attrs[name] = value;
+    }
+  }
+}
+
+const MEDIA_FLAGS = ["controls", "autoplay", "muted", "loop", "playsinline"] as const;
+
+/** Attributes of a custom section element; `null` drops it. */
+function customAttrs(tag: string, raw: Record<string, string>): Record<string, string> | null {
+  if (SVG_TAGS.has(tag)) {
+    const attrs: Record<string, string> = {};
+    for (const [name, value] of Object.entries(raw)) {
+      if (name === "class" || name === "id" || name === "role" || ARIA_ATTR.test(name)) continue;
+      if (SVG_ATTRS.has(name) && safeSvgValue(value)) attrs[name] = value;
+    }
+    globalAttrs(
+      Object.fromEntries(Object.entries(raw).filter(([name]) => /^(class|id|role|style|aria-)/.test(name))),
+      attrs,
+    );
+    if (attrs.xmlns && attrs.xmlns !== "http://www.w3.org/2000/svg") delete attrs.xmlns;
+    return attrs;
+  }
+
+  const attrs: Record<string, string> = {};
+  if (tag === "iframe") {
+    const src = safeEmbedUrl(raw.src);
+    if (!src) return null;
+    globalAttrs(raw, attrs);
+    attrs.src = src;
+    for (const size of ["width", "height"] as const) {
+      if (raw[size] && /^\d{1,4}%?$/.test(raw[size])) attrs[size] = raw[size];
+    }
+    if ("allowfullscreen" in raw) attrs.allowfullscreen = "";
+    const allow = (raw.allow ?? "")
+      .split(";")
+      .map((token) => token.trim().toLowerCase())
+      .filter((token) =>
+        /^(accelerometer|autoplay|clipboard-write|encrypted-media|gyroscope|picture-in-picture|fullscreen|web-share)$/.test(token),
+      );
+    if (allow.length) attrs.allow = allow.join("; ");
+    attrs.loading = "lazy";
+    attrs.referrerpolicy = "strict-origin-when-cross-origin";
+    return attrs;
+  }
+
+  globalAttrs(raw, attrs);
+  if (tag === "a" || tag === "img") {
+    const own = sanitizeAttrs(tag, raw, "rich");
+    if (!own) return null;
+    delete own.style;
+    // The <img> keeps the custom section's style (sizes, object-fit, ...).
+    return { ...attrs, ...own, ...(attrs.style ? { style: attrs.style } : {}) };
+  }
+  if (tag === "button") attrs.type = "button";
+  if (tag === "video" || tag === "audio") {
+    const src = httpUrl(raw.src);
+    if (src) attrs.src = src;
+    const poster = tag === "video" ? httpUrl(raw.poster) : null;
+    if (poster) attrs.poster = poster;
+    for (const flag of MEDIA_FLAGS) if (flag in raw) attrs[flag] = "";
+    if (raw.preload && /^(auto|metadata|none)$/.test(raw.preload)) attrs.preload = raw.preload;
+    for (const size of ["width", "height"] as const) {
+      if (tag === "video" && raw[size] && /^\d{1,4}$/.test(raw[size])) attrs[size] = raw[size];
+    }
+  }
+  if (tag === "source") {
+    const src = httpUrl(raw.src);
+    if (src) attrs.src = src;
+    if (raw.srcset) {
+      const candidates = raw.srcset.split(",").map((part) => part.trim()).filter(Boolean);
+      const safe = candidates.every((part) => {
+        const [url, descriptor, extra] = part.split(/\s+/);
+        return httpUrl(url) && !extra && (!descriptor || /^\d+(\.\d+)?[wx]$/.test(descriptor));
+      });
+      if (safe && candidates.length) attrs.srcset = candidates.join(", ");
+    }
+    if (raw.type && /^[\w.+-]+\/[\w.+-]+$/.test(raw.type)) attrs.type = raw.type;
+    if (raw.media && /^[\w\s():,.-]{1,200}$/.test(raw.media)) attrs.media = raw.media;
+    if (!attrs.src && !attrs.srcset) return null;
+  }
+  if (tag === "details" && "open" in raw) attrs.open = "";
+  if (tag === "time" && raw.datetime && /^[\w:+.-]{1,40}$/.test(raw.datetime)) attrs.datetime = raw.datetime;
+  if (tag === "td" || tag === "th" || tag === "col" || tag === "ol") {
+    const own = sanitizeAttrs(tag, raw, "rich") ?? {};
+    delete own.style;
+    Object.assign(attrs, own);
+  }
+  return attrs;
+}
+
+function sanitizeAttrs(tag: string, raw: Record<string, string>, mode: RichMode = "rich"): Record<string, string> | null {
+  if (mode === "custom") return customAttrs(tag, raw);
   const attrs: Record<string, string> = {};
   if (tag === "a") {
+    if (mode === "section" && BUTTON_CLASSES.has((raw.class ?? "").trim())) attrs.class = raw.class.trim();
     const href = raw.href !== undefined ? safeRichHref(raw.href) : null;
     if (href) attrs.href = href;
     if (raw.title) attrs.title = raw.title.slice(0, 300);
@@ -169,8 +388,11 @@ function sanitizeAttrs(tag: string, raw: Record<string, string>): Record<string,
   }
   if (tag === "col" && raw.span && /^\d{1,2}$/.test(raw.span)) attrs.span = raw.span;
   if (tag === "ol" && raw.start && /^-?\d{1,6}$/.test(raw.start)) attrs.start = raw.start;
+  if (tag === "div" && mode === "section" && CARD_CLASSES.has((raw.class ?? "").trim())) {
+    attrs.class = raw.class.trim();
+  }
   if (raw.style) {
-    const style = blockStyle(raw.style);
+    const style = tag === "span" ? spanStyle(raw.style) : blockStyle(raw.style);
     if (style) attrs.style = style;
   }
   return attrs;
@@ -191,8 +413,10 @@ function parseAttrs(source: string): Record<string, string> {
 const TOKEN_PATTERN = /<!--[\s\S]*?(?:-->|$)|<!\[CDATA\[[\s\S]*?(?:\]\]>|$)|<![^>]*>|<\?[^>]*>|<\/?([a-zA-Z][a-zA-Z0-9-]*)((?:\s+[^\s"'<>/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s"'=<>`]+))?)*)\s*\/?>/g;
 
 /** Parses and sanitizes ERP HTML into an allow-listed node tree. */
-export function sanitizeRichHtml(input: unknown): RichNode[] {
+export function sanitizeRichHtml(input: unknown, mode: RichMode = "rich"): RichNode[] {
   if (typeof input !== "string" || !input.trim()) return [];
+  const allowedTags = mode === "custom" ? CUSTOM_TAGS : ALLOWED_TAGS;
+  const dropWithContent = mode === "custom" ? CUSTOM_DROP_WITH_CONTENT : DROP_WITH_CONTENT;
   const html = input.length > MAX_HTML_LENGTH ? input.slice(0, MAX_HTML_LENGTH) : input;
 
   const root: RichNode & { type: "element" } = { type: "element", tag: "#root", attrs: {}, children: [] };
@@ -226,11 +450,20 @@ export function sanitizeRichHtml(input: unknown): RichNode[] {
       if (dropDepth <= 0) dropUntil = null;
       continue;
     }
-    if (DROP_WITH_CONTENT.has(tagName)) {
+    const startDrop = () => {
       if (!closing && !match[0].endsWith("/>")) {
         dropUntil = tagName;
         dropDepth = 1;
       }
+    };
+    if (dropWithContent.has(tagName)) {
+      startDrop();
+      continue;
+    }
+    // Inline SVG only inside an <svg>; outside one, a stray SVG tag is dropped.
+    const inSvg = stack.some((entry) => entry.kept && entry.tag === "svg");
+    if (mode === "custom" && SVG_TAGS.has(tagName) && tagName !== "svg" && !inSvg && !closing) {
+      startDrop();
       continue;
     }
 
@@ -244,13 +477,24 @@ export function sanitizeRichHtml(input: unknown): RichNode[] {
       continue;
     }
 
-    const allowed = ALLOWED_TAGS.has(tagName);
-    const attrs = allowed ? sanitizeAttrs(tagName, parseAttrs(match[2] ?? "")) : null;
+    const allowed = allowedTags.has(tagName);
+    const attrs = allowed ? sanitizeAttrs(tagName, parseAttrs(match[2] ?? ""), mode) : null;
     if (VOID_TAGS.has(tagName)) {
       if (allowed && attrs) current().children.push({ type: "element", tag: tagName, attrs, children: [] });
       continue;
     }
-    if (match[0].endsWith("/>")) continue;
+    // An iframe from any other site goes, with its fallback content.
+    if (tagName === "iframe" && !attrs) {
+      startDrop();
+      continue;
+    }
+    if (match[0].endsWith("/>")) {
+      // Self-closing SVG shapes (<path ... />) are real, empty elements.
+      if (mode === "custom" && SVG_TAGS.has(tagName) && attrs) {
+        current().children.push({ type: "element", tag: tagName, attrs, children: [] });
+      }
+      continue;
+    }
     if (stack.length > MAX_DEPTH) continue;
     if (allowed && attrs) {
       const node: RichNode & { type: "element" } = { type: "element", tag: tagName, attrs, children: [] };
@@ -262,6 +506,9 @@ export function sanitizeRichHtml(input: unknown): RichNode[] {
     }
   }
   pushText(html.slice(last));
+  // Custom sections are designed on purpose (empty decorative boxes, spacing):
+  // keep them exactly as built.
+  if (mode === "custom") return normalizeTree(root.children);
   return tidySpacing(normalizeTree(root.children));
 }
 
