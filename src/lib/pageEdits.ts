@@ -35,8 +35,12 @@ export type EditInstruction =
       /** New section content; sanitized again (allow-list) by the applier. */
       html: string;
       layout?: InsertLayout;
-      /** The website's typography per tag (h1-h4, p, li, th, td). */
+      /** The website's typography per tag (h1-h4, p, li, th, td, btn). */
       theme: [string, [string, string][]][];
+      /** "custom": built in the ERP's visual builder or written as HTML/CSS. */
+      sectionKind?: "custom";
+      /** Custom sections only: CSS nested in the section's scope (validated). */
+      css?: string;
     }
   | { kind: "move"; selector: string; target: string; position: "before" | "after" }
   | { kind: "remove"; selector: string };
@@ -73,7 +77,8 @@ const MAX_TEXT_LENGTH = 20000;
 const MAX_HTML_LENGTH = 100_000;
 const MAX_SCHEMA_ENTRIES = 20;
 const MAX_SCHEMA_BYTES = 100_000;
-const THEME_TAGS = new Set(["h1", "h2", "h3", "h4", "p", "li", "th", "td"]);
+const THEME_TAGS = new Set(["h1", "h2", "h3", "h4", "p", "li", "th", "td", "btn"]);
+const MAX_CUSTOM_CSS_LENGTH = 20_000;
 const SAFE_IMAGE_URL = /^https?:\/\/[^\s"'()<>\\]+$/i;
 const MAX_INSTRUCTIONS = 1000;
 
@@ -98,6 +103,10 @@ const ALLOWED_STYLE_PROPERTIES = new Set([
   "border-radius",
   "width",
   "max-width",
+  "height",
+  "min-height",
+  "max-height",
+  "object-fit",
   "opacity",
 ]);
 
@@ -165,6 +174,9 @@ const MAX_PX: Record<string, number> = {
   "border-width": 24,
   width: 2400,
   "max-width": 2400,
+  height: 2400,
+  "min-height": 2400,
+  "max-height": 2400,
 };
 const UNIT_PX: Record<string, number> = { px: 1, em: 16, rem: 16, vh: 10, vw: 10, pt: 1.34 };
 
@@ -187,7 +199,7 @@ export function withinLayoutLimits(prop: string, value: string): string | null {
     const amount = parseFloat(raw);
     if (!Number.isFinite(amount) || !unit) return match;
     if (unit === "%") {
-      const pctLimit = prop === "width" || prop === "max-width" ? 100 : prop === "padding" || prop === "margin" ? 10 : 400;
+      const pctLimit = /width|height/.test(prop) ? 100 : prop === "padding" || prop === "margin" ? 10 : 400;
       return `${Math.min(pctLimit, Math.max(-pctLimit, amount))}%`;
     }
     const limit = max / UNIT_PX[unit];
@@ -218,6 +230,45 @@ function sanitizeTheme(value: unknown): [string, [string, string][]][] {
     const clean = sanitizeStyles(styles);
     return clean.length ? [[key, clean]] : [];
   });
+}
+
+/**
+ * A custom section's CSS, nested in its scope (`<scope>{<css>}`), or
+ * `undefined` when any check fails (the section is still shown, unstyled):
+ * at most 20,000 characters without comments; no `<`, `@import`,
+ * `expression(`, `javascript:`, `behavior:` or `-moz-binding`; every url() is
+ * https; no escapes outside strings (they could spell `url(`); braces
+ * balanced outside strings and never closing the section's scope.
+ */
+export function validateCustomCss(value: unknown): string | undefined {
+  if (typeof value !== "string") return undefined;
+  const css = value.replace(/\/\*[\s\S]*?\*\//g, "").trim();
+  if (!css || css.length > MAX_CUSTOM_CSS_LENGTH || css.includes("/*")) return undefined;
+  if (/<|@import|expression\s*\(|javascript\s*:|behavior\s*:|-moz-binding/i.test(css)) return undefined;
+  const urls = css.match(/url\s*\(/gi)?.length ?? 0;
+  const httpsUrls = css.match(/url\s*\(\s*['"]?https:\/\//gi)?.length ?? 0;
+  if (urls !== httpsUrls || /image-set\s*\(|\bsrc\s*\(/i.test(css)) return undefined;
+  let depth = 0;
+  let quote: string | null = null;
+  let escaped = false;
+  for (const char of css) {
+    if (quote) {
+      if (escaped) escaped = false;
+      else if (char === "\\") escaped = true;
+      else if (char === quote) quote = null;
+      else if (char === "\n") return undefined;
+    } else if (char === "\\") {
+      return undefined;
+    } else if (char === '"' || char === "'") {
+      quote = char;
+    } else if (char === "{") {
+      depth += 1;
+    } else if (char === "}") {
+      depth -= 1;
+      if (depth < 0) return undefined;
+    }
+  }
+  return depth === 0 && !quote ? css : undefined;
 }
 
 function htmlString(value: unknown): string | undefined {
@@ -279,6 +330,8 @@ function operationInstruction(
       if (!CLONE_ID_PATTERN.test(id) || html === undefined) return null;
       const layout =
         op.layout === "image-left" || op.layout === "image-right" ? op.layout : undefined;
+      const custom = op.kind === "custom";
+      const css = custom ? validateCustomCss(op.css) : undefined;
       return {
         kind: "insert",
         selector,
@@ -287,6 +340,8 @@ function operationInstruction(
         html,
         ...(layout ? { layout } : {}),
         theme: sanitizeTheme(op.theme),
+        ...(custom ? { sectionKind: "custom" as const } : {}),
+        ...(css ? { css } : {}),
       };
     }
     default:
